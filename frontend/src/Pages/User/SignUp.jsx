@@ -1,7 +1,10 @@
 import React from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
-
+import { useNavigate } from 'react-router-dom'
+import  {Axios} from '../../Axios/users'
+import { toast } from 'react-toastify';
+  
 
 function SignUp() {
   const [name, setName] = useState('')
@@ -11,6 +14,8 @@ function SignUp() {
   const [password,setPassword] = useState('')
   const [confirmPassword,setConfirmPassword] = useState('')
   const [Error,SetError] = useState('')
+
+  const navigate = useNavigate()
 
   const validateEmail = (email)=>{
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -22,7 +27,7 @@ function SignUp() {
     return regex.test(phone);
   }
 
-  const submitHandler = async(e)=>{
+  const submitHandler = (e)=>{
     e.preventDefault()
 
     if (!name || !gender || !email || !phone || !password || !confirmPassword) {
@@ -58,10 +63,32 @@ function SignUp() {
       setTimeout(() => {
         SetError('');
       }, 2000);
+      return
     }
+
+    Axios.post("/signup" , {name:name,email:email,phoneNumber:phone,password:password,gender:gender}).then((response) => {
+
+        if(response.data.error){
+            return toast.error(response.data.error)
+        }
+        toast.success(response.data.message,
+            {
+                position: 'top-right',
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+              })
+        navigate('/login')
+    }).catch((err) =>{
+        toast.error("signup failed try again")
+    })
   }
 
   return (
+    <>
+    
     <div>
       
       <LoginNav/>
@@ -94,11 +121,6 @@ function SignUp() {
                     <label htmlFor="">Gender</label>
                     </div>
                     <div className=' flex items-start pl-3 mt-1'>
-                        {/* <input type="text" 
-                        value={gender}
-                        onChange={(e)=>setGender(e.target.value)}
-                        className="w-full border-gray-500 border-2 rounded" 
-                        placeholder='gender'style={{ paddingLeft: '10px'}}/> */}
                          <select
                             value={gender}
                             onChange={(e) => setGender(e.target.value)}
@@ -198,7 +220,7 @@ function SignUp() {
     </div>
 
     </div>
-    
+    </>
   )
 }
 

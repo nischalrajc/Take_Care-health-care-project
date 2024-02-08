@@ -1,7 +1,7 @@
 import React from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Link } from 'react-router-dom'
 import  {Axios} from '../../Axios/users'
 import { toast } from 'react-toastify';
   
@@ -92,7 +92,7 @@ function SignUp() {
     <div>
       
       <LoginNav/>
-      <div className='font-semibold mt-3 sm:text-4xl text-2xl'>
+      <div className='font-semibold mt-5 sm:text-4xl text-2xl'>
        Sign in to your account
       </div>
       <div className='font-semibold mt-3 max-w-sm mx-auto sm:text-sm text-center px-2 sm:px-0'>
@@ -204,16 +204,19 @@ function SignUp() {
             </div>
 
             <div className=' p-4 mt-3'>
-                <button type="submit" className="text-white bg-[#2D6A76] rounded  px-6 sm:px-28 py-2 sm:py-2">
+                <button type="submit" className="text-white bg-[#2D6A76] rounded-md  px-6 sm:px-28 py-2 sm:py-2">
                     Sign in
                 </button>
             </div>
 
-            <div className='flex flex-row justify-center'>
+            {/* <div className='flex flex-row justify-center'>
                 <div className='font-medium opacity-60'>
                     Already have an account?
                 </div >
                 <div className='font-medium ps-1 text-[#2D6A76]'>Sign in</div>
+            </div> */}
+            <div className='text-sm font-semibold opacity-70 my-1'>
+            Already have an account?<Link className='text-[#2D6A76] ps-1' to='/login'>Log in</Link> 
             </div>
             
       </form>

@@ -10,15 +10,53 @@ function SignUp() {
   const [phone,setPhone] = useState('')
   const [password,setPassword] = useState('')
   const [confirmPassword,setConfirmPassword] = useState('')
-  const [passwordError,setPasswordError] = useState('')
+  const [Error,SetError] = useState('')
+
+  const validateEmail = (email)=>{
+    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    return regex.test(email);
+  };
+
+  const validatePhone = (phone)=>{
+    const regex = /^[0-9]{10}$/;
+    return regex.test(phone);
+  }
 
   const submitHandler = async(e)=>{
     e.preventDefault()
+
+    if (!name || !gender || !email || !phone || !password || !confirmPassword) {
+        SetError('All fields are required');
+        setTimeout(() => {
+            SetError('');
+          }, 2000);
+        return;
+      }
+
+      // Email validation
+    if (!validateEmail(email)) {
+        SetError('Invalid email format');
+        setTimeout(() => {
+          SetError('');
+        }, 2000);
+        return;
+      }
+
+    //   phone number validation
+      if (!validatePhone(phone)) {
+        SetError('Invalid phone number format');
+        setTimeout(() => {
+            SetError('');
+        }, 2000);
+        return;
+      }
+  
+   //   password validation
     if(password !== confirmPassword){
-      setPasswordError('Password and confirm password do not match');
+        SetError('Password and confirm password do not match');
 
       setTimeout(() => {
-        setPasswordError('');
+        SetError('');
       }, 2000);
     }
   }
@@ -55,12 +93,23 @@ function SignUp() {
                     <div className='flex items-start font-semibold opacity-65'>
                     <label htmlFor="">Gender</label>
                     </div>
-                    <div className='flex items-start pl-3 mt-1'>
-                        <input type="text" 
+                    <div className=' flex items-start pl-3 mt-1'>
+                        {/* <input type="text" 
                         value={gender}
                         onChange={(e)=>setGender(e.target.value)}
                         className="w-full border-gray-500 border-2 rounded" 
-                        placeholder='gender'style={{ paddingLeft: '10px'}}/>
+                        placeholder='gender'style={{ paddingLeft: '10px'}}/> */}
+                         <select
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                            className="w-full px-16 border-gray-500 border-2 rounded"
+                            style={{ paddingLeft: '10px' }}
+                        >
+                            <option value="" disabled>Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                         
                     </div>
                 </div>
             </div>
@@ -123,9 +172,9 @@ function SignUp() {
 
             <div>
               {
-                passwordError && (
-                  <div className='text-red-500 font-normal'>
-                    {passwordError}
+                Error && (
+                  <div className='text-red-500 font-medium'>
+                    {Error}
                     </div>
                 )
               }

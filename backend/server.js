@@ -1,7 +1,10 @@
-const express = require('express')
-const dotenv = require('dotenv')
-const mongoose = require('mongoose');
+import express from 'express'
+import dotenv from "dotenv"
+import mongoose from 'mongoose'
+import cors from 'cors'
 
+
+import userRouter from './Routes/userRoutes.js'
 
 
 dotenv.config()
@@ -9,8 +12,6 @@ dotenv.config()
 const app = express()
 
 const PORT = process.env.PORT || 8000
-
-const userRouter = require('./Routes/userRoutes');
 
 // -----database connection-----
 
@@ -28,7 +29,19 @@ db.on('error', (error) => {
     console.log('Connected to MongoDB');
   });
 
-app.get("/",userRouter)
+
+// ---cors------
+const corsoptions  = {
+    origin : 'http://localhost:3000' ,
+    methods : 'POST , GET ,  PUT , PATCH' 
+}
+
+
+app.use(cors(corsoptions))
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+
+app.use("/",userRouter)
 
 
 app.listen(PORT,()=>{

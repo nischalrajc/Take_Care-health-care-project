@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from "dotenv"
 import mongoose from 'mongoose'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 
 import userRouter from './Routes/userRoutes.js'
@@ -33,13 +34,17 @@ db.on('error', (error) => {
 // ---cors------
 const corsoptions  = {
     origin : 'http://localhost:3000' ,
-    methods : 'POST , GET ,  PUT , PATCH' 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue : false,
+    optionsSuccessStatus : 204,
+    credentials : true,  
 }
 
 
 app.use(cors(corsoptions))
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
+app.use(cookieParser());
 
 app.use("/",userRouter)
 

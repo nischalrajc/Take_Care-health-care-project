@@ -1,7 +1,7 @@
 import React from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import { Axios } from '../../Axios/users'
 
 
@@ -9,6 +9,8 @@ function Login() {
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [error,setError] = useState('')
+
+    const navigate = useNavigate()
 
     const validateEmail = (email)=>{
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -36,10 +38,19 @@ function Login() {
             return;
         }
 
-    Axios.post('/login',{email:email,password:password}).then((response) => {
-        console.log(response)
+    Axios.post('/login',{email:email,password:password},  { withCredentials: true }).then((response) => {
+        if(response.data){
+            console.log(response)
+            navigate('/')
+        }else{
+            setError("Incorrect email and password")
+            setTimeout(() => {
+                setError('')
+            },2000)
+        }
+    }).catch((error) => {
+        console.log(error)
     })
-
 
     }
 

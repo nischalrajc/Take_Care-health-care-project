@@ -66,7 +66,7 @@ function Login() {
 
       <div>
         <form onSubmit={submitHandler}>
-                <div class="w-1/5 mx-auto">
+                <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto ">
                     <div className='flex font-medium opacity-60 mt-6'>
                     <label htmlFor="">Email</label>
                     </div>
@@ -80,7 +80,7 @@ function Login() {
                     </div>
                 </div>
 
-                <div class="w-1/5 mx-auto">
+                <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto ">
                     <div className='flex font-medium opacity-60 mt-4'>
                     <label htmlFor="">Password</label>
                     </div>
@@ -94,7 +94,7 @@ function Login() {
                     </div>
                 </div>
 
-                <div className=' w-1/5 mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4'>
+                <div className=' w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5   mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4'>
                     Forget password ?
                 </div>
 
@@ -120,7 +120,7 @@ function Login() {
                 Don't have an account?<Link className='text-[#2D6A76] ps-1' to='/signup'>Sign up</Link> 
             </div>
             <div className='text-sm font-semibold opacity-70'>
-               Take Care Provider?<Link className='text-[#2D6A76] ps-1' to='/signup'>Log in</Link> 
+               Take Care Provider?<Link className='text-[#2D6A76] ps-1' to='/doctor_login'>Log in</Link> 
             </div>
       </div>
     </div>

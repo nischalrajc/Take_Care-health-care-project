@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from "./Pages/User/Home";
 import SignUp from "./Pages/User/SignUp";
 import Login from "./Pages/User/Login";
+import LoginDoctor from "./Pages/Doctor/LoginDoctor";
+import DoctorRegistration from "./Pages/Doctor/DoctorRegistration";
 
 function App() {
   return (
@@ -14,6 +16,9 @@ function App() {
         <Route index={true} path="/" element={<Home/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/doctor_login" element={<LoginDoctor/>} />
+        <Route path="/doctor_register" element={<DoctorRegistration/>} />
+
       </Routes>
     </div>
   );

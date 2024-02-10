@@ -1,54 +1,53 @@
-import express from 'express'
-import dotenv from "dotenv"
-import mongoose from 'mongoose'
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
+// Import required modules
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
+// Import routes
+import userRouter from './Routes/userRoutes.js';
+import doctorRouter from './Routes/doctorRoutes.js';
 
-import userRouter from './Routes/userRoutes.js'
+// Load environment variables
+dotenv.config();
 
-
-dotenv.config()
-
-const app = express()
-
-const PORT = process.env.PORT || 8000
-
-// -----database connection-----
-
+// Database connection
 const uri = process.env.DATABASE;
-
 mongoose.connect(uri);
-
 const db = mongoose.connection;
 
 db.on('error', (error) => {
     console.error('MongoDB connection error:', error);
-  });
-  
-  db.once('open', () => {
+});
+
+db.once('open', () => {
     console.log('Connected to MongoDB');
-  });
+});
 
+// Create an instance of Express
+const app = express();
 
-// ---cors------
-const corsoptions  = {
-    origin : 'http://localhost:3000' ,
+// Middleware
+const corsOptions = {
+    origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue : false,
-    optionsSuccessStatus : 204,
-    credentials : true,  
-}
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+};
 
-
-app.use(cors(corsoptions))
-app.use(express.urlencoded({extended:true}))
-app.use(express.json())
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/",userRouter)
+// Routes
+app.use('/', userRouter);
+app.use('/doctor', doctorRouter);
 
-
-app.listen(PORT,()=>{
-    console.log(`server is running ${PORT}`)
-})
+// Start the server
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

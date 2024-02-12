@@ -37,8 +37,10 @@ export const getUsers = async(req,res) =>{
 
 export const getAllDoctors = async (req,res) =>{
     try{
-        const doctors = await Doctors.find()
-        res.status(200).json(doctors)
+        const doctors = await Doctors.find({authorised:true})
+        if(doctors){
+            res.status(200).json(doctors)
+        }
     }catch(error){
         console.log("error",error)
     }
@@ -64,7 +66,7 @@ export const acceptDoctorRequest = async (req,res) =>{
                 { $set: { authorised: true } },
                 { new: true }
             )
-            
+
             if (updatedDoctor) {
                 return res.status(200).json(updatedDoctor);
             } else {

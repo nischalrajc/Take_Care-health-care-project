@@ -9,6 +9,7 @@ import LoginDoctor from "./Pages/Doctor/LoginDoctor";
 import DoctorRegistration from "./Pages/Doctor/DoctorRegistration";
 import LoginAdmin from "./Pages/Admin/LoginAdmin";
 import Users from "./Pages/Admin/Users";
+import Doctors from "./Pages/Admin/Doctors";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
 
         <Route path="/admin" element={<LoginAdmin/>} />
         <Route path="/admin/users" element={<Users/>} />
+        <Route path="/admin/doctors" element={<Doctors/>} />
 
       </Routes>
     </div>

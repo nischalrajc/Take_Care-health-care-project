@@ -1,11 +1,13 @@
 import Doctors from "../Modal/Doctor.js"
+import bcrypt from 'bcrypt'
+import {generateTokenDoctor} from '../utils/generateToken.js'
 
 export const doctorSignup = async(req,res) =>{
     const {name,email,password,phone,gender,specialisation,bio} = req.body
     try{
         const existingDoctor = await Doctors.findOne({email})
         if(existingDoctor){
-            return res.json({error:"user already exist"});
+            return res.json({error:"doctor already exist"});
         }
 
         const doctor = await Doctors.create({
@@ -15,11 +17,36 @@ export const doctorSignup = async(req,res) =>{
             phoneNumber:phone,
             password:password,
             specialisation:specialisation,
-            bio:bio
+            bio:bio,
+            authorised:false
         })
 
         res.status(201).json({message:"Signed in successfully"})
 
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
+export const doctorLogin = async(req,res) =>{
+    const {email,password} = req.body
+    try{
+        const doctor = await Doctors.findOne({email})
+        const passwordMatched = await bcrypt.compare(password,doctor.password)
+
+        if(doctor && passwordMatched){
+            await generateTokenDoctor(res,doctor._id);
+            res.status(200).json({
+                _id:doctor._id,
+                name:doctor.name,
+                email:doctor.email,
+                phoneNumber:doctor.phoneNumber,
+                specialisation:doctor.specialisation,
+                authorised:doctor.authorised
+            })
+        }else{
+            res.json({error:"Invalid mail and password"})
+        }
     }catch(error){
         console.log("error",error)
     }

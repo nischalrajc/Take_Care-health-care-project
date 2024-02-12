@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 // Import routes
 import userRouter from './Routes/userRoutes.js';
 import doctorRouter from './Routes/doctorRoutes.js';
+import adminRouter from './Routes/adminRoutes.js'
 
 // Load environment variables
 dotenv.config();
@@ -45,6 +46,7 @@ app.use(cookieParser());
 // Routes
 app.use('/', userRouter);
 app.use('/doctor', doctorRouter);
+app.use('/admin', adminRouter);
 
 // Start the server
 const PORT = process.env.PORT || 8000;

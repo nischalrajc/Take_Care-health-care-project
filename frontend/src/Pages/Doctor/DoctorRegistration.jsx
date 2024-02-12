@@ -2,7 +2,9 @@ import React from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
 import { Axios } from '../../Axios/doctor'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+
 
 function DoctorRegistration() {
     const [name, setName] = useState('')
@@ -15,7 +17,7 @@ function DoctorRegistration() {
     const [bio,setBio] = useState('')
     const [error,setError] = useState('')
 
-
+    const navigate = useNavigate()
     
   const validateEmail = (email)=>{
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -60,8 +62,13 @@ function DoctorRegistration() {
             }
        
         Axios.post('/register',{name,email,password,phone,gender,specialisation,bio})
-        .then(function (response) {
-            console.log(response);
+        .then((response) => {
+            if(response.data.message){
+                toast.success(response.data.message)
+                navigate('/doctor_login')
+            }else{
+                toast.error(response.data.error)
+            }
         })
         .catch(function (error) {
             console.log(error);
@@ -151,7 +158,7 @@ function DoctorRegistration() {
                     <label htmlFor="">Specialisation</label>
                     </div>
                     <div className='flex items-start pl-3 mt-1'>
-                        <input type="email" 
+                        <input type="text" 
                         className="w-full border-gray-500 border-2 rounded" 
                         value={specialisation}
                         onChange={(e)=>setSpecialisation(e.target.value)}

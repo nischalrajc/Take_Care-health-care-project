@@ -1,60 +1,58 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LoginNav from '../../Components/User/LoginNav'
-import { useState } from 'react'
-import { Link,useNavigate } from 'react-router-dom'
-import { Axios } from '../../Axios/doctor'
+import { Axios } from '../../Axios/admin'
+import { useNavigate } from 'react-router-dom'
 
+function LoginAdmin() {
+    const [email,setEmail] = useState('')
+    const [password,setpassword] = useState('')
+    const [error,setError] = useState('')
 
-function LoginDoctor() {
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
-  const [error,setError] = useState('')
+    const navigate = useNavigate()
 
-  const navigate = useNavigate();
+    const validateEmail = (email)=>{
+        const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        return regex.test(email);
+    };
 
-  const validateEmail = (email)=>{
-    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-    return regex.test(email);
-};
+    const submitHandler = (e)=>{
+        e.preventDefault()
 
-
-  const submitHandler = async(e) =>{
-    e.preventDefault()
-    
             // Email validation
-            if (!validateEmail(email)) {
-              setError('Invalid email format');
-              setTimeout(() => {
-              setError('');
-              }, 2000);
-              return;
-          }
+        if (!validateEmail(email)) {
+            setError('Invalid email format');
+            setTimeout(() => {
+            setError('');
+            }, 2000);
+            return;
+        }
 
-          Axios.post('/login',{email,password},  { withCredentials: true }).then((response) => {
-            if(response.data){
-                console.log(response.data)
-                navigate('/')
-            }else{
-                setError("Incorrect email and password")
-                setTimeout(() => {
-                    setError('')
-                },2000)
-            }
-        }).catch((error) => {
-            console.log(error)
-        })
-  }
+    Axios.post('/login',{email,password},{ withCredentials: true }).then((response) => {
+        if(response.data){
+            console.log(response.data)
+            navigate('/admin/users')
+        }else{
+            setError("Incorrect email and password")
+            setTimeout(() => {
+                setError('')
+            },2000)
+        }
+    }).catch((error) => {
+        console.log(error)
+    })
+
+    }
 
   return (
     <div>
       <LoginNav/>
-      <div className='font-semibold mt-5 sm:text-3xl text-xl'>
-       Log in to your account
+      <div className='font-semibold mt-5 sm:text-4xl text-2xl'>
+       Log in
       </div>
 
       <div>
         <form onSubmit={submitHandler}>
-                <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto">
+                <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto ">
                     <div className='flex font-medium opacity-60 mt-6'>
                     <label htmlFor="">Email</label>
                     </div>
@@ -68,7 +66,7 @@ function LoginDoctor() {
                     </div>
                 </div>
 
-                <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto">
+                <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto ">
                     <div className='flex font-medium opacity-60 mt-4'>
                     <label htmlFor="">Password</label>
                     </div>
@@ -76,15 +74,15 @@ function LoginDoctor() {
                         <input 
                         type="password" 
                         value={password} 
-                        onChange={(e)=>setPassword(e.target.value)} 
+                        onChange={(e)=>setpassword(e.target.value)} 
                         className="w-full border-gray-500 border-2 rounded" 
                         placeholder='password'style={{ paddingLeft: '10px'}} required/>
                     </div>
                 </div>
 
-                <div className=' w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4'>
+                {/* <div className=' w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5   mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4'>
                     Forget password ?
-                </div>
+                </div> */}
 
                  {/* erorrr handling */}
                     
@@ -104,12 +102,8 @@ function LoginDoctor() {
             </div>
         </form>
       </div>
-      <div className='text-sm font-semibold opacity-70'>
-               Take Care Provider?<Link className='text-[#2D6A76] ps-1' to='/doctor_register'>Request</Link> 
-            </div>
     </div>
   )
 }
 
-export default LoginDoctor
-
+export default LoginAdmin

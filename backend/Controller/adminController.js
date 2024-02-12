@@ -43,3 +43,35 @@ export const getAllDoctors = async (req,res) =>{
         console.log("error",error)
     }
 }
+
+export const doctorsRequest = async(req,res) =>{
+    try{
+        const doctors = await Doctors.find({authorised:false})
+        res.status(200).json(doctors) 
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
+export const acceptDoctorRequest = async (req,res) =>{
+    try{
+        const id = req.params.id
+
+        const doctor = await Doctors.findById(id)
+        if(doctor){
+            const updatedDoctor = await Doctors.findByIdAndUpdate(
+                id,
+                { $set: { authorised: true } },
+                { new: true }
+            )
+            
+            if (updatedDoctor) {
+                return res.status(200).json(updatedDoctor);
+            } else {
+                return res.status(404).json({ message: 'Doctor not found' });
+            }
+        }
+    }catch(error){
+        console.log("error",error)
+    }
+}

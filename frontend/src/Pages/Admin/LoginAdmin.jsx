@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { Axios } from '../../Axios/admin'
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { adminLogin } from '../../Slices/adminSlice'
+import { useEffect } from 'react'
 
 function LoginAdmin() {
     const [email,setEmail] = useState('')
@@ -9,6 +12,15 @@ function LoginAdmin() {
     const [error,setError] = useState('')
 
     const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const adminInfo =  useSelector((state)=>state.admin.admin);
+
+    useEffect(() =>{
+        if(adminInfo){
+            navigate('/admin/users')
+        }
+    },[adminInfo])
+
 
     const validateEmail = (email)=>{
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -30,6 +42,7 @@ function LoginAdmin() {
     Axios.post('/login',{email,password},{ withCredentials: true }).then((response) => {
         if(response.data){
             console.log(response.data)
+            dispatch(adminLogin({...response.data}));
             navigate('/admin/users')
         }else{
             setError("Incorrect email and password")

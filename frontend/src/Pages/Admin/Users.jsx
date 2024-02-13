@@ -9,7 +9,7 @@ function Users() {
   const [array, setArray] = useState([]);
 
   useEffect(() => {
-    Axios.get('/users').then((response) => {
+    Axios.get('/users',{ withCredentials: true }).then((response) => {
       setArray(response.data)
     }).catch((error) => {
       console.log(error)

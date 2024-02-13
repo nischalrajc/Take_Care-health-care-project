@@ -11,7 +11,7 @@ function Doctors() {
     // const [updateUI, setUpdateUI] = useState(false)
 
     useEffect(() => {
-        Axios.get('/doctors').then((response) => {
+        Axios.get('/doctors',{ withCredentials: true }).then((response) => {
             setArray(response.data)
         }).catch((error) => {
             console.log(error)

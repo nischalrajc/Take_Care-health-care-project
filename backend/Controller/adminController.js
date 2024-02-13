@@ -77,3 +77,12 @@ export const acceptDoctorRequest = async (req,res) =>{
         console.log("error",error)
     }
 }
+
+export const logoutAdmin = async(req,res) =>{
+    res.cookie('jwtAdmin','',
+    {
+     httpOnly:true,
+     expires:new Date(0)
+    })
+    res.status(200).json({message:'admin logout successfully'})
+}

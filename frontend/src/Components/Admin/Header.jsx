@@ -1,10 +1,23 @@
 import React from 'react'
 import { MdOutlineMenu } from "react-icons/md";
+import { Axios } from '../../Axios/admin'
+import { useNavigate } from 'react-router-dom';
 
 function Header({onToggleSidebar}) {
+
+  const navigate = useNavigate()
+
     const onLogout = ()=>{
-        console.log("admin logout")
+        Axios.get('/logout',{ withCredentials: true }).then((response) =>{
+          if(response.data){
+            console.log(response.data);
+            navigate('/admin')
+          }
+        }).catch((error) =>{
+          console.log(error);
+        })
     }
+
   return (
     <div className="bg-[#2D6A76] py-4 px-7 flex justify-between items-center">
     <div className="flex items-center">

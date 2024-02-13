@@ -6,7 +6,7 @@ import { Axios } from '../../Axios/admin'
 
 
 function DoctorRequest() {
-    const [isSidebarCollapsed, setSidebarCollapsed] = useState(true);
+    const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [array, setArray] = useState([]);
     const [updateUI,setUpdateUI] = useState(false)
 

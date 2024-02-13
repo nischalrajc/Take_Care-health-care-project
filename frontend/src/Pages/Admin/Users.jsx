@@ -5,7 +5,7 @@ import Sidebar from '../../Components/Admin/Sidebar';
 import { Axios } from '../../Axios/admin'
 
 function Users() {
-  const [isSidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [array, setArray] = useState([]);
 
   useEffect(() => {

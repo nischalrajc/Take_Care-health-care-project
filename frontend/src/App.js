@@ -12,6 +12,7 @@ import Users from "./Pages/Admin/Users";
 import Doctors from "./Pages/Admin/Doctors";
 import DoctorRequest from "./Pages/Admin/DoctorRequest";
 import PrivateAdmin from "./Components/Admin/PrivateAdmin";
+import DoctorHome from "./Pages/Doctor/DoctorHome";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<Login/>} />
 
+        <Route path="/doctor" element={<DoctorHome/>} />
         <Route path="/doctor_login" element={<LoginDoctor/>} />
         <Route path="/doctor_register" element={<DoctorRegistration/>} />
 

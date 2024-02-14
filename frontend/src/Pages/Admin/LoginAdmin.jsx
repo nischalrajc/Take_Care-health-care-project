@@ -19,7 +19,7 @@ function LoginAdmin() {
         if(adminInfo){
             navigate('/admin/users')
         }
-    },[adminInfo])
+    })
 
 
     const validateEmail = (email)=>{
@@ -41,7 +41,6 @@ function LoginAdmin() {
 
     Axios.post('/login',{email,password},{ withCredentials: true }).then((response) => {
         if(response.data){
-            console.log(response.data)
             dispatch(adminLogin({...response.data}));
             navigate('/admin/users')
         }else{

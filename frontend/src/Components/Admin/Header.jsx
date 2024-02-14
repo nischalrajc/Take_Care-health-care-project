@@ -2,14 +2,14 @@ import React from 'react'
 import { MdOutlineMenu } from "react-icons/md";
 import { Axios } from '../../Axios/admin'
 import { useNavigate } from 'react-router-dom';
-import { UseSelector,useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { adminLogout } from '../../Slices/adminSlice';
 
 function Header({onToggleSidebar}) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const adminInfo = useSelector((state) =>state.admin.admin)
+  // const adminInfo = useSelector((state) =>state.admin.admin)
 
     const onLogout = ()=>{
         Axios.get('/logout',{ withCredentials: true }).then((response) =>{

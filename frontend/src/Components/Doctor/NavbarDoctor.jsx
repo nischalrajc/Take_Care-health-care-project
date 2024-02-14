@@ -1,7 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Axios } from '../../Axios/doctor'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { doctorLogout } from '../../Slices/doctorSlice'
 
 function NavbarDoctor() {
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const logoutHandler = () => {
+        Axios.get('/logout', { withCredentials: true }).then((response) => {
+            if (response.data) {
+                dispatch(doctorLogout())
+                navigate('/doctor_login')
+            }
+        }).catch((error) => {
+            console.log("error", error)
+        })
+    }
     return (
         <div>
 
@@ -14,7 +32,7 @@ function NavbarDoctor() {
                         <Link>Home</Link>
                     </div>
                     <div className=" flex mx-10 items-center">
-                        <button className='border border-black rounded px-3 py-1'>logout</button>
+                        <button className='border border-black rounded px-3 py-1' onClick={logoutHandler}>logout</button>
                     </div>
                 </div>
 

@@ -8,7 +8,6 @@ import { Axios } from '../../Axios/admin'
 function Doctors() {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [array, setArray] = useState([]);
-    // const [updateUI, setUpdateUI] = useState(false)
 
     useEffect(() => {
         Axios.get('/doctors',{ withCredentials: true }).then((response) => {

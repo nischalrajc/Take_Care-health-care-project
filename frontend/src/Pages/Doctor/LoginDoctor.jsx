@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { Axios } from '../../Axios/doctor'
+import { useSelector,useDispatch } from 'react-redux'
+import { doctorLogin } from '../../Slices/doctorSlice'
 
 
 function LoginDoctor() {
@@ -11,6 +13,14 @@ function LoginDoctor() {
   const [error,setError] = useState('')
 
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const doctorInfo = useSelector((state)=>state.doctor.doctor)
+
+  useEffect(()=>{
+    if(doctorInfo){
+        navigate('/doctor')
+    }
+  })
 
   const validateEmail = (email)=>{
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -32,8 +42,8 @@ function LoginDoctor() {
 
           Axios.post('/login',{email,password},  { withCredentials: true }).then((response) => {
             if(response.data){
-                console.log(response.data)
-                navigate('/')
+                dispatch(doctorLogin({...response.data}))
+                navigate('/doctor')
             }else{
                 setError("Incorrect email and password")
                 setTimeout(() => {

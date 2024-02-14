@@ -16,8 +16,6 @@ function Users() {
     })
   }, [])
 
-  console.log(array)
-
   const toggleSidebar = () => {
     setSidebarCollapsed(!isSidebarCollapsed);
   };

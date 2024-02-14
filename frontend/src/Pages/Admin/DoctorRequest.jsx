@@ -11,7 +11,7 @@ function DoctorRequest() {
     const [updateUI,setUpdateUI] = useState(false)
 
     useEffect(() => {
-        Axios.get('/doctors_request').then((response) => {
+        Axios.get('/doctors_request',{ withCredentials: true }).then((response) => {
             setArray(response.data)
         }).catch((error) => {
             console.log(error)
@@ -25,7 +25,8 @@ function DoctorRequest() {
     };
 
     const doctorAcceptHandler = (doctorId) => {
-        Axios.put(`/doctors_request/${doctorId}`).then((response) => {
+        
+        Axios.put(`/doctors_request/${doctorId}`,{ withCredentials: true }).then((response) => {
             if(response){
                 setUpdateUI(prev=>!prev)
             }
@@ -44,7 +45,7 @@ function DoctorRequest() {
                         <h1 className='text-2xl'>Request</h1>
                     </div>
                     {
-                        array.length==0 ? (
+                        array.length===0 ? (
                             <h1>no doctor request yet</h1>
                         ) : (
                             <div className="flex flex-col">

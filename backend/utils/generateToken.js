@@ -8,7 +8,7 @@ export const generateToken = async(res,userId) => {
         });
    
         res.cookie('jwtuser', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
             maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -24,7 +24,7 @@ export const generateTokenDoctor = async(res,doctorId) => {
         });
    
         res.cookie('jwtdoctor', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
             maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -40,7 +40,7 @@ export const generateTokenAdmin = async(res,adminId) => {
         });
    
         res.cookie('jwtAdmin', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
             maxAge: 30 * 24 * 60 * 60 * 1000,

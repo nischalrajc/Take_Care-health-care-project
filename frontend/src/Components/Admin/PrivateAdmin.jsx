@@ -1,14 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Outlet,Navigate } from 'react-router-dom'
+import { adminCookie } from '../../Helpers/adminHelper'
 
 function PrivateAdmin() {
-    const adminInfo = useSelector((state)=>state.admin.admin)
+    const authenticate = adminCookie()
+    console.log(authenticate,"kkkkkkk")
 
   return (
     <div>
       {
-        adminInfo ? <Outlet/> : <Navigate to={'/admin'}/>
+        authenticate ? <Outlet/> : <Navigate to={'/admin'}/>
       }
     </div>
   )

@@ -5,6 +5,7 @@ import { Link,useNavigate } from 'react-router-dom'
 import { Axios } from '../../Axios/doctor'
 import { useSelector,useDispatch } from 'react-redux'
 import { doctorLogin } from '../../Slices/doctorSlice'
+import Swal from 'sweetalert2'
 
 
 function LoginDoctor() {
@@ -41,6 +42,14 @@ function LoginDoctor() {
           }
 
           Axios.post('/login',{email,password},  { withCredentials: true }).then((response) => {
+            if(response.data.authorisation){
+                Swal.fire({
+                    title: "Cannot Login?",
+                    text: "you are not authorised yet?",
+                    icon: "question"
+                  });
+                  return
+            }
             if(response.data){
                 dispatch(doctorLogin({...response.data}))
                 navigate('/doctor')

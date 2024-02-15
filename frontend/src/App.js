@@ -28,7 +28,6 @@ function App() {
         <Route path="/doctor_register" element={<DoctorRegistration/>} />
 
         <Route path="/admin" element={<LoginAdmin/>} />
-
         <Route path="" element={<PrivateAdmin/>}> 
           <Route path="/admin/users" element={<Users/>} />
           <Route path="/admin/doctors" element={<Doctors/>} />

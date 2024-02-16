@@ -48,42 +48,6 @@ export const userLogin = async (req, res) => {
 
 }
 
-// export const sendEmail = async (req, res) => {
-//     const { email } = req.body
-
-//     try {
-//         const OTP = await generateOTP()
-
-//         const transporter = nodemailer.createTransport({
-//             service: 'gmail',
-//             auth: {
-//                 user: process.env.EMAIL,
-//                 pass: process.env.EMAIL_PASSWORD,
-//             },
-//         });
-
-//         //--- configure mail content---
-//         const mailOption = {
-//             from: process.env.EMAIL,
-//             to: email,
-//             subject: "Mail Validation",
-//             html: `<b>Your OTP is ${OTP}</b>`,
-//         }
-
-//         //   ---send Email----
-//         try {
-//             const info = await transporter.sendMail(mailOption)
-//             console.log("mail sended successfully")
-//             res.status(200).json({otp:OTP})
-//         } catch (error) {
-//             console.log("email send failed with error", error)
-//         }
-
-//     } catch (error) {
-//         console.log("error", error)
-//     }
-// }
-
 export const register_user = async (req, res) => {
     try {
         const { name, email, phone, password, gender } = req.body;
@@ -92,7 +56,8 @@ export const register_user = async (req, res) => {
             gender: gender,
             email: email,
             password: password,
-            phoneNumber: phone
+            phoneNumber: phone,
+            blocked:false
         })
 
         res.status(201).json({ message: "Signed in successfully" })

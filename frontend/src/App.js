@@ -13,26 +13,32 @@ import Doctors from "./Pages/Admin/Doctors";
 import DoctorRequest from "./Pages/Admin/DoctorRequest";
 import PrivateAdmin from "./Components/Admin/PrivateAdmin";
 import DoctorHome from "./Pages/Doctor/DoctorHome";
+import DoctorPrivateRoutes from "./Components/Doctor/DoctorPrivateRoutes";
+import PrivateRoutesUser from "./Components/User/PrivateRoutesUser";
 
 function App() {
   return (
     <div className="App">
       <ToastContainer />
       <Routes>
-        <Route index={true} path="/" element={<Home/>} />
-        <Route path="/signup" element={<SignUp/>} />
-        <Route path="/login" element={<Login/>} />
 
-        <Route path="/doctor" element={<DoctorHome/>} />
-        <Route path="/doctor_login" element={<LoginDoctor/>} />
-        <Route path="/doctor_register" element={<DoctorRegistration/>} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="" element={<PrivateRoutesUser/>}>
+          <Route index={true} path="/" element={<Home />} />
+        </Route>
 
-        <Route path="/admin" element={<LoginAdmin/>} />
-        
-        <Route path="" element={<PrivateAdmin/>}> 
-          <Route path="/admin/users" element={<Users/>} />
-          <Route path="/admin/doctors" element={<Doctors/>} />
-          <Route path="/admin/doctor_request" element={<DoctorRequest/>} />
+        <Route path="/doctor_login" element={<LoginDoctor />} />
+        <Route path="/doctor_register" element={<DoctorRegistration />} />
+        <Route path="" element={<DoctorPrivateRoutes />}>
+          <Route path="/doctor" element={<DoctorHome />} />
+        </Route>
+
+        <Route path="/admin" element={<LoginAdmin />} />
+        <Route path="" element={<PrivateAdmin />}>
+          <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/doctors" element={<Doctors />} />
+          <Route path="/admin/doctor_request" element={<DoctorRequest />} />
         </Route>
 
       </Routes>

@@ -19,7 +19,7 @@ function LoginAdmin() {
         if(adminInfo){
             navigate('/admin/users')
         }
-    })
+    },[adminInfo,navigate])
 
 
     const validateEmail = (email)=>{

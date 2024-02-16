@@ -15,7 +15,6 @@ import PrivateAdmin from "./Components/Admin/PrivateAdmin";
 import DoctorHome from "./Pages/Doctor/DoctorHome";
 import DoctorPrivateRoutes from "./Components/Doctor/DoctorPrivateRoutes";
 import PrivateRoutesUser from "./Components/User/PrivateRoutesUser";
-import MailValidation from "./Pages/User/MailValidation";
 import OTP from "./Pages/User/OTP";
 
 function App() {
@@ -26,8 +25,7 @@ function App() {
 
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/login/email_validation" element={<MailValidation />} />
-        <Route path="/login/otp" element={<OTP />} />
+        <Route path="/signup/otp" element={<OTP />} />
         <Route path="" element={<PrivateRoutesUser/>}>
           <Route index={true} path="/" element={<Home />} />
         </Route>

@@ -8,5 +8,6 @@ router.post('/signup',protectUser,userSignup)
 router.post('/login',userLogin)
 router.get('/logout',protectUser,logOut)
 router.post('/getOtp',sendEmail)
+router.post('/resend_OTP',sendEmail)
 
 export default router;

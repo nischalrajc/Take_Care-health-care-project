@@ -1,6 +1,8 @@
 import Users from "../Modal/Users.js";
 import bcrypt from 'bcrypt'
+import nodemailer from 'nodemailer'
 import { generateToken } from "../utils/generateToken.js";
+import { generateOTP } from "../utils/generateOTP.js";
 
 
 export const userSignup = async (req, res) => {
@@ -51,6 +53,42 @@ export const userLogin = async (req, res) => {
     }
 
 
+}
+
+export const sendEmail = async (req, res) => {
+    const { email } = req.body
+
+    try {
+        const OTP = await generateOTP()
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+        });
+
+        //--- configure mail content---
+        const mailOption = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: "Mail Validation",
+            html: `<b>Your OTP is ${OTP}</b>`,
+        }
+
+        //   ---send Email----
+        try {
+            const info = await transporter.sendMail(mailOption)
+            console.log("mail sended successfully")
+            res.status(200).json({otp:OTP})
+        } catch (error) {
+            console.log("email send failed with error", error)
+        }
+
+    } catch (error) {
+        console.log("error", error)
+    }
 }
 
 

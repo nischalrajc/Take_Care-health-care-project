@@ -2,22 +2,27 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import LoginNav from '../../Components/User/LoginNav'
 import { Axios } from '../../Axios/users';
+import { toast } from 'react-toastify';
 
 function OTP() {
 
-    const [email, setEmail] = useState('')
     const [otp, setOtp] = useState(null);
     const [OTP, setOTP] = useState(null)
     const [resendDisabled, setResendDisabled] = useState(true);
     const [timer, setTimer] = useState(60);
     const [error, setError] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [gender, setGender] = useState('')
+    const [phone, setPhone] = useState('')
+    const [password, setPassword] = useState('')
 
     const navigate = useNavigate();
     const location = useLocation();
 
     const resendHandler = () => {
 
-        Axios.post('/resend_OTP',{email}).then((response) => {
+        Axios.post('/resend_OTP', { email }).then((response) => {
             if (response.data.otp) {
                 setOtp(response.data.otp)
             }
@@ -35,6 +40,18 @@ function OTP() {
         }
         if (location.state && location.state.email) {
             setEmail(location.state.email);
+        }
+        if (location.state && location.state.name) {
+            setName(location.state.name);
+        }
+        if (location.state && location.state.password) {
+            setPassword(location.state.password);
+        }
+        if (location.state && location.state.gender) {
+            setGender(location.state.gender);
+        }
+        if (location.state && location.state.phone) {
+            setPhone(location.state.phone);
         }
 
         const timerToShowResend = setTimeout(() => {
@@ -62,9 +79,21 @@ function OTP() {
 
     const submitHandler = (e) => {
         e.preventDefault()
-
         if (otp === OTP) {
-            navigate('/login')
+            Axios.post('/register_user', { name, email, phone, password, gender }).then((response) => {
+                if (response.data) {
+                    navigate('/login')
+                    toast.success(response.data.message,
+                        {
+                            position: 'top-right',
+                            autoClose: 1500,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: false,
+                            draggable: true,
+                        })
+                }
+            })
         } else {
             setError("invalid otp")
         }

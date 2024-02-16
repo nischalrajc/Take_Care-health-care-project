@@ -1,38 +1,81 @@
-import React, { useState,useEffect } from 'react'
-import { useNavigate , useLocation } from 'react-router-dom'
-import { Axios } from '../../Axios/users'
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import LoginNav from '../../Components/User/LoginNav'
+import { Axios } from '../../Axios/users';
 
 function OTP() {
-    const location = useLocation();
+
+    const [email, setEmail] = useState('')
     const [otp, setOtp] = useState(null);
-    const [OTP,setOTP] = useState(null)
+    const [OTP, setOTP] = useState(null)
+    const [resendDisabled, setResendDisabled] = useState(true);
+    const [timer, setTimer] = useState(60);
+    const [error, setError] = useState('')
+
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const resendHandler = () => {
+
+        Axios.post('/resend_OTP',{email}).then((response) => {
+            if (response.data.otp) {
+                setOtp(response.data.otp)
+            }
+        })
+
+        setTimer(60);
+
+        setResendDisabled(true);
+    };
 
     useEffect(() => {
+
         if (location.state && location.state.otp) {
-          setOtp(location.state.otp);
+            setOtp(location.state.otp);
         }
-      }, [location.state,otp]);
-    
+        if (location.state && location.state.email) {
+            setEmail(location.state.email);
+        }
+
+        const timerToShowResend = setTimeout(() => {
+            setResendDisabled(false);
+        }, 60000);
+
+        const countdown = setInterval(() => {
+            setTimer((prevTimer) => {
+                if (prevTimer === 1) {
+                    setOtp(null)
+                    // Enable the resend button when the timer reaches 0
+                    setResendDisabled(false);
+                    clearInterval(countdown);
+                }
+                return prevTimer - 1;
+            });
+        }, 1000);
+
+        return () => {
+            clearInterval(countdown);
+            clearTimeout(timerToShowResend);
+        };
+
+    }, [location.state]);
 
     const submitHandler = (e) => {
         e.preventDefault()
 
-        Axios.post('/OTP_validation',{otp}).then((response) =>{
-            if(response.data){
-                navigate('/login')
-            }
-        }).catch((error)=>{
-            console.log("error",error)
-        })
-       
+        if (otp === OTP) {
+            navigate('/login')
+        } else {
+            setError("invalid otp")
+        }
+
     }
+
     return (
         <div>
             <LoginNav />
             <div className='font-semibold mt-5 sm:text-4xl text-2xl'>
-                Enter OTP 
+                Enter OTP
             </div>
 
             <div>
@@ -47,13 +90,31 @@ function OTP() {
                                 value={OTP}
                                 onChange={(e) => setOTP(e.target.value)}
                                 className="w-full border-gray-500 border-2 rounded"
-                                placeholder='email' style={{ paddingLeft: '10px' }} required/>
+                                placeholder='email' style={{ paddingLeft: '10px' }} required />
                         </div>
                     </div>
-                    
+
+                    {/* erorrr handling */}
+
+                    {
+                        error && (
+                            <div className='text-red-400 font-medium'>
+                                {error}
+                            </div>
+                        )
+                    }
+
                     <div className=' p-4 mt-3'>
-                        <button type="submit" className="text-white bg-[#2D6A76] rounded-md  px-6 sm:px-32 py-2 sm:py-2">
-                            Get OTP
+                        <button type="submit" className="text-white bg-[#2D6A76] rounded-md  px-6 sm:px-8 py-2 sm:py-2">
+                            Verify
+                        </button>
+                        <button
+                            type="button"
+                            onClick={resendHandler}
+                            className={`ml-4 text-[#2D6A76] border-[#2D6A76] border-2 rounded-md px-6 py-2 ${resendDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={resendDisabled}
+                        >
+                            {resendDisabled ? `Resend OTP in ${timer}s` : 'Resend OTP'}
                         </button>
                     </div>
                 </form>

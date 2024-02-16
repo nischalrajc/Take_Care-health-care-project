@@ -7,7 +7,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 function MailValidation() {
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
 
@@ -20,7 +20,7 @@ function MailValidation() {
     const submitHandler = (e) => {
         e.preventDefault()
         setLoading(true)
-        
+
         if (!validateEmail(email)) {
             setError('Invalid email format');
             setTimeout(() => {
@@ -29,15 +29,15 @@ function MailValidation() {
             return;
         }
 
-        Axios.post('/getOtp',{email}).then((response) =>{
-            if(response.data.otp){
+        Axios.post('/getOtp', { email }).then((response) => {
+            if (response.data.otp) {
                 setLoading(false)
-                navigate('/login/otp', { state: { otp: response.data.otp } });
+                navigate('/login/otp', { state: { otp: response.data.otp, email: email } });
             }
-        }).catch((error)=>{
-            console.log("error",error)
+        }).catch((error) => {
+            console.log("error", error)
         })
-       
+
     }
     return (
         <div>
@@ -58,7 +58,7 @@ function MailValidation() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full border-gray-500 border-2 rounded"
-                                placeholder='email' style={{ paddingLeft: '10px' }} required/>
+                                placeholder='email' style={{ paddingLeft: '10px' }} required />
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@ function MailValidation() {
                             </div>
                         )
                     }
-                    
+
                     <div className=' p-4 mt-3'>
                         <button type="submit" className="text-white bg-[#2D6A76] rounded-md  px-6 sm:px-32 py-2 sm:py-2">
                             Get OTP
@@ -82,12 +82,12 @@ function MailValidation() {
             {
                 loading && (
                     <BeatLoader
-                    color={'#2D6A76'}
-                    loading={loading}
-                    size={30}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                  />
+                        color={'#2D6A76'}
+                        loading={loading}
+                        size={30}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
                 )
             }
         </div>

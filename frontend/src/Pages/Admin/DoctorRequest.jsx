@@ -3,12 +3,12 @@ import Header from '../../Components/Admin/Header'
 import Sidebar from '../../Components/Admin/Sidebar'
 import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/admin'
+import Swal from 'sweetalert2'
 
 
 function DoctorRequest() {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [array, setArray] = useState([]);
-    const [updateUI, setUpdateUI] = useState(false)
 
     useEffect(() => {
         Axios.get('/doctors_request', { withCredentials: true }).then((response) => {
@@ -16,7 +16,7 @@ function DoctorRequest() {
         }).catch((error) => {
             console.log(error)
         })
-    }, [updateUI])
+    },[])
 
 
 
@@ -26,12 +26,22 @@ function DoctorRequest() {
 
     const doctorAcceptHandler = (doctorId) => {
 
-        Axios.put(`/doctors_request/${doctorId}`, { withCredentials: true }).then((response) => {
+        Axios.put(`/doctor_Accept/${doctorId}`, { withCredentials: true }).then((response) => {
             if (response) {
-                setUpdateUI(prev => !prev)
+                console.log("updated")
             }
         }).catch((error) => {
             console.log(error)
+        })
+    }
+
+    const doctorRejectHandler = (doctorid) =>{
+        Axios.put(`/doctor_reject/${doctorid}` , {withCredentials : true}).then((response) =>{
+            if(response){
+                Swal.fire(response.data.message);
+            }
+        }).catch((error) =>{
+            console.log("error",error)
         })
     }
 
@@ -77,7 +87,7 @@ function DoctorRequest() {
                                                                 <td className="whitespace-nowrap px-6 py-4">{doctor.gender}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">
                                                                     <button className='bg-[#9CBCB7] px-3 py-1 rounded me-1' onClick={() => doctorAcceptHandler(doctor?._id)}>Accept</button>
-                                                                    <button className='bg-[#af5c49] px-3 py-1 rounded '>Ignore</button>
+                                                                    <button className='bg-[#af5c49] px-3 py-1 rounded ' onClick={() => doctorRejectHandler(doctor?._id)}>Ignore</button>
                                                                 </td>
                                                             </tr>
                                                         ))

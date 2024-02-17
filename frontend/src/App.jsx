@@ -16,6 +16,9 @@ import DoctorHome from "./Pages/Doctor/DoctorHome";
 import DoctorPrivateRoutes from "./Components/Doctor/DoctorPrivateRoutes";
 import PrivateRoutesUser from "./Components/User/PrivateRoutesUser";
 import OTP from "./Pages/User/OTP";
+import ForgetPassword from "./Pages/User/ForgetPassword";
+import PasswordOTP from "./Pages/User/PasswordOTP";
+import NewPassword from "./Pages/User/NewPassword";
 
 function App() {
   return (
@@ -23,10 +26,14 @@ function App() {
       <ToastContainer />
       <Routes>
 
+        <Route path="/forget_password" element={<ForgetPassword />} />
+
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup/otp" element={<OTP />} />
-        <Route path="" element={<PrivateRoutesUser/>}>
+        <Route path="/otp" element={<OTP />} />
+        <Route path="/forget_password/otp" element={<PasswordOTP />} />
+        <Route path="/newpassword" element={<NewPassword />} />
+        <Route path="" element={<PrivateRoutesUser />}>
           <Route index={true} path="/" element={<Home />} />
         </Route>
 

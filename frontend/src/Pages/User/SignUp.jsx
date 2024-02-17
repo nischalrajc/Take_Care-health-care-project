@@ -74,7 +74,7 @@ function SignUp() {
     Axios.post("/signup", { name: name, email: email, phoneNumber: phone, password: password, gender: gender }).then((response) => {
       if (response.data.otp) {
         setLoading(false)
-        navigate('/signup/otp', { state: { otp: response.data.otp, email: email, name: name, password: password, gender: gender, phone: phone } })
+        navigate('/otp', { state: { otp: response.data.otp, email: email, name: name, password: password, gender: gender, phone: phone } })
         
       }
 

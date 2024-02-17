@@ -43,7 +43,7 @@ function Users() {
     }).catch((error) => {
       console.log(error)
     })
-  })
+  },[])
 
   return (
     <>

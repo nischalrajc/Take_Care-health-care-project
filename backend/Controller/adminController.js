@@ -78,6 +78,25 @@ export const acceptDoctorRequest = async (req, res) => {
     }
 }
 
+export const rejectDoctorRequest = async (req, res) => {
+    try {
+        const id = req.params.id
+        const doctor = await Doctors.findById(id)
+
+        if (doctor) {
+            const deletedDoctor = await Doctors.findByIdAndDelete(id);
+            if (deletedDoctor) {
+                return res.status(200).json({message:"Doctor rejected successfully"});
+            } else {
+                return res.status(404).json({ message: 'Doctor not found' });
+            }
+        }
+
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
 export const blockUser = async (req, res) => {
     try {
         const id = req.params.id
@@ -89,13 +108,13 @@ export const blockUser = async (req, res) => {
                 { new: true }
             )
         }
-        res.status(200).json({message:"User Blocked"})
+        res.status(200).json({ message: "User Blocked" })
     } catch (error) {
         console.log("error", error)
     }
 }
 
-export const unblockUser = async (req,res) =>{
+export const unblockUser = async (req, res) => {
     try {
         const id = req.params.id
         const user = await Users.findById(id)
@@ -106,7 +125,7 @@ export const unblockUser = async (req,res) =>{
                 { new: true }
             )
         }
-        res.status(200).json({message:"User unblocked"})
+        res.status(200).json({ message: "User unblocked" })
     } catch (error) {
         console.log("error", error)
     }

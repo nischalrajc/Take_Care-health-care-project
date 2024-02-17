@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Axios } from '../../Axios/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { userLogin } from '../../Slices/userSlice'
-
+import Swal from 'sweetalert2'
 
 
 function Login() {
@@ -27,6 +27,10 @@ function Login() {
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         return regex.test(email);
     };
+
+    const forgotPasswordHandler = () =>{
+        navigate('/forget_password')
+    }
 
 
     const submitHandler = (e) => {
@@ -50,14 +54,19 @@ function Login() {
         }
 
         Axios.post('/login', { email, password }, { withCredentials: true }).then((response) => {
-            if (response.data) {
-                dispatch(userLogin({ ...response.data }))
-                navigate('/')
-            } else {
+
+            if (response.data.blocked) {
+                Swal.fire("You are blocked!");
+            }
+            if (response.data.error) {
                 setError("Incorrect email and password")
                 setTimeout(() => {
                     setError('')
                 }, 2000)
+            }
+            if (response.data._id) {
+                dispatch(userLogin({ ...response.data }))
+                navigate('/')
             }
         }).catch((error) => {
             console.log(error)
@@ -105,7 +114,7 @@ function Login() {
                         </div>
                     </div>
 
-                    <div className=' w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5   mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4'>
+                    <div className=' w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5   mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4 hover:cursor-pointer' onClick={forgotPasswordHandler}>
                         Forget password ?
                     </div>
 

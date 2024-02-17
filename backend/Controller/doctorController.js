@@ -32,6 +32,7 @@ export const doctorLogin = async (req, res) => {
     const { email, password } = req.body
     try {
         const doctor = await Doctors.findOne({ email })
+        console.log(doctor,"kkkkkkk")
         if(doctor.authorised == false){
             return res.json({authorisation:"failed"})
         }

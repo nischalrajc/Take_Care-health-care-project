@@ -6,6 +6,7 @@ export const protectAdmin = async (req, res, next) => {
 
     let token;
     token = req.cookies.jwtAdmin;
+    console.log("hhhhhhhhhh",token)
 
     if (token) {
         try {

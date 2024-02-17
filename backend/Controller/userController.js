@@ -30,6 +30,10 @@ export const userLogin = async (req, res) => {
         const user = await Users.findOne({ email })
         const passwordMatched = await bcrypt.compare(password, user.password)
 
+        if (user.blocked) {
+            return res.json({ blocked: true })
+        }
+
         if (user && passwordMatched) {
             await generateToken(res, user._id);
             res.status(200).json({
@@ -37,6 +41,8 @@ export const userLogin = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 phoneNumber: user.phoneNumber,
+                gender: user.gender,
+                blocked: user.blocked
             })
         } else {
             res.json({ error: "Invalid mail and password" })
@@ -48,6 +54,45 @@ export const userLogin = async (req, res) => {
 
 }
 
+export const forgetpassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const existingUser = await Users.findOne({ email })
+        if (!existingUser) {
+            return res.json({ error: "Enter the registered email" });
+        }
+
+        const OTP = await sendEmail(email)
+        if (OTP) {
+            res.status(200).json({ otp: OTP })
+        }
+
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+
+export const newPassword = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const user = await Users.findOne({ email });
+        
+        if (user) {
+            user.password = password; 
+           await user.save();
+
+            res.status(200).json({ message: 'Password updated successfully' });
+
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
 export const register_user = async (req, res) => {
     try {
         const { name, email, phone, password, gender } = req.body;
@@ -57,7 +102,7 @@ export const register_user = async (req, res) => {
             email: email,
             password: password,
             phoneNumber: phone,
-            blocked:false
+            blocked: false
         })
 
         res.status(201).json({ message: "Signed in successfully" })

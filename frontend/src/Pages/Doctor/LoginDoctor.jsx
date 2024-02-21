@@ -65,6 +65,10 @@ function LoginDoctor() {
             }
         }).catch((error) => {
             console.log(error)
+            setError("Incorrect email and password")
+            setTimeout(() => {
+                setError('')
+            }, 2000)
         })
     }
 
@@ -77,7 +81,7 @@ function LoginDoctor() {
 
             <div>
                 <form onSubmit={submitHandler}>
-                    <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto">
+                    <div className="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto">
                         <div className='flex font-medium opacity-60 mt-6'>
                             <label htmlFor="">Email</label>
                         </div>
@@ -91,7 +95,7 @@ function LoginDoctor() {
                         </div>
                     </div>
 
-                    <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto">
+                    <div className="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto">
                         <div className='flex font-medium opacity-60 mt-4'>
                             <label htmlFor="">Password</label>
                         </div>

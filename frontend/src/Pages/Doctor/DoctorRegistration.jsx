@@ -91,8 +91,8 @@ function DoctorRegistration() {
       <div>
       <form onSubmit={submitHandler}>
 
-      <div class="flex flex-col sm:flex-row items-center mt-5 justify-center">
-                <div class="sm:w-1/2 sm:max-w-fit  ">
+      <div className="flex flex-col sm:flex-row items-center mt-5 justify-center">
+                <div className="sm:w-1/2 sm:max-w-fit  ">
                     <div className=' flex items-start  font-semibold opacity-65'>
                     <label htmlFor="">Name</label>
                     </div>
@@ -105,7 +105,7 @@ function DoctorRegistration() {
                         placeholder='name'style={{ paddingLeft: '10px'}} required/>
                     </div>
                 </div>
-                <div class="sm:w-1/2  max-w-fit ">
+                <div className="sm:w-1/2  max-w-fit ">
                     <div className='flex items-start font-semibold opacity-65'>
                     <label htmlFor="">Gender</label>
                     </div>
@@ -125,8 +125,8 @@ function DoctorRegistration() {
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center">
-                <div class="sm:w-1/2 sm:max-w-fit  ">
+            <div className="flex flex-col sm:flex-row items-center justify-center">
+                <div className="sm:w-1/2 sm:max-w-fit  ">
                     <div className=' flex items-start font-semibold opacity-65'>
                     <label htmlFor="">Email</label>
                     </div>
@@ -138,7 +138,7 @@ function DoctorRegistration() {
                         placeholder='email'style={{ paddingLeft: '10px'}} required/>
                     </div>
                 </div>
-                <div class="sm:w-1/2  max-w-fit ">
+                <div className="sm:w-1/2  max-w-fit ">
                     <div className='flex items-start  font-semibold opacity-65'>
                     <label htmlFor="">Phone number</label>
                     </div>
@@ -152,8 +152,8 @@ function DoctorRegistration() {
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center">
-                <div class="sm:w-1/2 sm:max-w-fit  ">
+            <div className="flex flex-col sm:flex-row items-center justify-center">
+                <div className="sm:w-1/2 sm:max-w-fit  ">
                     <div className=' flex items-start font-semibold opacity-65'>
                     <label htmlFor="">Specialisation</label>
                     </div>
@@ -165,7 +165,7 @@ function DoctorRegistration() {
                         placeholder='specialisation'style={{ paddingLeft: '10px'}} required/>
                     </div>
                 </div>
-                <div class="sm:w-1/2  max-w-fit ">
+                <div className="sm:w-1/2  max-w-fit ">
                     <div className='flex items-start  font-semibold opacity-65'>
                     <label htmlFor="">Bio</label>
                     </div>
@@ -179,8 +179,8 @@ function DoctorRegistration() {
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center">
-                <div class="sm:w-1/2 sm:max-w-fit  ">
+            <div className="flex flex-col sm:flex-row items-center justify-center">
+                <div className="sm:w-1/2 sm:max-w-fit  ">
                     <div className=' flex items-start font-semibold opacity-65'>
                     <label htmlFor="">Password</label>
                     </div>
@@ -192,7 +192,7 @@ function DoctorRegistration() {
                         placeholder='Password'style={{ paddingLeft: '10px'}} required/>
                     </div>
                 </div>
-                <div class="sm:w-1/2  max-w-fit ">
+                <div className="sm:w-1/2  max-w-fit ">
                     <div className='flex items-start font-semibold opacity-65 '>
                     <label htmlFor="">Confirm Password</label>
                     </div>

@@ -25,10 +25,16 @@ export const userSignup = async (req, res) => {
 
 export const userLogin = async (req, res) => {
     const { email, password } = req.body
-    console.log("login entered")
+
     try {
         const user = await Users.findOne({ email })
+
+        if (!user) {
+            return res.json({ error: "Invalid email and password" });
+        }
+
         const passwordMatched = await bcrypt.compare(password, user.password)
+
 
         if (user.blocked) {
             return res.json({ blocked: true })
@@ -79,10 +85,10 @@ export const newPassword = async (req, res) => {
     try {
         const { email, password } = req.body
         const user = await Users.findOne({ email });
-        
+
         if (user) {
-            user.password = password; 
-           await user.save();
+            user.password = password;
+            await user.save();
 
             res.status(200).json({ message: 'Password updated successfully' });
 

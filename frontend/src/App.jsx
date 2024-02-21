@@ -19,6 +19,7 @@ import OTP from "./Pages/User/OTP";
 import ForgetPassword from "./Pages/User/ForgetPassword";
 import PasswordOTP from "./Pages/User/PasswordOTP";
 import NewPassword from "./Pages/User/NewPassword";
+import AddDoctors from "./Pages/Admin/AddDoctors";
 
 function App() {
   return (
@@ -33,7 +34,6 @@ function App() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/forget_password/otp" element={<PasswordOTP />} />
         <Route path="/newpassword" element={<NewPassword />} />
-        
         <Route path="" element={<PrivateRoutesUser />}>
           <Route index={true} path="/" element={<Home />} />
         </Route>
@@ -49,6 +49,7 @@ function App() {
           <Route path="/admin/users" element={<Users />} />
           <Route path="/admin/doctors" element={<Doctors />} />
           <Route path="/admin/doctor_request" element={<DoctorRequest />} />
+          <Route path="/admin/add_doctors" element={<AddDoctors />} />
         </Route>
 
       </Routes>

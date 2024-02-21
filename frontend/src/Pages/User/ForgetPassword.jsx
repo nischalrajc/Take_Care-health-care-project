@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState , useRef } from 'react'
 import LoginNav from '../../Components/User/LoginNav'
-import { Axios } from '../../Axios/users';
+import {Axios as DoctorAxios} from '../../Axios/doctor'
+// import {Axios as UserAxios} from '../../Axios/users'
+import * as UserAxios from '../../Axios/users';
 import BeatLoader from "react-spinners/BeatLoader";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 
 function ForgetPassword() {
@@ -10,13 +12,25 @@ function ForgetPassword() {
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const axiosRef = useRef(UserAxios);
 
     const navigate = useNavigate()
+    const location = useLocation()
+
+    
 
     const validateEmail = (email) => {
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         return regex.test(email);
     };
+
+    useEffect(()=>{
+        if (location.state && location.state.doctor) {
+            axiosRef.current = DoctorAxios;
+        } else {
+            axiosRef.current = UserAxios;
+        }
+    }, [location.state])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -31,16 +45,19 @@ function ForgetPassword() {
 
         setLoading(true)
 
-        Axios.post('/forget_password', { email }).then((response) => {
+        console.log("mmmmmmmmmmm",axiosRef.current)
+        axiosRef.current.post('/forget_password', { email }).then((response) => {
             if (response.data.otp) {
                 setLoading(false)
                 navigate('/forget_password/otp',{state:{otp:response.data.otp,email:email}})
             }
         }).catch((error) => {
-            console.log("error", error)
+            console.log("errorooooooooooooooooooooo", error)
         })
 
     }
+
+    
 
     return (
         <div>

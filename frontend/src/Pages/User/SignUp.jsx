@@ -2,7 +2,7 @@ import React from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Axios } from '../../Axios/users'
+import  {Axios}  from '../../Axios/users'
 import { toast } from 'react-toastify';
 import BeatLoader from "react-spinners/BeatLoader";
 
@@ -103,8 +103,8 @@ function SignUp() {
         <div>
           <form onSubmit={submitHandler}>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center">
-              <div class="sm:w-1/2 sm:max-w-fit  ">
+            <div className="flex flex-col sm:flex-row items-center justify-center">
+              <div className="sm:w-1/2 sm:max-w-fit  ">
                 <div className=' flex items-start  font-semibold opacity-65'>
                   <label htmlFor="">Name</label>
                 </div>
@@ -117,7 +117,7 @@ function SignUp() {
                     placeholder='name' style={{ paddingLeft: '10px' }} />
                 </div>
               </div>
-              <div class="sm:w-1/2  max-w-fit ">
+              <div className="sm:w-1/2  max-w-fit ">
                 <div className='flex items-start font-semibold opacity-65'>
                   <label htmlFor="">Gender</label>
                 </div>
@@ -137,8 +137,8 @@ function SignUp() {
               </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center">
-              <div class="sm:w-1/2 sm:max-w-fit  ">
+            <div className="flex flex-col sm:flex-row items-center justify-center">
+              <div className="sm:w-1/2 sm:max-w-fit  ">
                 <div className=' flex items-start font-semibold opacity-65'>
                   <label htmlFor="">Email</label>
                 </div>
@@ -150,7 +150,7 @@ function SignUp() {
                     placeholder='email' style={{ paddingLeft: '10px' }} />
                 </div>
               </div>
-              <div class="sm:w-1/2  max-w-fit ">
+              <div className="sm:w-1/2  max-w-fit ">
                 <div className='flex items-start  font-semibold opacity-65'>
                   <label htmlFor="">Phone number</label>
                 </div>
@@ -164,8 +164,8 @@ function SignUp() {
               </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center">
-              <div class="sm:w-1/2 sm:max-w-fit  ">
+            <div className="flex flex-col sm:flex-row items-center justify-center">
+              <div className="sm:w-1/2 sm:max-w-fit  ">
                 <div className=' flex items-start font-semibold opacity-65'>
                   <label htmlFor="">Password</label>
                 </div>
@@ -177,7 +177,7 @@ function SignUp() {
                     placeholder='Password' style={{ paddingLeft: '10px' }} />
                 </div>
               </div>
-              <div class="sm:w-1/2  max-w-fit ">
+              <div className="sm:w-1/2  max-w-fit ">
                 <div className='flex items-start font-semibold opacity-65 '>
                   <label htmlFor="">Confirm Password</label>
                 </div>

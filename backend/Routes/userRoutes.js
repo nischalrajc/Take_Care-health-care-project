@@ -8,7 +8,9 @@ router.post('/signup', userSignup)
 router.post('/login', userLogin)
 router.post('/forget_password', forgetpassword)
 router.patch('/newpassword', newPassword)
-router.get('/logout', protectUser, logOut)
+router.get('/logout', logOut)
 router.post('/register_user', register_user)
+
+router.get('/decodeToken', protectUser)
 
 export default router;

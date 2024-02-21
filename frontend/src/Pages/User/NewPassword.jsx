@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Axios } from '../../Axios/users'
+import  {Axios}  from '../../Axios/users'
 import { useLocation, useNavigate } from 'react-router-dom'
 import LoginNav from '../../Components/User/LoginNav'
 import Swal from 'sweetalert2'

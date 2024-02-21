@@ -33,6 +33,7 @@ function App() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/forget_password/otp" element={<PasswordOTP />} />
         <Route path="/newpassword" element={<NewPassword />} />
+        
         <Route path="" element={<PrivateRoutesUser />}>
           <Route index={true} path="/" element={<Home />} />
         </Route>

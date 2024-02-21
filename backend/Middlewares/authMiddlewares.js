@@ -6,7 +6,6 @@ export const protectAdmin = async (req, res, next) => {
 
     let token;
     token = req.cookies.jwtAdmin;
-    console.log("hhhhhhhhhh",token)
 
     if (token) {
         try {
@@ -25,7 +24,7 @@ export const protectAdmin = async (req, res, next) => {
     }
 }
 
-export const protectUser = async (req, res, next) => {
+export const protectUser = async (req, res) => {
 
     let token;
     token = req.cookies.jwtuser;
@@ -34,7 +33,7 @@ export const protectUser = async (req, res, next) => {
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET);
             req.user = await User.findById(decode.userId).select('-password');
-            next()
+            res.status(200).json({message:"token authorised suucessfully"})
 
         } catch (error) {
             res.status(401);

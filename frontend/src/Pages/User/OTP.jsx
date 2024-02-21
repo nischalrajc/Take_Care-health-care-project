@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import LoginNav from '../../Components/User/LoginNav'
-import { Axios } from '../../Axios/users';
+import  {Axios}  from '../../Axios/users';
 import { toast } from 'react-toastify';
 
 function OTP() {

@@ -68,3 +68,11 @@ export const logoutDoctor = async (req, res) => {
         console.log("error", error)
     }
 }
+
+export const forget = async(req,res)=>{
+try{
+    console.log("doctor")
+}catch(error){
+    console.log(error)
+}
+}

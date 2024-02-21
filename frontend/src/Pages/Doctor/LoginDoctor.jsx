@@ -28,6 +28,10 @@ function LoginDoctor() {
         return regex.test(email);
     };
 
+    const forgotPasswordHandler = () =>{
+        navigate('/forget_password',{state:{doctor:true}})
+    }
+
 
     const submitHandler = async (e) => {
         e.preventDefault()
@@ -101,7 +105,7 @@ function LoginDoctor() {
                         </div>
                     </div>
 
-                    <div className=' w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4'>
+                    <div className=' w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto flex items-start font-inter text-sm font-mediumbold text-[#2D6A76] mt-4 hover:cursor-pointer' onClick={forgotPasswordHandler}>
                         Forget password ?
                     </div>
 

@@ -4,13 +4,16 @@ import Header from '../../Components/Admin/Header';
 import Sidebar from '../../Components/Admin/Sidebar';
 import { useRef } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import { Axios } from '../../Axios/admin';
+import FadeLoader from "react-spinners/FadeLoader"
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 function AddDoctors() {
 
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [image,setImage] = useState(null)
+    const [image, setImage] = useState(null)
     const [name, setName] = useState('')
     const [bio, setBio] = useState('')
     const [email, setEmail] = useState('')
@@ -19,11 +22,30 @@ function AddDoctors() {
     const [specialisation, setSpecialisation] = useState('')
     const [fees, setFees] = useState('')
     const [description, setDescription] = useState('')
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
+
 
     const fileInputRef = useRef(null);
+    const navigate = useNavigate();
 
-    // const PRESET_KEY = process.env.REACT_APP_PRESET_KEY
-    // console.log(PRESET_KEY,"wwwwwwwwwwww")
+    const PRESET_KEY = process.env.REACT_APP_PRESET_KEY
+    const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME
+    const CLOUD_UPLOAD_URL = process.env.REACT_APP_CLOUD_UPLOAD_URL
+
+    const validateEmail = (email) => {
+        const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        return regex.test(email);
+    };
+
+    const validatePhone = (phone) => {
+        const regex = /^[0-9]{10}$/;
+        return regex.test(phone);
+    }
+
+    const validateFees = (fees) => {
+        return /^\d+$/.test(fees) || fees === '';
+    }
 
 
     const handleImageClick = () => {
@@ -32,33 +54,81 @@ function AddDoctors() {
     };
 
     const handleFileChange = (e) => {
-        // Handle the selected file as needed
         const file = e.target.files[0];
 
         // Set the selected image state
         setSelectedImage(URL.createObjectURL(file));
         setImage(file)
 
-        // Do something with the file (e.g., upload or process)
-        console.log('Selected file:', file);
     };
 
     const submitHandler = async (e) => {
         e.preventDefault()
-        console.log("hhhhhhhhhhhhhhhhhhhhh")
+
+        if (!validateEmail(email)) {
+            setError('Invalid email format');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+        if (!validatePhone(phone)) {
+            setError('Invalid phone number format');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+        if (!validateFees(fees)){
+            setError('Fee must be a number')
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+            setLoading(true)
 
         const formdata = new FormData()
-        formdata.append('file',image)
-        formdata.append('upload_preset','l6cbh0jc')
-        formdata.append('cloud_name','dt5npa24l')
+        formdata.append('file', image)
+        formdata.append('upload_preset', `${PRESET_KEY}`)
+        formdata.append('cloud_name', `${CLOUD_NAME}`)
 
+        const response = await axios.post(`${CLOUD_UPLOAD_URL}`, formdata)
 
-       const response = await axios.post('https://api.cloudinary.com/v1_1/dt5npa24l/upload',formdata)
-       console.log(response)
+        if (response.status === 200) {
+            const image_url = response.data.secure_url
 
+            Axios.post('/add_doctors', { name, email, bio, phone, gender, specialisation, fees, description, image_url }).then((response) => {
+                setLoading(false)
+                if (response) {
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "Doctor added Succesfully!",
+                        icon: "success"
+                    });
+
+                    navigate('/admin/doctors')
+
+                }
+            }).catch((error) => {
+                console.log("error", error)
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Doctor already exist!",
+                });
+            })
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
     }
-
-    // const navigate = useNavigate()
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -75,7 +145,7 @@ function AddDoctors() {
                     <form onSubmit={submitHandler}>
 
                         <div className='flex justify-center  w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 '>
-                            <img className="w-40 h-36 object-cover rounded-full cursor-pointer" src={selectedImage || "/profilepic.jpg"} alt="Icon"  onClick={handleImageClick}/>
+                            <img className="w-40 h-36 object-cover rounded-full cursor-pointer" src={selectedImage || "/profilepic.jpg"} alt="Icon" onClick={handleImageClick} />
                             <input
                                 type="file"
                                 accept="image/*"
@@ -193,12 +263,39 @@ function AddDoctors() {
                                     placeholder='description' style={{ paddingLeft: '10px' }} required />
                             </div>
                         </div>
+
+                        {/* erorrr handling */}
+                        <div>
+                            {
+                                error && (
+                                    <div className='text-red-500 font-medium'>
+                                        {error}
+                                    </div>
+                                )
+                            }
+                        </div>
+
                         <div className=' p-4 mt-3'>
                             <button type="submit" className=" bg-[#E38569] text-white rounded-md  px-6 sm:px-14 py-2 sm:py-2">
                                 Add
                             </button>
                         </div>
                     </form>
+
+                    {/* Loader */}
+                    {loading && (
+                        <div className="fixed top-0 left-0 w-full min-h-dvh flex items-center justify-center ">
+                            <FadeLoader
+                                color={'#2D6A76'}
+                                className=''
+                                loading={loading}
+                                size={30}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>

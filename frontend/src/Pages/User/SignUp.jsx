@@ -209,13 +209,7 @@ function SignUp() {
                 Sign in
               </button>
             </div>
-
-            {/* <div className='flex flex-row justify-center'>
-                <div className='font-medium opacity-60'>
-                    Already have an account?
-                </div >
-                <div className='font-medium ps-1 text-[#2D6A76]'>Sign in</div>
-            </div> */}
+            
             <div className='text-sm font-semibold opacity-70 my-1'>
               Already have an account?<Link className='text-[#2D6A76] ps-1' to='/login'>Log in</Link>
             </div>

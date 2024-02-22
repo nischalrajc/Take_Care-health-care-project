@@ -35,7 +35,6 @@ export const userLogin = async (req, res) => {
 
         const passwordMatched = await bcrypt.compare(password, user.password)
 
-
         if (user.blocked) {
             return res.json({ blocked: true })
         }
@@ -63,7 +62,6 @@ export const userLogin = async (req, res) => {
 export const forgetpassword = async (req, res) => {
     try {
         const { email } = req.body;
-        console.log("user")
 
         const existingUser = await Users.findOne({ email })
         if (!existingUser) {

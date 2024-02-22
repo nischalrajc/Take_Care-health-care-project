@@ -13,6 +13,7 @@ function NavbarDoctor() {
     const logoutHandler = () => {
         Axios.get('/logout', { withCredentials: true }).then((response) => {
             if (response.data) {
+                console.log(response.data)
                 dispatch(doctorLogout())
                 navigate('/doctor_login')
             }
@@ -20,8 +21,9 @@ function NavbarDoctor() {
             console.log("error", error)
         })
     }
+
     return (
-        <div className="fixed top-0 left-0 right-0 z-50  bg-white ">
+        <div>
             <div className="sm:mx-5 flex justify-between py-3 px-3 border-b  border-gray-300">
                 <div className="flex items-center pr-5">
                     <img className="min-w-20 max-w-20 md:min-w-48 md:max-w-48" src="take-care-logo.png" alt="Icon" />

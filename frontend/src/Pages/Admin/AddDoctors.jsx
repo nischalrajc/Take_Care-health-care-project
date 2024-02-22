@@ -101,7 +101,7 @@ function AddDoctors() {
         if (response.status === 200) {
             const image_url = response.data.secure_url
 
-            Axios.post('/add_doctors', { name, email, bio, phone, gender, specialisation, fees, description, image_url }).then((response) => {
+           await Axios.post('/add_doctors', { name, email, bio, phone, gender, specialisation, fees, description, image_url }).then((response) => {
                 setLoading(false)
                 if (response) {
                     Swal.fire({

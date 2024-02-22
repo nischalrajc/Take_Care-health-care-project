@@ -19,7 +19,7 @@
 
 import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
-import { adminCookie } from '../../Helpers/adminHelper'
+import {doctorCookie} from '../../Helpers/doctorHelpers'
 import { useState,useEffect } from 'react';
 
 
@@ -29,7 +29,7 @@ function DoctorPrivateRoutes() {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await adminCookie();
+            const response = await doctorCookie();
             setAuth(response);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -40,15 +40,16 @@ function DoctorPrivateRoutes() {
     fetchData();
 }, []);
 
+
 if (auth === null) {
-    // Loading state, you might want to show a loading spinner here
+    
     return null;
 }
 
   return (
     <div>
       {
-        auth ? <Outlet /> : <Navigate to={'/admin'} />
+        auth ? <Outlet /> : <Navigate to={'/doctor_login'} />
       }
     </div>
   )

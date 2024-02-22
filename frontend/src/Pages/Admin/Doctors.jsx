@@ -3,11 +3,14 @@ import Header from '../../Components/Admin/Header'
 import Sidebar from '../../Components/Admin/Sidebar'
 import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/admin'
+import { useNavigate } from 'react-router-dom'
 
 
 function Doctors() {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [array, setArray] = useState([]);
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         Axios.get('/doctors',{ withCredentials: true }).then((response) => {
@@ -17,7 +20,6 @@ function Doctors() {
         })
     }, [])
 
-    console.log(array)
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -31,7 +33,7 @@ function Doctors() {
                 <div className='w-full px-8 mt-8'>
                     <div className='w-full flex justify-between'>
                         <h1 className='text-2xl'>Doctors</h1>
-                        <button className='bg-black text-white px-4 py-2 rounded'>Add New</button>
+                        <button className='bg-black text-white px-4 py-2 rounded' onClick={()=>{navigate('/admin/add_doctors')}}>Add New</button>
                     </div>
                     {
                         array.length === 0 ? (

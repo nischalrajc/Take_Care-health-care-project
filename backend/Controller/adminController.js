@@ -97,6 +97,35 @@ export const rejectDoctorRequest = async (req, res) => {
     }
 }
 
+export const addDoctors = async (req,res) =>{
+    const {name,email,bio,gender,phone,specialisation,fees,description,image_url} = req.body;
+   
+    try{
+        const existingDoctor = await Doctors.findOne({ email })
+        if (existingDoctor) {
+            return res.status(401).json({ error: "doctor already exist" });
+        }
+
+        const doctor = await Doctors.create({
+            name: name,
+            gender: gender,
+            email: email,
+            phoneNumber: phone,
+            password: 123456,
+            specialisation: specialisation,
+            bio: bio,
+            fees:fees,
+            description:description,
+            image:image_url,
+            authorised: true
+        })
+
+        res.status(201).json({ message: "Added new doctor successfully" })
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
 export const blockUser = async (req, res) => {
     try {
         const id = req.params.id

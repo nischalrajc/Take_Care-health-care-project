@@ -50,6 +50,11 @@ export const doctorLogin = async (req, res) => {
                 email: doctor.email,
                 phoneNumber: doctor.phoneNumber,
                 specialisation: doctor.specialisation,
+                image:doctor.image,
+                gender:doctor.gender,
+                bio:doctor.bio,
+                description:doctor.description,
+                fees:doctor.fees,
                 authorised: doctor.authorised
             })
         } else {

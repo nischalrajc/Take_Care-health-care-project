@@ -16,7 +16,7 @@ function DoctorRequest() {
         }).catch((error) => {
             console.log(error)
         })
-    },[])
+    },[array])
 
 
 

@@ -46,6 +46,22 @@ export const getAllDoctors = async (req, res) => {
     }
 }
 
+export const deleteDoctor = async (req,res) =>{
+    try{
+        const id = req.params.id
+        const doctor = await Doctors.findOneAndDelete({ _id: id });
+
+        if (doctor) {
+            return res.status(200).json({ message: 'Doctor deleted successfully' });
+        } else {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
 export const doctorsRequest = async (req, res) => {
     try {
         const doctors = await Doctors.find({ authorised: false })

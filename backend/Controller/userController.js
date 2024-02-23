@@ -2,6 +2,7 @@ import Users from "../Modal/Users.js";
 import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
+import Doctors from "../Modal/Doctor.js";
 
 
 export const userSignup = async (req, res) => {
@@ -114,6 +115,15 @@ export const register_user = async (req, res) => {
 
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const getDoctorDetails = async (req,res) =>{
+    try{
+        const doctors = await Doctors.find({authorised:true})
+        res.status(200).json({doctors})
+    }catch(error){
+        console.log("error",error)
     }
 }
 

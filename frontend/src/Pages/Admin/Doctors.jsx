@@ -21,6 +21,10 @@ function Doctors() {
         })
     }, [array])
 
+    const viewDoctorHandler = async(doctorId) =>{
+        navigate(`/admin/doctors/view/${doctorId}`)
+    }
+
     const doctorRemoveHandler = async (doctorId) => {
         Swal.fire({
             title: "Are you sure?",
@@ -93,7 +97,7 @@ function Doctors() {
                                                                 <td className="whitespace-nowrap px-6 py-4">{doctor.specialisation}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">{doctor.fees}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                                    <button className='bg-[#9CBCB7] px-3 py-1 rounded me-1'>view</button>
+                                                                    <button className='bg-[#9CBCB7] px-3 py-1 rounded me-1' onClick={() => viewDoctorHandler(doctor?._id)}>view</button>
                                                                     <button className='bg-[#E38569] px-3 py-1 rounded ' onClick={() => doctorRemoveHandler(doctor?._id)}>remove</button>
                                                                 </td>
                                                             </tr>

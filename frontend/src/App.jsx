@@ -21,6 +21,8 @@ import PasswordOTP from "./Pages/User/PasswordOTP";
 import NewPassword from "./Pages/User/NewPassword";
 import AddDoctors from "./Pages/Admin/AddDoctors";
 import ViewDoctor from "./Pages/Admin/ViewDoctor";
+import Specialisation from "./Pages/Admin/Specialisation";
+import AddSpecialisation from "./Pages/Admin/AddSpecialisation";
 
 function App() {
   return (
@@ -52,7 +54,9 @@ function App() {
           <Route path="/admin/doctor_request" element={<DoctorRequest />} />
           <Route path="/admin/add_doctors" element={<AddDoctors />} />
           <Route path="/admin/doctors/view/:doctorId" element={<ViewDoctor />} />
-        
+          <Route path="/admin/specialisation" element={<Specialisation />} />
+          <Route path="/admin/add_specialisation" element={<AddSpecialisation />} />
+  
         </Route>
 
       </Routes>

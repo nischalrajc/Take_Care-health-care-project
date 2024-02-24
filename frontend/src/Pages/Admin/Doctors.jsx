@@ -4,6 +4,7 @@ import Sidebar from '../../Components/Admin/Sidebar'
 import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/admin'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 
 function Doctors() {
@@ -13,12 +14,43 @@ function Doctors() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        Axios.get('/doctors',{ withCredentials: true }).then((response) => {
+        Axios.get('/doctors', { withCredentials: true }).then((response) => {
             setArray(response.data)
         }).catch((error) => {
             console.log(error)
         })
-    }, [])
+    }, [array])
+
+    const viewDoctorHandler = async(doctorId) =>{
+        navigate(`/admin/doctors/view/${doctorId}`)
+    }
+
+    const doctorRemoveHandler = async (doctorId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            // icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.delete(`/delete_doctor/${doctorId}`, { withCredentials: true }).then((response) => {
+                    if (response.data) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    }
+                }).catch((error) =>{
+                    console.log("failed to delete",error)
+                })
+
+            }
+        });
+    }
 
 
     const toggleSidebar = () => {
@@ -33,7 +65,7 @@ function Doctors() {
                 <div className='w-full px-8 mt-8'>
                     <div className='w-full flex justify-between'>
                         <h1 className='text-2xl'>Doctors</h1>
-                        <button className='bg-black text-white px-4 py-2 rounded' onClick={()=>{navigate('/admin/add_doctors')}}>Add New</button>
+                        <button className='bg-black text-white px-4 py-2 rounded' onClick={() => { navigate('/admin/add_doctors') }}>Add New</button>
                     </div>
                     {
                         array.length === 0 ? (
@@ -65,8 +97,8 @@ function Doctors() {
                                                                 <td className="whitespace-nowrap px-6 py-4">{doctor.specialisation}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">{doctor.fees}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                                    <button className='bg-[#9CBCB7] px-3 py-1 rounded me-1'>view</button>
-                                                                    <button className='bg-[#af5c49] px-3 py-1 rounded '>remove</button>
+                                                                    <button className='bg-[#9CBCB7] px-3 py-1 rounded me-1' onClick={() => viewDoctorHandler(doctor?._id)}>view</button>
+                                                                    <button className='bg-[#E38569] px-3 py-1 rounded ' onClick={() => doctorRemoveHandler(doctor?._id)}>remove</button>
                                                                 </td>
                                                             </tr>
                                                         ))

@@ -46,6 +46,75 @@ export const getAllDoctors = async (req, res) => {
     }
 }
 
+export const viewDoctorDetails = async (req,res) =>{
+    try{
+        const id = req.params.id
+        const doctor = await Doctors.findById(id)
+        
+        if(doctor){
+            res.status(201).json({doctor})
+        }
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
+export const updateDoctor = async (req,res) =>{
+    const { name, email, bio, gender, phone, specialisation, fees, description, image_url, doctorId } = req.body;
+    try {
+        const doctor = await Doctors.findById( doctorId )
+
+        if (doctor) {
+            doctor.name = name
+            doctor.email = email
+            doctor.bio = bio
+            doctor.gender = gender
+            doctor.phoneNumber = phone
+            doctor.specialisation = specialisation
+            doctor.fees = fees
+            doctor.description = description
+            doctor.image = image_url
+
+            await doctor.save();
+            
+            res.status(200).json({
+                _id: doctor._id,
+                name: doctor.name,
+                email: doctor.email,
+                phoneNumber: doctor.phoneNumber,
+                specialisation: doctor.specialisation,
+                image: doctor.image,
+                gender: doctor.gender,
+                bio: doctor.bio,
+                description: doctor.description,
+                fees: doctor.fees,
+                authorised: doctor.authorised
+            })
+
+        } else {
+            res.status(401).json({ message: "doctor doesnot exist" })
+        }
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const deleteDoctor = async (req,res) =>{
+    try{
+        const id = req.params.id
+        const doctor = await Doctors.findOneAndDelete({ _id: id });
+
+        if (doctor) {
+            return res.status(200).json({ message: 'Doctor deleted successfully' });
+        } else {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
 export const doctorsRequest = async (req, res) => {
     try {
         const doctors = await Doctors.find({ authorised: false })

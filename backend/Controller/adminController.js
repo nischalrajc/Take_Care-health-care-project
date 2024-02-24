@@ -76,7 +76,7 @@ export const updateDoctor = async (req,res) =>{
             doctor.image = image_url
 
             await doctor.save();
-            
+
             res.status(200).json({
                 _id: doctor._id,
                 name: doctor.name,
@@ -226,6 +226,15 @@ export const unblockUser = async (req, res) => {
         res.status(200).json({ message: "User unblocked" })
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const specialisations = async (req,res) =>{
+    try{
+        // const specialisation = await 
+        res.status(200).json({message:"successfully fetched data"})
+    }catch(error){
+        console.log("error",error)
     }
 }
 

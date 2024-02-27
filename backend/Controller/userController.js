@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
+import Specialisations from "../Modal/Specialisations.js";
 
 
 export const userSignup = async (req, res) => {
@@ -62,6 +63,7 @@ export const userLogin = async (req, res) => {
 
 export const forgetpassword = async (req, res) => {
     try {
+        console.log("user")
         const { email } = req.body;
 
         const existingUser = await Users.findOne({ email })
@@ -122,6 +124,15 @@ export const getDoctorDetails = async (req,res) =>{
     try{
         const doctors = await Doctors.find({authorised:true})
         res.status(200).json({doctors})
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
+export const getSpecialities = async (req,res) =>{
+    try{
+        const specialisation = await Specialisations.find()
+        res.status(200).json({specialisation})
     }catch(error){
         console.log("error",error)
     }

@@ -6,17 +6,36 @@ import { userLogout } from '../../Slices/userSlice'
 import NavBAr from '../../Components/User/NavBAr'
 import DoctorsCard from '../../Components/User/DoctorsCard'
 import Specialities from '../../Components/User/Specialities'
+import Footer from '../../Components/User/Footer'
+import { useState,useEffect } from 'react'
 
 function Home() {
+  const [array, setArray] = useState(null)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const fetchData = async () => {
+      await Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
+          if (response.data) {
+              setArray(response.data.doctors)
+          }
+      }).catch((error) => {
+          console.log("error", error)
+      })
+  }
+
+  useEffect(() => {
+      fetchData()
+  }, [])
+
+
 
   const handleLogout = () => {
     Axios.get('/logout', { withCredentials: true }).then((response) => {
       if (response.data) {
         dispatch(userLogout())
-        navigate('/login')
+        navigate('/')
       }
     })
   }
@@ -42,10 +61,10 @@ function Home() {
         <p>"Your Journey to Wellness Starts Here - Discover the Magic of Take Care."</p>
       </div>
 
-      <DoctorsCard />
+      <DoctorsCard array={array}/>
 
       <div className='my-6'>
-        <button className='bg-[#E38569] text-white font-inder px-6 py-1 rounded-md'>All Specialist</button>
+        <button className='bg-[#E38569] text-white font-inder px-6 py-1 rounded-md' onClick={()=>navigate('/specialist')}>All Specialist</button>
       </div>
 
       <div className='my-6 mx-2 sm:mx-10 sm:text-base'>
@@ -81,11 +100,49 @@ function Home() {
         </div>
       </div>
 
-      <div className='my-10'>
+      <div className='my-10 text-xl'>
         <p>Our Specialities</p>
       </div>
 
-      <Specialities/>
+      <Specialities />
+
+      <div className='bg-[#DFEBE9] mt-5 sm:mt-24 py-2 sm:py-6'>
+        <div className="sm:text-4xl mt-3">Testimonials</div>
+        <div className=" mt-3 sm:mt-6 grid sm:grid-cols-3 grid-cols-2 justify-center xl:mx-60  lg:mx-48 md:mx-16 sm:mx-2 text-white">
+          <div className="bg-[#6E4975] rounded-md mx-1 py-1 my-1 sm:my-0">
+            <div className='text-xs sm:text-lg'>
+              Amith Anandh
+            </div>
+            <div className="text-xs sm:text-base sm:my-8">“I had an awesome consultation with the doctor. It's absolutely more than just an app. Your all need to experience this.”</div>
+          </div>
+          <div className="bg-[#6E4975] rounded-md mx-1 py-1 my-1 sm:my-0">
+            <div className='text-xs sm:text-lg'>
+              Sanjay Dhath
+            </div>
+            <div className="text-xs sm:text-base sm:my-8">“I'm really very happy to get such an opportunity to consult with world reputed doctors from home. I'm much better now than before.”</div>
+          </div>
+          <div className="bg-[#6E4975] rounded-md  mx-16 sm:mx-1 py-1 my-1 sm:my-0 sm:col-auto col-span-2">
+            <div className='text-xs sm:text-lg'>
+              Vajeeha
+            </div>
+            <div className="text-xs sm:text-base sm:my-8">“SeekMed is a very useful app for consulting best doctors. I've consulted with one of the best orthopedic doctors of India and it's helped me get the best treatment sitting at home.”</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="">
+        <div className="my-10 text-xl font-medium">
+        How it works
+        </div>
+        <div className="grid grid-cols-3 border-b-2 py-4 mx-24">
+          <div className="div">1.Choose doctor specialisation</div>
+          <div className="div">2. Select doctors availability</div>
+          <div className="div">3. Schedule Appointment</div>
+        </div>
+      </div>
+
+      <Footer/>
+
 
       <button onClick={handleLogout}>logout</button>
 

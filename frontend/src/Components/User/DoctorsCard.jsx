@@ -1,23 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Axios } from '../../Axios/users'
+import React from 'react'
 
-function DoctorsCard() {
-    const [array, setArray] = useState(null)
-
-    const fetchData = async () => {
-        await Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
-            if (response.data) {
-                setArray(response.data.doctors)
-            }
-        }).catch((error) => {
-            console.log("error", error)
-        })
-    }
-
-    useEffect(() => {
-        fetchData()
-    }, [])
-
+function DoctorsCard({array}) {
 
     return (
         <div>

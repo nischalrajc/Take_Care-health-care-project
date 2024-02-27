@@ -15,7 +15,7 @@ function AddSpecialisation() {
     const [image, setImage] = useState(null)
     const [specialisation, setSpecialisation] = useState('')
     const [description, setDescription] = useState('')
-    const [error, setError] = useState('')
+    // const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
@@ -53,16 +53,18 @@ function AddSpecialisation() {
         if (response.status === 200) {
             const image_url = response.data.secure_url
 
-            await Axios.post('/add_specialisation', { specialisation , description, image_url }).then((response) => {
+            await Axios.post('/add_specialisation', { specialisation, description, image_url }).then((response) => {
                 setLoading(false)
                 if (response) {
                     Swal.fire({
-                        title: "Good job!",
-                        text: "Doctor added Succesfully!",
-                        icon: "success"
+                        position: "top-end",
+                        icon: "success",
+                        title: "Specialisation added",
+                        showConfirmButton: false,
+                        timer: 1500
                     });
 
-                    navigate('/admin/doctors')
+                    navigate('/admin/specialisation')
 
                 }
             }).catch((error) => {
@@ -70,7 +72,7 @@ function AddSpecialisation() {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Doctor already exist!",
+                    text: "Something went wrong!",
                 });
             })
         } else {
@@ -133,7 +135,7 @@ function AddSpecialisation() {
                         </div>
 
                         {/* erorrr handling */}
-                        <div>
+                        {/* <div>
                             {
                                 error && (
                                     <div className='text-red-500 font-medium'>
@@ -141,7 +143,7 @@ function AddSpecialisation() {
                                     </div>
                                 )
                             }
-                        </div>
+                        </div> */}
 
                         <div className=' p-4 mt-3'>
                             <button type="submit" className=" bg-[#E38569] text-white rounded-md  px-6 sm:px-14 py-2 sm:py-2">

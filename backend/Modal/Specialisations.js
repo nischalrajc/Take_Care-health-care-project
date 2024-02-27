@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const specialisationSchema = mongoose.Schema({
+const specialisationSchema = new mongoose.Schema({
     specialisation:{
         type:String,
         required:true

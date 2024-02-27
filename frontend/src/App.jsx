@@ -23,6 +23,7 @@ import AddDoctors from "./Pages/Admin/AddDoctors";
 import ViewDoctor from "./Pages/Admin/ViewDoctor";
 import Specialisation from "./Pages/Admin/Specialisation";
 import AddSpecialisation from "./Pages/Admin/AddSpecialisation";
+import AllSpecialist from "./Pages/User/AllSpecialist";
 
 function App() {
   return (
@@ -37,8 +38,9 @@ function App() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/forget_password/otp" element={<PasswordOTP />} />
         <Route path="/newpassword" element={<NewPassword />} />
+        <Route index={true} path="/" element={<Home />} />
+        <Route path="/specialist" element={<AllSpecialist/>}/>
         <Route path="" element={<PrivateRoutesUser />}>
-          <Route index={true} path="/" element={<Home />} />
         </Route>
 
         <Route path="/doctor_login" element={<LoginDoctor />} />

@@ -1,8 +1,7 @@
 import React, { useEffect, useState , useRef } from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import {Axios as DoctorAxios} from '../../Axios/doctor'
-// import {Axios as UserAxios} from '../../Axios/users'
-import * as UserAxios from '../../Axios/users';
+import {Axios as UserAxios} from '../../Axios/users'
 import BeatLoader from "react-spinners/BeatLoader";
 import { useNavigate,useLocation } from 'react-router-dom';
 
@@ -12,6 +11,7 @@ function ForgetPassword() {
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+
     const axiosRef = useRef(UserAxios);
 
     const navigate = useNavigate()

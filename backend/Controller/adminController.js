@@ -1,6 +1,7 @@
 import Admin from '../Modal/Admin.js'
 import Doctors from '../Modal/Doctor.js'
 import Users from '../Modal/Users.js'
+import Specialisations from '../Modal/Specialisations.js'
 import { generateTokenAdmin } from '../utils/generateToken.js'
 import bcrypt from 'bcrypt'
 
@@ -46,23 +47,23 @@ export const getAllDoctors = async (req, res) => {
     }
 }
 
-export const viewDoctorDetails = async (req,res) =>{
-    try{
+export const viewDoctorDetails = async (req, res) => {
+    try {
         const id = req.params.id
         const doctor = await Doctors.findById(id)
-        
-        if(doctor){
-            res.status(201).json({doctor})
+
+        if (doctor) {
+            res.status(201).json({ doctor })
         }
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
     }
 }
 
-export const updateDoctor = async (req,res) =>{
+export const updateDoctor = async (req, res) => {
     const { name, email, bio, gender, phone, specialisation, fees, description, image_url, doctorId } = req.body;
     try {
-        const doctor = await Doctors.findById( doctorId )
+        const doctor = await Doctors.findById(doctorId)
 
         if (doctor) {
             doctor.name = name
@@ -99,8 +100,8 @@ export const updateDoctor = async (req,res) =>{
     }
 }
 
-export const deleteDoctor = async (req,res) =>{
-    try{
+export const deleteDoctor = async (req, res) => {
+    try {
         const id = req.params.id
         const doctor = await Doctors.findOneAndDelete({ _id: id });
 
@@ -110,8 +111,8 @@ export const deleteDoctor = async (req,res) =>{
             return res.status(404).json({ message: 'Doctor not found' });
         }
 
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
     }
 }
 
@@ -155,7 +156,7 @@ export const rejectDoctorRequest = async (req, res) => {
         if (doctor) {
             const deletedDoctor = await Doctors.findByIdAndDelete(id);
             if (deletedDoctor) {
-                return res.status(200).json({message:"Doctor rejected successfully"});
+                return res.status(200).json({ message: "Doctor rejected successfully" });
             } else {
                 return res.status(404).json({ message: 'Doctor not found' });
             }
@@ -166,10 +167,10 @@ export const rejectDoctorRequest = async (req, res) => {
     }
 }
 
-export const addDoctors = async (req,res) =>{
-    const {name,email,bio,gender,phone,specialisation,fees,description,image_url} = req.body;
-   
-    try{
+export const addDoctors = async (req, res) => {
+    const { name, email, bio, gender, phone, specialisation, fees, description, image_url } = req.body;
+
+    try {
         const existingDoctor = await Doctors.findOne({ email })
         if (existingDoctor) {
             return res.status(401).json({ error: "doctor already exist" });
@@ -183,15 +184,15 @@ export const addDoctors = async (req,res) =>{
             password: 123456,
             specialisation: specialisation,
             bio: bio,
-            fees:fees,
-            description:description,
-            image:image_url,
+            fees: fees,
+            description: description,
+            image: image_url,
             authorised: true
         })
 
         res.status(201).json({ message: "Added new doctor successfully" })
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
     }
 }
 
@@ -229,12 +230,32 @@ export const unblockUser = async (req, res) => {
     }
 }
 
-export const specialisations = async (req,res) =>{
-    try{
-        // const specialisation = await 
-        res.status(200).json({message:"successfully fetched data"})
-    }catch(error){
-        console.log("error",error)
+export const specialisations = async (req, res) => {
+    try {
+        const specialisation = await Specialisations.find()
+        if (specialisation) {
+            res.status(200).json(specialisation)
+        }
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const addSpecialisation = async (req, res) => {
+    try {
+        const { specialisation, description, image_url } = req.body;
+        const specialities = await Specialisations.create({
+            specialisation: specialisation,
+            description: description,
+            image: image_url
+        })
+        if (specialisation) {
+            res.status(200).json({ message: "addes succesfully" })
+        } else {
+            res.status(401).json({ message: "failed to add " })
+        }
+    } catch (error) {
+        console.log("error", error)
     }
 }
 

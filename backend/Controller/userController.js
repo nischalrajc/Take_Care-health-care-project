@@ -4,6 +4,7 @@ import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
 import Specialisations from "../Modal/Specialisations.js";
+import { getSpeciality,getSpecialisationDoctors } from "../Services/user.js";
 
 
 export const userSignup = async (req, res) => {
@@ -133,6 +134,23 @@ export const getSpecialities = async (req,res) =>{
     try{
         const specialisation = await Specialisations.find()
         res.status(200).json({specialisation})
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
+export const viewSpecialities = async (req,res) =>{
+    const id = req.params.id
+    try{
+        const specialisation = await getSpeciality(id)
+        
+        if(specialisation){
+            const doctors = await getSpecialisationDoctors(specialisation.specialisation)
+            
+            res.status(201).json({specialisation,doctors})
+        }else{
+            res.status(401)
+        }
     }catch(error){
         console.log("error",error)
     }

@@ -61,7 +61,7 @@ function Home() {
         <p>"Your Journey to Wellness Starts Here - Discover the Magic of Take Care."</p>
       </div>
 
-      <DoctorsCard array={array}/>
+      <DoctorsCard array={array ? array.slice(0, 4) : []}/>
 
       <div className='my-6'>
         <button className='bg-[#E38569] text-white font-inder px-6 py-1 rounded-md' onClick={()=>navigate('/specialist')}>All Specialist</button>

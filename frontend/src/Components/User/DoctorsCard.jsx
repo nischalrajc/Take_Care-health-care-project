@@ -1,6 +1,6 @@
 import React from 'react'
 
-function DoctorsCard({array}) {
+function DoctorsCard({array,appointment}) {
 
     return (
         <div>
@@ -13,6 +13,15 @@ function DoctorsCard({array}) {
                                     <img className="w-full h-full object-cover" src={doctor?.image} alt="doctors" />
                                 </div>
                                 <div className="mt-2">{doctor?.name}</div>
+                                {
+                                    appointment && (
+                                        <div className="mt-2">
+                                            <button className='bg-[#E38569] text-white px-6 rounded-md py-1'>
+                                                Schedule Appointment
+                                            </button>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </>
                     ))

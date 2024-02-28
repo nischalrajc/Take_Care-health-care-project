@@ -24,6 +24,7 @@ import ViewDoctor from "./Pages/Admin/ViewDoctor";
 import Specialisation from "./Pages/Admin/Specialisation";
 import AddSpecialisation from "./Pages/Admin/AddSpecialisation";
 import AllSpecialist from "./Pages/User/AllSpecialist";
+import Specialities from "./Pages/User/Specialities";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/newpassword" element={<NewPassword />} />
         <Route index={true} path="/" element={<Home />} />
         <Route path="/specialist" element={<AllSpecialist/>}/>
+        <Route path="/specialities/:id" element={<Specialities/>}/>
         <Route path="" element={<PrivateRoutesUser />}>
         </Route>
 

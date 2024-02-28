@@ -53,7 +53,7 @@ export const viewDoctorDetails = async (req, res) => {
         const doctor = await Doctors.findById(id)
 
         if (doctor) {
-            res.status(201).json({ doctor })
+            res.status(201).json(doctor)
         }
     } catch (error) {
         console.log("error", error)

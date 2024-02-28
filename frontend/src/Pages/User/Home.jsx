@@ -143,7 +143,6 @@ function Home() {
 
       <Footer/>
 
-
       <button onClick={handleLogout}>logout</button>
 
     </div>

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function NavBar() {
   const navigate = useNavigate();
@@ -20,9 +21,9 @@ function NavBar() {
           <img className="sm:w-52 w-40" src="/take-care-logo.png" alt="Icon" />
         </div>
         <div className="hidden sm:grid grid-cols-4 items-center">
-          <div className="div">Home</div>
-          <div className="div">Tips</div>
-          <div className="div">About</div>
+          <div className="div"><Link to="/">Home</Link></div>
+          <div className="div"><Link>Tips</Link></div>
+          <div className="div"><Link>About</Link></div>
           <div className="div">
             {userInfo ? (
               <button className="border border-black rounded px-3 py-1" >

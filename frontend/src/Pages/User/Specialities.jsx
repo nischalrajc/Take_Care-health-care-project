@@ -8,7 +8,7 @@ import Footer from '../../Components/User/Footer'
 
 function Specialities() {
     const [specialisation, setspecialisation] = useState('')
-    const [array,setArray] = useState(null)
+    const [array, setArray] = useState(null)
 
     const { id } = useParams()
 
@@ -20,14 +20,16 @@ function Specialities() {
             }
         }).catch((error) => {
             console.log("error", error)
-        })
+        }).finally(() => {
+            // Scroll to the top of the page after the data has loaded
+            window.scrollTo(0, 0);
+        });
 
-    },[id])
+    }, [id])
 
     return (
         <div>
             <NavBar />
-
             <div className='font-medium my-6'>
                 {specialisation.specialisation}
             </div>
@@ -39,11 +41,8 @@ function Specialities() {
             <div className="my-6 mx-10">
                 {specialisation.description}
             </div>
-
-            <div>
-                <DoctorsCard array={array} appointment={true}/>
-            </div>
-            <Footer/>
+            <DoctorsCard array={array} appointment={true} />
+            <Footer />
         </div>
     )
 }

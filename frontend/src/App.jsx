@@ -25,6 +25,7 @@ import Specialisation from "./Pages/Admin/Specialisation";
 import AddSpecialisation from "./Pages/Admin/AddSpecialisation";
 import AllSpecialist from "./Pages/User/AllSpecialist";
 import Specialities from "./Pages/User/Specialities";
+import DoctorDetails from "./Pages/User/DoctorDetails";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route index={true} path="/" element={<Home />} />
         <Route path="/specialist" element={<AllSpecialist/>}/>
         <Route path="/specialities/:id" element={<Specialities/>}/>
+        <Route path="/doctor_details/:id" element={<DoctorDetails/>}/>
         <Route path="" element={<PrivateRoutesUser />}>
         </Route>
 

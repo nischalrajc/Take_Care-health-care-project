@@ -19,7 +19,7 @@ function AllSpecialist() {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    },[])
 
 
     return (

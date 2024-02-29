@@ -18,7 +18,10 @@ function DoctorDetails() {
             }
         }).catch((error) => {
             console.log("error", error)
-        })
+        }).finally(() => {
+            // Scroll to the top of the page after the data has loaded
+            window.scrollTo(0, 0);
+        });
     }, [id])
 
     return (

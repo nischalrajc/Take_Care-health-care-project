@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function DoctorsCard({array,appointment}) {
 
@@ -10,7 +11,7 @@ function DoctorsCard({array,appointment}) {
                         <>
                             <div>
                                 <div key={index} className='border rounded-md border-black mx-2 sm:h-96 h-48' style={{ overflow: 'hidden'}} >
-                                    <img className="w-full h-full object-cover" src={doctor?.image} alt="doctors" />
+                                    <Link to={`/doctor_details/${doctor._id}`}><img className="w-full h-full object-cover" src={doctor?.image} alt="doctors" /></Link>
                                 </div>
                                 <div className="mt-2">{doctor?.name}</div>
                                 {

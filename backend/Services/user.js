@@ -10,3 +10,8 @@ export const getSpecialisationDoctors = async (specialisation) =>{
     const doctors = await Doctors.find({specialisation:specialisation})
     return doctors
 }
+ 
+export const fetchDoctorDetails = async (id) =>{
+    const doctor = await Doctors.findById(id)
+    return doctor
+}

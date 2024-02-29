@@ -120,6 +120,7 @@ function AddDoctors() {
                     title: "Oops...",
                     text: "Doctor already exist!",
                 });
+                setLoading(false)
             })
         } else {
             Swal.fire({

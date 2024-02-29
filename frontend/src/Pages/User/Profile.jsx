@@ -1,27 +1,81 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ProfileBar from '../../Components/User/ProfileBar'
 import ProfileHeader from '../../Components/User/ProfileHeader'
-import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { userLogin } from '../../Slices/userSlice'
+import { Axios } from '../../Axios/users'
+import Swal from 'sweetalert2'
 
 function Profile() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [gender, setGender] = useState('')
     const [phone, setPhone] = useState('')
+    const [error, setError] = useState('')
+    const [id, setUserId] = useState('')
 
+    const dispatch = useDispatch()
     const userInfo = useSelector((state) => state.user.user)
-
-    const submitHandler = async () => {
-        console.log("kk")
-    }
 
     useEffect(() => {
         setName(userInfo?.name || '');
         setEmail(userInfo?.email || '');
         setGender(userInfo?.gender || '');
         setPhone(userInfo?.phoneNumber || '');
+        setUserId(userInfo?._id || '')
     }, [userInfo]);
+
+    const validateEmail = (email) => {
+        const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        return regex.test(email);
+    };
+
+    const validatePhone = (phone) => {
+        const regex = /^[0-9]{10}$/;
+        return regex.test(phone);
+    }
+
+    const submitHandler = async (e) => {
+        e.preventDefault()
+
+        if (!validateEmail(email)) {
+            setError('Invalid email format');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+        if (!validatePhone(phone)) {
+            setError('Invalid phone number format');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+        Axios.put('/editProfile', { name, email, gender, phone, id }, { withCredentials: true }).then((response) => {
+            if (response.data) {
+                console.log(response.data)
+                Swal.fire({
+                    // title: "Good job!",
+                    text: "Profile Updated",
+                    icon: "success"
+                });
+                dispatch(userLogin({ ...response.data }))
+            }
+        }).catch((error) => {
+            console.log("error", error)
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        })
+
+
+    }
+
 
     return (
         <div>
@@ -98,6 +152,17 @@ function Profile() {
                                 onChange={(e) => setPhone(e.target.value)}
                                 placeholder='Phone' style={{ paddingLeft: '10px' }} required />
                         </div>
+                    </div>
+
+                    {/* erorrr handling */}
+                    <div>
+                        {
+                            error && (
+                                <div className='text-red-500 font-medium'>
+                                    {error}
+                                </div>
+                            )
+                        }
                     </div>
 
                     <div className=' p-4 mt-3'>

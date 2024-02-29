@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { IoIosNotifications } from "react-icons/io";
+
 
 function ProfileBar() {
     const navigate = useNavigate();
@@ -20,7 +22,8 @@ function ProfileBar() {
                 <div className="hidden sm:grid grid-cols-4 items-center">
                     <div className="div"><Link to="/">Home</Link></div>
                     <div className="div"><Link>Tips</Link></div>
-                    <div className="div"><Link>No</Link></div>
+                    <div className="mx-auto"><Link><IoIosNotifications className="text-2xl" /></Link>
+                    </div>
                     <div className="div">
                         <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/profile')} >
                             Log out
@@ -38,9 +41,9 @@ function ProfileBar() {
 
             {isMenuOpen && (
                 <div className="sm:hidden flex flex-col ">
-                    <div className=" hover:bg-[#DFEBE9] p-2">Home</div>
-                    <div className="hover:bg-[#DFEBE9] p-2">Tips</div>
-                    <div className="hover:bg-[#DFEBE9] p-2">no</div>
+                    <div className=" hover:bg-[#DFEBE9] p-2"><Link to="/">Home</Link></div>
+                    <div className="hover:bg-[#DFEBE9] p-2"><Link>Tips</Link></div>
+                    <div className="hover:bg-[#DFEBE9] p-2"><Link><IoIosNotifications /></Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2">
                         <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/login')}>
                             Log out

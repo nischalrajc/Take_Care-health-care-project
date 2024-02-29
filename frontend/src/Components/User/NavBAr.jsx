@@ -26,7 +26,7 @@ function NavBar() {
           <div className="div"><Link>About</Link></div>
           <div className="div">
             {userInfo ? (
-              <button className="border border-black rounded px-3 py-1" >
+              <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/profile')} >
                 Profile
               </button>
             ) : (
@@ -63,9 +63,6 @@ function NavBar() {
                 </button>
               )
             }
-            {/* <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/login')}>
-              Login
-            </button> */}
           </div>
         </div>
       )}

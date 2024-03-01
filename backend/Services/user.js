@@ -39,3 +39,13 @@ export const userProfileEdit = async (req) => {
         console.log("database error", error)
     }
 }
+
+export const getDoctors = async ()=>{
+    const doctor = await Doctors.find({authorised:true})
+    return doctor
+}
+
+export const getSpecialisation = async ()=>{
+    const specialisation = await Specialisations.find()
+    return specialisation
+}

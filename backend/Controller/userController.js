@@ -124,7 +124,7 @@ export const register_user = async (req, res) => {
 export const getDoctorDetails = async (req, res) => {
     try {
         const doctors = await Doctors.find({ authorised: true })
-        res.status(200).json({ doctors })
+        res.status(200).json({doctors})
     } catch (error) {
         console.log("error", error)
     }

@@ -27,6 +27,7 @@ import AllSpecialist from "./Pages/User/AllSpecialist";
 import Specialities from "./Pages/User/Specialities";
 import DoctorDetails from "./Pages/User/DoctorDetails";
 import Profile from "./Pages/User/Profile";
+import FindOne from "./Pages/User/FindOne";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/specialist" element={<AllSpecialist />} />
         <Route path="/specialities/:id" element={<Specialities />} />
         <Route path="/doctor_details/:id" element={<DoctorDetails />} />
+        <Route path="/findone" element={<FindOne />} />
 
         <Route path="" element={<PrivateRoutesUser />}>
           <Route path="/profile" element={<Profile/>} />

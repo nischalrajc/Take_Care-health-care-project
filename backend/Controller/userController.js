@@ -4,7 +4,7 @@ import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
 import Specialisations from "../Modal/Specialisations.js";
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, userProfileEdit } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit } from "../Services/user.js";
 
 
 export const userSignup = async (req, res) => {
@@ -127,6 +127,50 @@ export const getDoctorDetails = async (req, res) => {
         res.status(200).json({doctors})
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const searchdoctor = async (req,res)=>{
+    try{
+        const doctors = await getDoctors()
+        const specialities = await getSpecialisation()
+
+        if(doctors && specialities){
+            res.status(200).json({doctors:doctors,specialities:specialities})
+        }else{
+            res.status(401)
+        }
+    }catch(error){
+        console.log("error",error)
+    }
+}
+
+export const filterDoctor = async (req,res) =>{
+    try{
+        const {speciality,gender} = req.body;
+
+        const doctors = await getSpecialisationDoctors(speciality)
+        
+        if (doctors) {
+            
+            const filteredDoctors = doctors.filter((doctor) => {
+               
+                return (
+                    (gender.male && doctor.gender === 'male') ||
+                    (gender.female && doctor.gender === 'female')
+                );
+            });
+
+            console.log(filteredDoctors);
+            
+            if(filteredDoctors){
+                res.status(201).json({filteredDoctors})
+            }
+            res.json({ doctors: filteredDoctors });
+        }
+
+    }catch(error){
+        console.log("error",error)
     }
 }
 

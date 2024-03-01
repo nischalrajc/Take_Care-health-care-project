@@ -3,16 +3,25 @@ import NavBar from '../../Components/User/NavBAr'
 import { useEffect, useState } from 'react'
 import { Axios } from '../../Axios/users'
 import Footer from '../../Components/User/Footer'
+import { Link } from 'react-router-dom'
 
 function FindOne() {
     const [showForm, setShowForm] = useState(true);
     const [array, setArray] = useState(null)
+    const [specialisation, setSpecialisation] = useState(null)
+    const [speciality, setSpeciality] = useState('')
+    const [gender, setGender] = useState({
+        male: false,
+        female: false,
+    });
 
     useEffect(() => {
-        Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
+
+        Axios.get('/searchDoctors', { withCredentials: true }).then((response) => {
             if (response.data) {
                 console.log(response.data)
                 setArray(response.data.doctors)
+                setSpecialisation(response.data.specialities)
             }
         }).catch((error) => {
             console.log(error)
@@ -24,6 +33,26 @@ function FindOne() {
         setShowForm(!showForm);
     };
 
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        setGender((prevGender) => ({
+            ...prevGender,
+            [name]: checked,
+        }));
+    };
+
+    const applyHandler = (e) => {
+        e.preventDefault()
+
+        Axios.post('/filterDoctor',{speciality,gender},{withCredentials:true}).then((response)=>{
+            if(response.data){
+                setArray(response.data.filteredDoctors)
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
+
     return (
         <div>
             <NavBar />
@@ -32,11 +61,11 @@ function FindOne() {
             </div>
 
             <div className='text-end px-6 '>
-            <a onClick={handleToggleForm} className="sm:hidden lg:hidden mt-2 cursor-pointer">
-                {showForm ? 'Hide Filter' : 'Apply Filters'}
-            </a>
+                <Link onClick={handleToggleForm} className="sm:hidden lg:hidden mt-2 cursor-pointer">
+                    {showForm ? 'Hide Filter' : 'Apply Filters'}
+                </Link>
             </div>
-            
+
 
             <div className=" flex md:me-4">
                 <div className=" lg:w-4/5" style={{ maxHeight: '480px', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'transparent transparent' }}>
@@ -71,30 +100,46 @@ function FindOne() {
                         <div className='text-start font-inder'>Filter</div>
 
                         <div className=' text-start mt-2 font-inder'>Specialisation</div>
-                        <select className='border mt-2 border-black'>
+                        <select
+                           value={speciality}
+                           onChange={(e) => setSpeciality(e.target.value)}
+                            className='border mt-2 border-black'>
                             <option value="all">All</option>
-                            <option value="specialization1">Specialization 1</option>
-                            <option value="specialization2">Specialization 2</option>
+                            {
+                                specialisation?.map((item, index) => (
+                                    <option key={index} value={item.specialisation}>{item.specialisation}</option>
+                                ))
+                            }
                         </select>
 
                         <div className="font-inder mt-2">Sex</div>
                         <div className="">
                             <label className='mr-4'>
-                                <input type="checkbox" name="gender" value="male" />
+                                <input
+                                    type="checkbox"
+                                    name="male"
+                                    checked={gender.male}
+                                    onChange={handleCheckboxChange}
+                                />
                                 Male
                             </label>
                             <label>
-                                <input type="checkbox" name="gender" value="male" />
+                                <input
+                                    type="checkbox"
+                                    name="female"
+                                    checked={gender.female}
+                                    onChange={handleCheckboxChange}
+                                />
                                 Female
                             </label>
                         </div>
 
                         <div className='flex mt-2'>
-                            <button type="submit" className='bg-[#E38569] px-4 rounded-md text-white py-1'>Apply</button>
+                            <button type="submit" className='bg-[#E38569] px-4 rounded-md text-white py-1' onClick={applyHandler}>Apply</button>
                             <button type="reset" className='text-[#E38569] ms-4'>Reset</button>
                         </div>
                     </form>
-                    
+
                 </div>
 
             </div>

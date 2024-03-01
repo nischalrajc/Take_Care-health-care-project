@@ -1,17 +1,30 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { IoIosNotifications } from "react-icons/io";
+import { Axios } from '../../Axios/users';
+import { useDispatch } from 'react-redux';
+import { userLogout } from '../../Slices/userSlice';
 
 
 function ProfileBar() {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    const dispatch = useDispatch()
+
     const handleToggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const handleLogout = () => {
+        Axios.get('/logout', { withCredentials: true }).then((response) => {
+            if (response.data) {
+                dispatch(userLogout())
+                navigate('/')
+            }
+        })
+    }
 
     return (
         <div>
@@ -25,7 +38,7 @@ function ProfileBar() {
                     <div className="mx-auto"><Link><IoIosNotifications className="text-2xl" /></Link>
                     </div>
                     <div className="div">
-                        <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/profile')} >
+                        <button className="border border-black rounded px-3 py-1" onClick={handleLogout} >
                             Log out
                         </button>
                     </div>
@@ -45,7 +58,7 @@ function ProfileBar() {
                     <div className="hover:bg-[#DFEBE9] p-2"><Link>Tips</Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2"><Link><IoIosNotifications /></Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2">
-                        <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/login')}>
+                        <button className="border border-black rounded px-3 py-1" onClick={handleLogout}>
                             Log out
                         </button>
                     </div>

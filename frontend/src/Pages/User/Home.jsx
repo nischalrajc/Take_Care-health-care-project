@@ -1,19 +1,16 @@
 import React from 'react'
 import { Axios } from '../../Axios/users'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { userLogout } from '../../Slices/userSlice'
+import { useState,useEffect } from 'react'
 import NavBAr from '../../Components/User/NavBAr'
 import DoctorsCard from '../../Components/User/DoctorsCard'
 import Specialities from '../../Components/User/Specialities'
 import Footer from '../../Components/User/Footer'
-import { useState,useEffect } from 'react'
 
 function Home() {
   const [array, setArray] = useState(null)
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const fetchData = async () => {
       await Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
@@ -29,16 +26,6 @@ function Home() {
       fetchData()
   }, [])
 
-
-
-  const handleLogout = () => {
-    Axios.get('/logout', { withCredentials: true }).then((response) => {
-      if (response.data) {
-        dispatch(userLogout())
-        navigate('/')
-      }
-    })
-  }
   return (
     <div>
       <NavBAr />
@@ -81,7 +68,7 @@ function Home() {
               <img className='w-full h-full object-cover' src='./male-doctor-listening-to-teenage-boy-lungs-clipart-23600.jpg' alt='img'></img>
             </div>
             <div className="text-xs sm:text-base my-2">Lets find the specialised ones</div>
-            <button className='bg-white border border-black px-3 py-1'>Find Out</button>
+            <button className='bg-white border border-black px-3 py-1' onClick={()=>navigate('/findone')}>Find Out</button>
           </div>
           <div className="">
             <div className="h-28 w-28 sm:h-32 sm:w-32 md:h-40 md:w-40 lg:h-60 lg:w-60  mx-auto">
@@ -142,8 +129,6 @@ function Home() {
       </div>
 
       <Footer/>
-
-      <button onClick={handleLogout}>logout</button>
 
     </div>
   )

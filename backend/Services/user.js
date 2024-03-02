@@ -8,8 +8,15 @@ export const getSpeciality = async (id) => {
 }
 
 export const getSpecialisationDoctors = async (specialisation) => {
-    const doctors = await Doctors.find({ specialisation: specialisation })
-    return doctors
+    let doctors;
+
+    if (specialisation === 'All') {
+        doctors = await Doctors.find();
+    } else {
+        doctors = await Doctors.find({ specialisation: specialisation });
+    }
+
+    return doctors;
 }
 
 export const fetchDoctorDetails = async (id) => {
@@ -22,16 +29,16 @@ export const userProfileEdit = async (req) => {
         const { name, email, gender, phone, id } = req.body
         const user = await Users.findById(id)
 
-        if(user){
-            user.name=name,
-            user.email=email,
-            user.gender=gender,
-            user.phoneNumber=phone
+        if (user) {
+            user.name = name,
+                user.email = email,
+                user.gender = gender,
+                user.phoneNumber = phone
 
             await user.save();
-            
+
             return user
-        }else{
+        } else {
             return false
         }
 
@@ -40,12 +47,12 @@ export const userProfileEdit = async (req) => {
     }
 }
 
-export const getDoctors = async ()=>{
-    const doctor = await Doctors.find({authorised:true})
+export const getDoctors = async () => {
+    const doctor = await Doctors.find({ authorised: true })
     return doctor
 }
 
-export const getSpecialisation = async ()=>{
+export const getSpecialisation = async () => {
     const specialisation = await Specialisations.find()
     return specialisation
 }

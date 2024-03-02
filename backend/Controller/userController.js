@@ -124,53 +124,55 @@ export const register_user = async (req, res) => {
 export const getDoctorDetails = async (req, res) => {
     try {
         const doctors = await Doctors.find({ authorised: true })
-        res.status(200).json({doctors})
+        res.status(200).json({ doctors })
     } catch (error) {
         console.log("error", error)
     }
 }
 
-export const searchdoctor = async (req,res)=>{
-    try{
+export const searchdoctor = async (req, res) => {
+    try {
         const doctors = await getDoctors()
         const specialities = await getSpecialisation()
 
-        if(doctors && specialities){
-            res.status(200).json({doctors:doctors,specialities:specialities})
-        }else{
+        if (doctors && specialities) {
+            res.status(200).json({ doctors: doctors, specialities: specialities })
+        } else {
             res.status(401)
         }
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
     }
 }
 
-export const filterDoctor = async (req,res) =>{
-    try{
-        const {speciality,gender} = req.body;
+export const filterDoctor = async (req, res) => {
+    try {
+        const { speciality, gender } = req.body;
 
         const doctors = await getSpecialisationDoctors(speciality)
-        
         if (doctors) {
-            
+
+            if (!gender.male && !gender.female) {
+                res.status(201).json({ doctors });
+                return;
+            }
+
             const filteredDoctors = doctors.filter((doctor) => {
-               
                 return (
                     (gender.male && doctor.gender === 'male') ||
                     (gender.female && doctor.gender === 'female')
                 );
             });
 
-            console.log(filteredDoctors);
-            
-            if(filteredDoctors){
-                res.status(201).json({filteredDoctors})
+            if (filteredDoctors.length > 0) {
+                res.status(201).json({ doctors: filteredDoctors });
+            } else {
+                res.json({ message: 'No matching doctors found.' });
             }
-            res.json({ doctors: filteredDoctors });
         }
 
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
     }
 }
 

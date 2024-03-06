@@ -38,6 +38,9 @@ const doctorSchema = new mongoose.Schema({
     fees:{
         type:Number
     },
+    registration_certicatate:{
+        type:String
+    },
     authorised:{
         type:Boolean,
         required:true

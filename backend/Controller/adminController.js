@@ -4,6 +4,7 @@ import Users from '../Modal/Users.js'
 import Specialisations from '../Modal/Specialisations.js'
 import { generateTokenAdmin } from '../utils/generateToken.js'
 import bcrypt from 'bcrypt'
+import { doctorNotauthorised } from '../Services/Admin.js'
 
 export const loginAdmin = async (req, res) => {
     const { email, password } = req.body
@@ -118,7 +119,7 @@ export const deleteDoctor = async (req, res) => {
 
 export const doctorsRequest = async (req, res) => {
     try {
-        const doctors = await Doctors.find({ authorised: false })
+        const doctors = await doctorNotauthorised()
         res.status(200).json(doctors)
     } catch (error) {
         console.log("error", error)

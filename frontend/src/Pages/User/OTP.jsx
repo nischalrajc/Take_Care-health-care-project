@@ -21,7 +21,6 @@ function OTP() {
     const location = useLocation();
 
     const resendHandler = () => {
-
         Axios.post('/resend_OTP', { email }).then((response) => {
             if (response.data.otp) {
                 setOtp(response.data.otp)
@@ -29,7 +28,6 @@ function OTP() {
         })
 
         setTimer(60);
-
         setResendDisabled(true);
     };
 

@@ -5,10 +5,12 @@ import { Axios } from '../../Axios/users'
 import NavBar from '../../Components/User/NavBAr'
 import DoctorsCard from '../../Components/User/DoctorsCard'
 import Footer from '../../Components/User/Footer'
+import AppointmentScheduleModal from '../../Components/User/AppointmentScheduleModal'
 
 function Specialities() {
     const [specialisation, setspecialisation] = useState('')
     const [array, setArray] = useState(null)
+    const [showModal, setShowModal] = useState(false)
 
     const { id } = useParams()
 
@@ -41,7 +43,14 @@ function Specialities() {
             <div className="my-6 mx-10">
                 {specialisation.description}
             </div>
-            <DoctorsCard array={array} appointment={true} />
+            <DoctorsCard array={array} appointment={true} setShowModal={setShowModal}/>
+
+            {showModal && <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 flex items-center justify-center">
+                <div className="border border-black rounded-lg shadow-md bg-white">
+                    <AppointmentScheduleModal isOpen={showModal} onclose={setShowModal} />
+                </div>
+            </div>}
+
             <Footer />
         </div>
     )

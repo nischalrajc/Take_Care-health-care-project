@@ -60,7 +60,7 @@ function OTP({formData,mailOTP}) {
             Axios.post('/register', formData, { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
                 if (response.data) {
                     console.log(response.data)
-                    navigate('/login')
+                    navigate('/doctor_login')
                     Swal.fire(response.data.message);
                     // toast.success(response.data.message,
                     //     {

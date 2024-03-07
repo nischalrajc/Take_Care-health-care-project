@@ -4,6 +4,13 @@ import Users from '../Modal/Users.js'
 import Specialisations from '../Modal/Specialisations.js'
 import { generateTokenAdmin } from '../utils/generateToken.js'
 import bcrypt from 'bcrypt'
+import { fileURLToPath } from 'url';
+import { dirname,join } from 'path';
+import { unlink } from 'fs/promises'
+import { doctorNotauthorised, getDoctor, removeDoctor } from '../Services/Admin.js'
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const loginAdmin = async (req, res) => {
     const { email, password } = req.body
@@ -118,7 +125,7 @@ export const deleteDoctor = async (req, res) => {
 
 export const doctorsRequest = async (req, res) => {
     try {
-        const doctors = await Doctors.find({ authorised: false })
+        const doctors = await doctorNotauthorised()
         res.status(200).json(doctors)
     } catch (error) {
         console.log("error", error)
@@ -151,17 +158,25 @@ export const acceptDoctorRequest = async (req, res) => {
 export const rejectDoctorRequest = async (req, res) => {
     try {
         const id = req.params.id
-        const doctor = await Doctors.findById(id)
+        const doctor = await getDoctor(id)
 
         if (doctor) {
-            const deletedDoctor = await Doctors.findByIdAndDelete(id);
+            const deletedDoctor = await removeDoctor(id)
+
             if (deletedDoctor) {
-                return res.status(200).json({ message: "Doctor rejected successfully" });
+                const pdfFilePath = join(__dirname, '..', 'Uploads', doctor.registration_certicatate);
+                try {
+                    await unlink(pdfFilePath);
+                    console.log('PDF file removed successfully');
+                } catch (unlinkError) {
+                    console.error('Error removing PDF file:', unlinkError);
+                }
+
+                res.status(200).json({ message: "Doctor rejected successfully" });
             } else {
-                return res.status(404).json({ message: 'Doctor not found' });
+                res.status(404).json({ message: 'Doctor not found' });
             }
         }
-
     } catch (error) {
         console.log("error", error)
     }

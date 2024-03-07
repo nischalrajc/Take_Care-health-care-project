@@ -28,6 +28,7 @@ import Specialities from "./Pages/User/Specialities";
 import DoctorDetails from "./Pages/User/DoctorDetails";
 import Profile from "./Pages/User/Profile";
 import FindOne from "./Pages/User/FindOne";
+import PDFviewer from "./Components/Admin/PDFviewer";
 
 function App() {
   return (
@@ -67,7 +68,7 @@ function App() {
           <Route path="/admin/doctors/view/:doctorId" element={<ViewDoctor />} />
           <Route path="/admin/specialisation" element={<Specialisation />} />
           <Route path="/admin/add_specialisation" element={<AddSpecialisation />} />
-
+          <Route path="/pdf-viewer" element={<PDFviewer/>}/>
         </Route>
 
       </Routes>

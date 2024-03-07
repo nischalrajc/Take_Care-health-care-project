@@ -1,5 +1,8 @@
 // Import required modules
 import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from 'path'
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -26,8 +29,16 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
+// Convert import.meta.url to a file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+
 // Create an instance of Express
 const app = express();
+
+// Serve static files from the 'uploads' folder
+app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
 
 // Middleware
 const corsOptions = {

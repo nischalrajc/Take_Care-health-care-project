@@ -92,22 +92,7 @@ function DoctorRegistration() {
             console.log("error", error)
         })
 
-        // Axios.post('/register', formData, { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } })
-        //     .then((response) => {
-        //         if (response.data.message) {
-        //             toast.success(response.data.message)
-        //             navigate('/doctor_login')
-        //         } else {
-        //             toast.error(response.data.error)
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
-
     };
-
-
 
     return (
 
@@ -297,7 +282,6 @@ function DoctorRegistration() {
                     </div>
                 )}
             </div>
-
         </div>
 
     )

@@ -1,4 +1,5 @@
 import Doctors from "../Modal/Doctor.js"
+import Slots from "../Modal/Slots.js"
 import Specialisations from "../Modal/Specialisations.js"
 
 export const getSpecialisations = async ()=>{
@@ -41,5 +42,43 @@ export const signUpDoctor = async(data)=>{
 
     }catch(error){
         console.log("error",error)
+    }
+}
+
+export const getSlots = async (doctorId)=>{
+    try {
+        const slot = await Slots.find({doctorId:doctorId})
+        if(slot){
+            return slot
+        }else{
+            return null
+        }
+    } catch (error) {
+        console.log("error",error)
+    }
+}
+
+export const validate_slot = async (formattedDate)=>{
+    try {
+        const alreadySloted = await Slots.findOne({date:formattedDate})
+        if(alreadySloted){
+            return true
+        }else{
+            return false
+        }
+    } catch (error) {
+        console.log("error",error)
+    }
+}
+
+export const add_slot = async(formattedDate,doctorId) =>{
+    try{
+        const slot = await Slots.create({
+            doctorId:doctorId,
+            date:formattedDate
+        })
+        return slot
+    }catch(error){
+        console.log("Error",error)
     }
 }

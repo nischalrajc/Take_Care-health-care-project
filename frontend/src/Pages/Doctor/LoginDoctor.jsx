@@ -45,7 +45,7 @@ function LoginDoctor() {
             return;
         }
 
-        Axios.post('/login', { email, password }, { withCredentials: true }).then((response) => {
+        Axios.post('/login', { email, password }).then((response) => {
             if (response.data.authorisation) {
                 Swal.fire({
                     title: "Cannot Login?",

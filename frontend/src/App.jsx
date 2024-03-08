@@ -29,6 +29,7 @@ import DoctorDetails from "./Pages/User/DoctorDetails";
 import Profile from "./Pages/User/Profile";
 import FindOne from "./Pages/User/FindOne";
 import PDFviewer from "./Components/Admin/PDFviewer";
+import Slots from "./Pages/Doctor/Slots";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
         <Route path="/doctor_register" element={<DoctorRegistration />} />
         <Route path="" element={<DoctorPrivateRoutes />}>
           <Route path="/doctor" element={<DoctorHome />} />
+          <Route path="/doctors_slots" element={<Slots />} />
         </Route>
 
         <Route path="/admin" element={<LoginAdmin />} />

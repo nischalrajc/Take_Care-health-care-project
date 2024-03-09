@@ -29,6 +29,7 @@ function DoctorDetails() {
         setShowModal(true)
     }
 
+
     return (
         <div>
             <NavBar />
@@ -49,7 +50,7 @@ function DoctorDetails() {
 
             {showModal && <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 flex items-center justify-center">
       <div className="border border-black rounded-lg shadow-md transition delay-700 duration-300 bg-white">
-          <AppointmentScheduleModal isOpen={showModal} onclose={setShowModal}/>
+          <AppointmentScheduleModal doctorId={doctor._id} isOpen={showModal} onclose={setShowModal}/>
         </div>
         </div>}
 

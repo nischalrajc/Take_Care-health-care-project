@@ -2,6 +2,7 @@ import Doctors from "../Modal/Doctor.js"
 import Specialisations from "../Modal/Specialisations.js"
 import Users from "../Modal/Users.js"
 import Slots from "../Modal/Slots.js"
+import Appointments from "../Modal/Appointments.js"
 
 export const getSpeciality = async (id) => {
     const specialisation = await Specialisations.findById(id)
@@ -58,31 +59,51 @@ export const getSpecialisation = async () => {
     return specialisation
 }
 
-export const viewSlots = async (doctorId,selectedDate) => {
-    // try {
-    //     const slots = await Slots.find({doctorId:doctorId})
-        
-    //     return slots
-    // } catch (error) {
-    //     console.log("error when fetching data", error)
-    // }
+export const viewSlots = async (doctorId, selectedDate) => {
 
     try {
-        const startDate = new Date(selectedDate); // Assuming selectedDate is a string
-        startDate.setHours(0, 0, 0, 0); // Set start of day for selected date
-    
-        const endDate = new Date(startDate); // Create a copy
-        endDate.setDate(endDate.getDate() + 1); // Move to next day (end of day)
-    
-        const slots = await Slots.find({
-          doctorId,
-          date: { $gte: startDate, $lt: endDate }, // Filter based on date range
-        });
-    
-        return slots;
-      } catch (error) {
-        console.error("Error fetching data", error);
-        return []; // Return an empty array on error
-      }
+        const startDate = new Date(selectedDate);
+        startDate.setUTCHours(0, 0, 0, 0);
+        
+        const endDate = new Date(startDate);
+        endDate.setUTCDate(endDate.getUTCDate() + 1)
 
+        const slots = await Slots.find({
+            doctorId,
+            date: { $gte: startDate, $lt: endDate },
+        });
+
+        console.log(slots)
+        return slots;
+
+    } catch (error) {
+        console.error("Error fetching data", error);
+        return [];
+    }
+
+}
+  
+
+
+export const schedule_Appointment = async (userId, slotId) => {
+    try {
+        const slot = await Slots.findById(slotId)
+        console.log(slot)
+        if (slot) {
+            slot.scheduled = true
+            await slot.save()
+
+            const appointment = await Appointments.create({
+                doctorId: slot.doctorId,
+                userId: userId,
+                date: slot.date,
+            })
+
+            return appointment
+        } else {
+            return null
+        }
+    } catch (error) {
+        console.log("error while scheduling appointment", error)
+    }
 }

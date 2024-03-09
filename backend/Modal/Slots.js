@@ -8,6 +8,9 @@ const slotSchema = new mongoose.Schema({
     date:{
         type:Date,
         required:true
+    },
+    scheduled:{
+        type:Boolean,
     }
 })
 

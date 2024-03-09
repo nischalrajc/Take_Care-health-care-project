@@ -4,7 +4,7 @@ import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
 import Specialisations from "../Modal/Specialisations.js";
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, schedule_Appointment } from "../Services/user.js";
 
 
 export const userSignup = async (req, res) => {
@@ -206,16 +206,32 @@ export const viewSlotsAvailable = async (req, res) => {
     try {
         const doctorId = req.query.doctorId;
         const selectedDate = req.query.date;
-        const slots = await viewSlots(doctorId,selectedDate)
-        console.log(slots)
-        if(slots){
-            res.status(201).json({slots:slots})
-        }else{
+        const slots = await viewSlots(doctorId, selectedDate)
+
+        if (slots) {
+            res.status(201).json({ slots: slots })
+        } else {
             res.status(401)
         }
     } catch (error) {
         res.status(401)
         console.log("error", error)
+    }
+}
+
+export const bookAppointments = async (req, res) => {
+    try {
+        const { userId, slotId } = req.body
+
+        const book_appointment = await schedule_Appointment(userId, slotId)
+        if(book_appointment){
+            res.status(201).json({message:"successfully booked appointments"})
+        }else{
+            res.status(401).json({message:"error while booking"})
+        }
+
+    } catch (error) {
+        console.log("error when booking", error)
     }
 }
 
@@ -235,7 +251,6 @@ export const doctorDetails = async (req, res) => {
 
 export const userEditProfile = async (req, res) => {
     try {
-        // const  { name, email, gender, phone, id } = req.body;
         const user = await userProfileEdit(req)
         if (user) {
             res.status(201).json(user)

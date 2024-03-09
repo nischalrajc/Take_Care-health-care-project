@@ -4,7 +4,7 @@ import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
 import Specialisations from "../Modal/Specialisations.js";
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots } from "../Services/user.js";
 
 
 export const userSignup = async (req, res) => {
@@ -198,6 +198,23 @@ export const viewSpecialities = async (req, res) => {
             res.status(401)
         }
     } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const viewSlotsAvailable = async (req, res) => {
+    try {
+        const doctorId = req.query.doctorId;
+        const selectedDate = req.query.date;
+        const slots = await viewSlots(doctorId,selectedDate)
+        console.log(slots)
+        if(slots){
+            res.status(201).json({slots:slots})
+        }else{
+            res.status(401)
+        }
+    } catch (error) {
+        res.status(401)
         console.log("error", error)
     }
 }

@@ -1,6 +1,7 @@
 import Doctors from "../Modal/Doctor.js"
 import Specialisations from "../Modal/Specialisations.js"
 import Users from "../Modal/Users.js"
+import Slots from "../Modal/Slots.js"
 
 export const getSpeciality = async (id) => {
     const specialisation = await Specialisations.findById(id)
@@ -55,4 +56,33 @@ export const getDoctors = async () => {
 export const getSpecialisation = async () => {
     const specialisation = await Specialisations.find()
     return specialisation
+}
+
+export const viewSlots = async (doctorId,selectedDate) => {
+    // try {
+    //     const slots = await Slots.find({doctorId:doctorId})
+        
+    //     return slots
+    // } catch (error) {
+    //     console.log("error when fetching data", error)
+    // }
+
+    try {
+        const startDate = new Date(selectedDate); // Assuming selectedDate is a string
+        startDate.setHours(0, 0, 0, 0); // Set start of day for selected date
+    
+        const endDate = new Date(startDate); // Create a copy
+        endDate.setDate(endDate.getDate() + 1); // Move to next day (end of day)
+    
+        const slots = await Slots.find({
+          doctorId,
+          date: { $gte: startDate, $lt: endDate }, // Filter based on date range
+        });
+    
+        return slots;
+      } catch (error) {
+        console.error("Error fetching data", error);
+        return []; // Return an empty array on error
+      }
+
 }

@@ -6,6 +6,7 @@
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.16.1",
     "@reduxjs/toolkit": "^2.2.0",
+    "@stripe/react-stripe-js": "^2.5.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

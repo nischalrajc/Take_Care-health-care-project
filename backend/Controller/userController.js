@@ -3,8 +3,11 @@ import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
+import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
+import Stripe from 'stripe'
 import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, schedule_Appointment } from "../Services/user.js";
+import Slots from "../Modal/Slots.js";
 
 
 export const userSignup = async (req, res) => {
@@ -224,10 +227,10 @@ export const bookAppointments = async (req, res) => {
         const { userId, slotId } = req.body
 
         const book_appointment = await schedule_Appointment(userId, slotId)
-        if(book_appointment){
-            res.status(201).json({message:"successfully booked appointments"})
-        }else{
-            res.status(401).json({message:"error while booking"})
+        if (book_appointment) {
+            res.status(201).json({ message: "successfully booked appointments" })
+        } else {
+            res.status(401).json({ message: "error while booking" })
         }
 
     } catch (error) {
@@ -261,6 +264,47 @@ export const userEditProfile = async (req, res) => {
         console.log("error", error)
     }
 }
+
+
+export const getBookingSession = async (req, res) => {
+    try {
+        const { userId, doctorId, slotId } = req.body;
+        const doctorInfo = await fetchDoctorDetails(doctorId);
+        const userInfo = await Users.findById(userId);
+        const slot = await Slots.findById(slotId);
+
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+        // Create Stripe checkout session
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_SITE_URL}/Checkout-success`,
+            cancel_url: `${process.env.CLIENT_SITE_URL}/checkout-cancel`,
+            customer_email: userInfo.email,
+            client_reference_id: doctorId,
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'bdt',
+                        unit_amount: doctorInfo.fees * 100,
+                        product_data: {
+                            name: doctorInfo.name,
+                            description: doctorInfo.bio,
+                            images: [doctorInfo.image]
+                        }
+                    },
+                    quantity: 1,
+                },
+            ],
+        });
+
+        res.status(200).json({ success: true, message: 'Checkout session created!', session });
+    } catch (error) {
+        console.log('Error when booking:', error);
+        res.status(500).json({ success: false, message: 'Error creating checkout session' });
+    }
+};
+
 
 export const logOut = async (req, res) => {
     try {

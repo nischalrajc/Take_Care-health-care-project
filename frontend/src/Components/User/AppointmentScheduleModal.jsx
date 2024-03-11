@@ -4,6 +4,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { Axios } from '../../Axios/users';
 import { useSelector } from 'react-redux'
+// import {loadStripe} from '@stripe/stripe-js';
 
 
 function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
@@ -45,14 +46,29 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
     }
 
     const submitHandler = async () =>{
-        Axios.post('/book_appointment',{userId,slotId}).then((response)=>{
+        try{
+          await Axios.post('/checkout-session',{userId,doctorId,slotId}).then((response)=>{
             if(response.data){
-                console.log("booked")
+                console.log(response.data)
+                window.location.href = response.data.session.url
             }
-        }).catch((error)=>{
+          }).catch((error)=>{
             console.log("error",error)
-        })
+          })
+        }catch(Error){
+            console.log("error",Error)
+        }
     }
+
+    // const submitHandler = async () =>{
+    //     Axios.post('/book_appointment',{userId,slotId}).then((response)=>{
+    //         if(response.data){
+    //             console.log("booked")
+    //         }
+    //     }).catch((error)=>{
+    //         console.log("error",error)
+    //     })
+    // }
 
 
 

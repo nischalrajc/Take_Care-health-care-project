@@ -2,7 +2,7 @@
 import express from 'express'
 const router = express.Router()
 import { protectDoctor } from '../Middlewares/authMiddlewares.js'
-import { Specialisations, updateProfile, mailValidation, doctorSignup, viewSlots, addNewSlot, doctorLogin, logoutDoctor, forget } from '../Controller/doctorController.js'
+import { Specialisations, updateProfile, mailValidation, doctorSignup, viewSlots, addNewSlot, doctorLogin ,logoutDoctor, forget } from '../Controller/doctorController.js'
 
 router.get('/decodeToken', protectDoctor)
 

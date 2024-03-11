@@ -73,7 +73,6 @@ export const viewSlots = async (doctorId, selectedDate) => {
             date: { $gte: startDate, $lt: endDate },
         });
 
-        console.log(slots)
         return slots;
 
     } catch (error) {

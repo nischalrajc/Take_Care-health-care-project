@@ -2,7 +2,7 @@ import Doctors from "../Modal/Doctor.js"
 import Specialisations from "../Modal/Specialisations.js"
 import Users from "../Modal/Users.js"
 import Slots from "../Modal/Slots.js"
-import Appointments from "../Modal/Appointments.js"
+import Booking from "../Modal/Booking.js"
 
 export const getSpeciality = async (id) => {
     const specialisation = await Specialisations.findById(id)
@@ -84,21 +84,23 @@ export const viewSlots = async (doctorId, selectedDate) => {
   
 
 
-export const schedule_Appointment = async (userId, slotId) => {
+export const book_Appointment = async (userId, slotId) => {
     try {
         const slot = await Slots.findById(slotId)
-        console.log(slot)
+        
         if (slot) {
             slot.scheduled = true
             await slot.save()
 
-            const appointment = await Appointments.create({
-                doctorId: slot.doctorId,
-                userId: userId,
-                date: slot.date,
+            const booking = await Booking.create({
+                doctor:slot.doctorId,
+                user:userId,
+                slotId:slotId,
+                appointmentDate:slot.date, 
+                date:new Date()
             })
 
-            return appointment
+            return booking
         } else {
             return null
         }

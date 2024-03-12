@@ -20,8 +20,8 @@ router.get('/specialities/:id', viewSpecialities)
 router.get('/doctorDetails/:id', doctorDetails)
 router.put('/editProfile', userEditProfile)
 router.get('/available_slots/', viewSlotsAvailable)
-// router.post('/book_appointment' , bookAppointments)
 router.post('/checkout-session', getBookingSession)
+router.get('/book_doctor/', bookAppointments)
 
 
 export default router;

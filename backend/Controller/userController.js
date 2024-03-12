@@ -6,7 +6,7 @@ import Doctors from "../Modal/Doctor.js";
 import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, schedule_Appointment } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment } from "../Services/user.js";
 import Slots from "../Modal/Slots.js";
 
 
@@ -224,9 +224,10 @@ export const viewSlotsAvailable = async (req, res) => {
 
 export const bookAppointments = async (req, res) => {
     try {
-        const { userId, slotId } = req.body
+        const slotId = req.query.slotId;
+        const userId = req.query.userId;
 
-        const book_appointment = await schedule_Appointment(userId, slotId)
+        const book_appointment = await book_Appointment(userId, slotId)
         if (book_appointment) {
             res.status(201).json({ message: "successfully booked appointments" })
         } else {
@@ -271,14 +272,13 @@ export const getBookingSession = async (req, res) => {
         const { userId, doctorId, slotId } = req.body;
         const doctorInfo = await fetchDoctorDetails(doctorId);
         const userInfo = await Users.findById(userId);
-        const slot = await Slots.findById(slotId);
 
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            success_url: `${process.env.CLIENT_SITE_URL}/Checkout-success`,
+            success_url: `${process.env.CLIENT_SITE_URL}/Checkout-success/${slotId}`,
             cancel_url: `${process.env.CLIENT_SITE_URL}/checkout-cancel`,
             customer_email: userInfo.email,
             client_reference_id: doctorId,
@@ -298,7 +298,9 @@ export const getBookingSession = async (req, res) => {
             ],
         });
 
+
         res.status(200).json({ success: true, message: 'Checkout session created!', session });
+
     } catch (error) {
         console.log('Error when booking:', error);
         res.status(500).json({ success: false, message: 'Error creating checkout session' });

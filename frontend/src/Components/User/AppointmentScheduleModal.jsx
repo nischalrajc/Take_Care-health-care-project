@@ -49,7 +49,7 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
         try{
           await Axios.post('/checkout-session',{userId,doctorId,slotId}).then((response)=>{
             if(response.data){
-                console.log(response.data)
+                console.log("kkkk",response.data)
                 window.location.href = response.data.session.url
             }
           }).catch((error)=>{
@@ -70,8 +70,6 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
     //     })
     // }
 
-
-
     return (
         <div className={`modal ${isOpen ? 'is-active' : ''}`} >
             <div className="modal-content  rounded-lg overflow-hidden p-12 max-w-3xl mx-auto text-start">
@@ -91,7 +89,7 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
                                             <div
                                             key={index}
                                             onClick={Scheduled ? null : () => selectHandler(slot._id)}
-                                            className={`hover:cursor-pointer border border-gray-400 my-2 px-6 py-1 rounded-md text-center ${Scheduled ? 'opacity-50 hover:cursor-not-allowed' : ''}`}
+                                            className={`hover:cursor-pointer border border-gray-400 my-2 px-6 py-1 rounded-md text-center ${slotId ? 'bg-blue-500' : ''} ${Scheduled ? 'opacity-50 hover:cursor-not-allowed' : ''}`}
                                         >
                                             {formattedTime}
                                             {Scheduled && <p className="already-booked-text">Already booked</p>}

@@ -30,6 +30,7 @@ import Profile from "./Pages/User/Profile";
 import FindOne from "./Pages/User/FindOne";
 import PDFviewer from "./Components/Admin/PDFviewer";
 import Slots from "./Pages/Doctor/Slots";
+import Success from "./Pages/User/Success";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
 
         <Route path="" element={<PrivateRoutesUser />}>
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/Checkout-success/:slotId" element={<Success/>} />
         </Route>
 
         <Route path="/doctor_login" element={<LoginDoctor />} />

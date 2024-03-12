@@ -45,7 +45,7 @@ function ForgetPassword() {
 
         setLoading(true)
 
-        console.log("mmmmmmmmmmm",axiosRef.current)
+        // console.log("mmmmmmmmmmm",axiosRef.current)
         axiosRef.current.post('/forget_password', { email }).then((response) => {
             if (response.data.otp) {
                 setLoading(false)

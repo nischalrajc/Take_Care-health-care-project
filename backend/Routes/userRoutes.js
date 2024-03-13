@@ -1,7 +1,7 @@
 
 import express from 'express'
 const router = express.Router()
-import { userSignup, userLogin, getDoctorDetails, searchdoctor, filterDoctor, getSpecialities, viewSpecialities, getBookingSession, viewSlotsAvailable, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
+import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation , filterDoctor, getSpecialities, viewSpecialities, getBookingSession, viewSlotsAvailable, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
 import { protectUser } from '../Middlewares/authMiddlewares.js'
 
 router.get('/decodeToken', protectUser)
@@ -22,6 +22,7 @@ router.put('/editProfile', userEditProfile)
 router.get('/available_slots/', viewSlotsAvailable)
 router.post('/checkout-session', getBookingSession)
 router.get('/book_doctor/', bookAppointments)
+router.get('/resend_OTP/:email' , mailValidation)
 
 
 export default router;

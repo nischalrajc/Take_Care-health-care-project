@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export const Axios =  axios.create({
-    baseURL: "http://localhost:5000/admin"
+    baseURL: "http://localhost:5000/admin",
+    withCredentials:true
   });

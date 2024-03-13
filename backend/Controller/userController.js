@@ -3,11 +3,11 @@ import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
-import Booking from '../Modal/Booking.js'
+// import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
 import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment } from "../Services/user.js";
-import Slots from "../Modal/Slots.js";
+// import Slots from "../Modal/Slots.js";
 
 
 export const userSignup = async (req, res) => {
@@ -121,6 +121,23 @@ export const register_user = async (req, res) => {
 
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const mailValidation = async (req, res) => {
+    try {
+        const email = req.params.email
+
+        const OTP = await sendEmail(email)
+        if (OTP) {
+            res.status(201).json({ otp: OTP })
+        } else {
+            res.status(401)
+        }
+
+    } catch (error) {
+        console.log("error", error)
+        res.status(401)
     }
 }
 

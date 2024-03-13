@@ -29,6 +29,8 @@ function DoctorDetails() {
         setShowModal(true)
     }
 
+    console.log(doctor)
+
 
     return (
         <div>

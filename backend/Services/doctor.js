@@ -45,6 +45,17 @@ export const signUpDoctor = async(data)=>{
     }
 }
 
+export const deletePastSlots = async () => {
+    try {
+      await Slots.deleteMany({
+        date: { $lt: new Date().setHours(0, 0, 0, 0) }
+      });
+  
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
 export const getSlots = async (doctorId)=>{
     try {
         const slot = await Slots.find({doctorId:doctorId})

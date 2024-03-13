@@ -2,7 +2,7 @@ import Doctors from "../Modal/Doctor.js"
 import bcrypt from 'bcrypt'
 import { upload } from "../utils/multer.js"
 import { generateTokenDoctor } from '../utils/generateToken.js'
-import { add_slot, findDoctor, getSlots, getSpecialisations, signUpDoctor, validate_slot } from "../Services/doctor.js"
+import { add_slot, deletePastSlots, findDoctor, getSlots, getSpecialisations, signUpDoctor, validate_slot } from "../Services/doctor.js"
 import { sendEmail } from "../utils/verificationMail.js";
 
 
@@ -182,23 +182,24 @@ export const forget = async (req, res) => {
     }
 }
 
-export const viewSlots = async(req,res) =>{
+export const viewSlots = async (req, res) => {
     try {
         const doctorId = req.params.id;
+        await deletePastSlots()
         const slot = await getSlots(doctorId)
-        if(slot){
-            res.status(201).json({slot})
-        }else{
+        if (slot) {
+            res.status(201).json({ slot })
+        } else {
             res.status(401)
         }
     } catch (error) {
-        console.log("error",error)
+        console.log("error", error)
     }
 }
 
-export const addNewSlot = async (req,res) =>{
-    try{
-        const {selectedDate,doctorId} = req.body;
+export const addNewSlot = async (req, res) => {
+    try {
+        const { selectedDate, doctorId } = req.body;
 
         const dateObject = new Date(selectedDate);
         const formattedDate = dateObject.toLocaleString('en-IN', {
@@ -210,21 +211,21 @@ export const addNewSlot = async (req,res) =>{
             hour: 'numeric',
             minute: 'numeric',
             second: 'numeric',
-            hour12: true, 
+            hour12: true,
         });
 
         const alreadySloted = await validate_slot(formattedDate)
-        if(alreadySloted){
-            return res.status(401).json({message:"Time has been already sloted choose another one"})
+        if (alreadySloted) {
+            return res.status(401).json({ message: "Time has been already sloted choose another one" })
         }
 
-        const slot = await add_slot(formattedDate,doctorId)
-        if(slot){
+        const slot = await add_slot(formattedDate, doctorId)
+        if (slot) {
             res.status(201).json(slot)
-        }else{
-            res.status(401).json({message:"Time has been already sloted choose another one"})
+        } else {
+            res.status(401).json({ message: "Time has been already sloted choose another one" })
         }
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
     }
 }

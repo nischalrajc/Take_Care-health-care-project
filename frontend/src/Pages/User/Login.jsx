@@ -53,6 +53,15 @@ function Login() {
             return;
         }
 
+        if (password.length < 8) {
+            console.log("netered")
+            setError('Password must be at least 8 characters long');
+            setTimeout(() => {
+                setError('');
+            }, 5000);
+            return;
+          }
+
         Axios.post('/login', { email, password }, { withCredentials: true }).then((response) => {
             if (response.data.blocked) {
                 Swal.fire("You are blocked!");

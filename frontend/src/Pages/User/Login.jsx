@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import  {Axios}  from '../../Axios/users'
+import { Axios } from '../../Axios/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { userLogin } from '../../Slices/userSlice'
 import Swal from 'sweetalert2'
@@ -28,7 +28,7 @@ function Login() {
         return regex.test(email);
     };
 
-    const forgotPasswordHandler = () =>{
+    const forgotPasswordHandler = () => {
         navigate('/forget_password')
     }
 
@@ -54,13 +54,12 @@ function Login() {
         }
 
         if (password.length < 8) {
-            console.log("netered")
             setError('Password must be at least 8 characters long');
             setTimeout(() => {
                 setError('');
-            }, 5000);
+            }, 4000);
             return;
-          }
+        }
 
         Axios.post('/login', { email, password }, { withCredentials: true }).then((response) => {
             if (response.data.blocked) {
@@ -77,7 +76,7 @@ function Login() {
                 navigate('/')
             }
         }).catch((error) => {
-            console.log("error",error)
+            console.log("error", error)
         })
 
     }

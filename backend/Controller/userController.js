@@ -72,7 +72,7 @@ export const forgetpassword = async (req, res) => {
 
         const existingUser = await Users.findOne({ email })
         if (!existingUser) {
-            return res.json({ error: "Enter the registered email" });
+            return res.status(401).json({ error: "Enter the registered email" });
         }
 
         const OTP = await sendEmail(email)
@@ -127,7 +127,6 @@ export const register_user = async (req, res) => {
 export const mailValidation = async (req, res) => {
     try {
         const email = req.params.email
-
         const OTP = await sendEmail(email)
         if (OTP) {
             res.status(201).json({ otp: OTP })

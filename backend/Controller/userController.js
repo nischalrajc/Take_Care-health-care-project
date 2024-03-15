@@ -275,10 +275,10 @@ export const userEditProfile = async (req, res) => {
         if (user) {
             res.status(201).json(user)
         } else {
-            res.status(400)
-        }
+            res.status(400).json({error: "User not found or unable to edit profile"})
+        }        
     } catch (error) {
-        console.log("error", error)
+        console.log("error in editing profile", error)
     }
 }
 

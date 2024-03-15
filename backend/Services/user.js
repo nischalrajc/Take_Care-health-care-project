@@ -32,7 +32,7 @@ export const userProfileEdit = async (req) => {
         const user = await Users.findById(id)
 
         if (user) {
-            user.name = name,
+                user.name = name,
                 user.email = email,
                 user.gender = gender,
                 user.phoneNumber = phone
@@ -64,7 +64,7 @@ export const viewSlots = async (doctorId, selectedDate) => {
     try {
         const startDate = new Date(selectedDate);
         startDate.setUTCHours(0, 0, 0, 0);
-        
+
         const endDate = new Date(startDate);
         endDate.setUTCDate(endDate.getUTCDate() + 1)
 
@@ -81,23 +81,23 @@ export const viewSlots = async (doctorId, selectedDate) => {
     }
 
 }
-  
+
 
 
 export const book_Appointment = async (userId, slotId) => {
     try {
         const slot = await Slots.findById(slotId)
-        
+
         if (slot) {
             slot.scheduled = true
             await slot.save()
 
             const booking = await Booking.create({
-                doctor:slot.doctorId,
-                user:userId,
-                slotId:slotId,
-                appointmentDate:slot.date, 
-                date:new Date()
+                doctor: slot.doctorId,
+                user: userId,
+                slotId: slotId,
+                appointmentDate: slot.date,
+                date: new Date()
             })
 
             return booking

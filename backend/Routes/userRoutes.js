@@ -1,8 +1,9 @@
 
 import express from 'express'
 const router = express.Router()
-import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation , filterDoctor, getSpecialities, viewSpecialities, getBookingSession, viewSlotsAvailable, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
+import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation, filterDoctor, getSpecialities, viewSpecialities, getBookingSession, viewSlotsAvailable, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
 import { protectUser } from '../Middlewares/authMiddlewares.js'
+import { validateUser } from '../Middlewares/validationMiddlewares.js'
 
 router.get('/decodeToken', protectUser)
 
@@ -18,11 +19,11 @@ router.post('/filterDoctor', filterDoctor)
 router.get('/listSpecialities', getSpecialities)
 router.get('/specialities/:id', viewSpecialities)
 router.get('/doctorDetails/:id', doctorDetails)
-router.put('/editProfile', userEditProfile)
-router.get('/available_slots/', viewSlotsAvailable)
-router.post('/checkout-session', getBookingSession)
-router.get('/book_doctor/', bookAppointments)
-router.get('/resend_OTP/:email' , mailValidation)
+router.put('/editProfile', validateUser , userEditProfile)
+router.get('/available_slots/', validateUser, viewSlotsAvailable)
+router.post('/checkout-session', validateUser, getBookingSession)
+router.get('/book_doctor/', validateUser, bookAppointments)
+router.get('/resend_OTP/:email', mailValidation)
 
 
 export default router;

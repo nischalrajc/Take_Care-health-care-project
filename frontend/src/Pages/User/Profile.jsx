@@ -17,6 +17,8 @@ function Profile() {
     const dispatch = useDispatch()
     const userInfo = useSelector((state) => state.user.user)
 
+    console.log(userInfo?._id)
+
     useEffect(() => {
         setName(userInfo?.name || '');
         setEmail(userInfo?.email || '');
@@ -45,7 +47,6 @@ function Profile() {
             }, 2000);
             return;
         }
-
         if (!validatePhone(phone)) {
             setError('Invalid phone number format');
             setTimeout(() => {
@@ -54,11 +55,10 @@ function Profile() {
             return;
         }
 
-        Axios.put('/editProfile', { name, email, gender, phone, id }, { withCredentials: true }).then((response) => {
+        Axios.put('/editProfile', { name, email, gender, phone, id }).then((response) => {
             if (response.data) {
-                console.log(response.data)
+                console.log("mmmmm",response.data)
                 Swal.fire({
-                    // title: "Good job!",
                     text: "Profile Updated",
                     icon: "success"
                 });

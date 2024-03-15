@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import  {Axios}  from '../../Axios/users'
+import { Axios } from '../../Axios/users'
 import { useLocation, useNavigate } from 'react-router-dom'
 import LoginNav from '../../Components/User/LoginNav'
 import Swal from 'sweetalert2'
@@ -19,6 +19,14 @@ function NewPassword() {
     const submitHandler = (e) => {
         e.preventDefault()
 
+        if (password.length < 8) {
+            setError('Password must be at least 8 characters long');
+            setTimeout(() => {
+                setError('');
+            }, 4000);
+            return;
+        }
+
         if (password !== confirmPassword) {
             setError('Password and confirm password do not match');
 
@@ -31,12 +39,11 @@ function NewPassword() {
         Axios.patch('/newpassword', { email, password }, { withCredentials: true }).then((response) => {
             if (response.data.message) {
                 Swal.fire({
-                    position: "top-end",
+                    title: "Password Updated successfully!",
                     icon: "success",
-                    title: response.data.message,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                    timer: 1500,
+                    showConfirmButton: false
+                })
                 navigate('/login')
             }
 
@@ -57,6 +64,9 @@ function NewPassword() {
     return (
         <div>
             <LoginNav />
+            <div className='font-semibold mt-5 sm:text-3xl text-2xl'>
+                Change your password
+            </div>
             <div>
                 <form onSubmit={submitHandler}>
                     <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto ">
@@ -91,7 +101,7 @@ function NewPassword() {
 
                     {
                         error && (
-                            <div className='text-red-400 font-medium'>
+                            <div className='text-red-500 font-inder mt-2'>
                                 {error}
                             </div>
                         )

@@ -104,6 +104,9 @@ function OTP() {
             })
         } else {
             setError("invalid otp")
+            setTimeout(() => {
+                setError('');
+            }, 2000);
         }
 
     }
@@ -135,7 +138,7 @@ function OTP() {
 
                     {
                         error && (
-                            <div className='text-red-400 font-medium'>
+                            <div className='text-red-500 font-inder'>
                                 {error}
                             </div>
                         )

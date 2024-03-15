@@ -18,7 +18,7 @@ function PasswordOTP() {
 
     const resendHandler = () => {
 
-        Axios.post('/resend_OTP', { email }).then((response) => {
+        Axios.get(`/resend_OTP/${email}`).then((response) => {
             if (response.data.otp) {
                 setOtp(response.data.otp)
             }
@@ -68,6 +68,10 @@ function PasswordOTP() {
             navigate('/newpassword',{state:{email:email}})
         } else {
             setError("invalid otp")
+            setTimeout(() => {
+                setError('')
+            }, 1000)
+            
         }
 
     }

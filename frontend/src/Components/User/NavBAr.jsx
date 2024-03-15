@@ -14,10 +14,11 @@ function NavBar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+
   return (
     <div>
       <div className="mx-0 sm:mx-5 sm:py-3 sm:px-3 border-b grid grid-cols-2 border-gray-300">
-        <div className="flex items-center">
+        <div className="flex items-center hover:cursor-pointer" >
           <img className="sm:w-52 w-40" src="/take-care-logo.png" alt="Icon" />
         </div>
         <div className="hidden sm:grid grid-cols-4 items-center">

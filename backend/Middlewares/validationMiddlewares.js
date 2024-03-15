@@ -3,7 +3,7 @@ import Admin from '../Modal/Admin.js';
 import User from '../Modal/Users.js'
 import Doctors from '../Modal/Doctor.js';
 
-export const protectAdmin = async (req, res) => {
+export const validateAdmin = async (req, res, next) => {
 
     let token;
     token = req.cookies.jwtAdmin;
@@ -12,7 +12,8 @@ export const protectAdmin = async (req, res) => {
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET);
             req.admin = await Admin.findById(decode.adminId).select('-password');
-            res.status(200).json({message:"token authorised suucessfully"})
+
+            next()
 
         } catch (error) {
             res.status(401);
@@ -23,7 +24,7 @@ export const protectAdmin = async (req, res) => {
     }
 }
 
-export const protectUser = async (req, res ) => {
+export const validateUser = async (req, res , next) => {
 
     let token;
     token = req.cookies.jwtuser;
@@ -32,7 +33,8 @@ export const protectUser = async (req, res ) => {
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET);
             req.user = await User.findById(decode.userId).select('-password');
-            res.status(200).json({message:"token authorised suucessfully"})
+           
+            next()
 
         } catch (error) {
             res.status(401);
@@ -43,7 +45,7 @@ export const protectUser = async (req, res ) => {
     }
 }
 
-export const protectDoctor = async (req, res) => {
+export const validateDoctor = async (req, res, next) => {
 
     let token;
     token = req.cookies.jwtdoctor;
@@ -52,7 +54,8 @@ export const protectDoctor = async (req, res) => {
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET);
             req.doctor = await Doctors.findById(decode.doctorId).select('-password');
-            res.status(200).json({message:"token authorised suucessfully"})
+            
+            next()
 
         } catch (error) {
             res.status(401);

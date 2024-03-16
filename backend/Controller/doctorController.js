@@ -2,7 +2,7 @@ import Doctors from "../Modal/Doctor.js"
 import bcrypt from 'bcrypt'
 import { upload } from "../utils/multer.js"
 import { generateTokenDoctor } from '../utils/generateToken.js'
-import { add_slot, deletePastSlots, findDoctor, getSlots, getSpecialisations, signUpDoctor, validate_slot } from "../Services/doctor.js"
+import { add_slot, deletePastSlots, findDoctor, getSlots, getSpecialisations, signUpDoctor, update_Password, validate_slot } from "../Services/doctor.js"
 import { sendEmail } from "../utils/verificationMail.js";
 
 
@@ -23,7 +23,6 @@ export const Specialisations = async (req, res) => {
 export const mailValidation = async (req, res) => {
     try {
         const email = req.params.email
-
         const verificationOTP = await sendEmail(email)
         if (verificationOTP) {
             res.status(201).json({ verificationOTP })
@@ -35,6 +34,7 @@ export const mailValidation = async (req, res) => {
         console.log("error", error)
         res.status(401)
     }
+    
 }
 
 export const doctorSignup = async (req, res) => {
@@ -85,6 +85,7 @@ export const doctorSignup = async (req, res) => {
 
 export const doctorLogin = async (req, res) => {
     const { email, password } = req.body
+
     try {
         const doctor = await Doctors.findOne({ email })
 
@@ -98,7 +99,9 @@ export const doctorLogin = async (req, res) => {
         const passwordMatched = await bcrypt.compare(password, doctor.password)
 
         if (doctor && passwordMatched) {
+            console.log("hhhh")
             await generateTokenDoctor(res, doctor._id);
+            console.log(generateTokenDoctor)
             res.status(200).json({
                 _id: doctor._id,
                 name: doctor.name,
@@ -113,7 +116,7 @@ export const doctorLogin = async (req, res) => {
                 authorised: doctor.authorised
             })
         } else {
-            res.json({ error: "Invalid mail and password" })
+            res.status(401).json({ error: "Invalid mail and password" })
         }
     } catch (error) {
         console.log("error", error)
@@ -176,7 +179,17 @@ export const logoutDoctor = async (req, res) => {
 
 export const forget = async (req, res) => {
     try {
-        console.log("doctor")
+        const { email } = req.body;
+        
+        const existingDoctor = await Doctors.findOne({ email })
+        if (!existingDoctor) {
+            return res.status(401).json({ error: "Enter the registered email" });
+        }
+
+        const OTP = await sendEmail(email)
+        if (OTP) {
+            res.status(200).json({ otp: OTP })
+        }
     } catch (error) {
         console.log(error)
     }
@@ -227,5 +240,23 @@ export const addNewSlot = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const setNewPassword = async() =>{
+    try {
+        const  { email, password } = req.body
+        const doctor = await findDoctor(email)
+        
+        if(doctor){
+            const updatePassword = await update_Password(email,password)
+            if(updatePassword){
+                res.status(201)
+            }else{
+                res.status(401)
+            }
+        }
+    } catch (error) {
+        console.log("error",error)
     }
 }

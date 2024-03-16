@@ -67,7 +67,6 @@ export const userLogin = async (req, res) => {
 
 export const forgetpassword = async (req, res) => {
     try {
-        console.log("user")
         const { email } = req.body;
 
         const existingUser = await Users.findOne({ email })

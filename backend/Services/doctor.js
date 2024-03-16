@@ -94,3 +94,12 @@ export const add_slot = async(formattedDate,doctorId) =>{
         console.log("Error",error)
     }
 }
+
+export const update_Password = async(email,password) =>{
+    try {
+        const doctor = await Doctors.updateOne({ email:email }, { password: password });
+        return doctor
+    } catch (error) {
+        console.log("error",error)
+    }
+}

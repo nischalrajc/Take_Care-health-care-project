@@ -71,7 +71,7 @@ function DoctorRegistration() {
             return;
         }
 
-        if (password.length < 8) {
+        if (password.length < 6) {
             console.log("netered")
             setError('Password must be at least 8 characters long');
             setTimeout(() => {
@@ -90,7 +90,7 @@ function DoctorRegistration() {
 
         setLoading(true)
 
-        await Axios.get(`/mailvalidation/${email}`, { withCredentials: true }).then((response) => {
+        await Axios.get(`/mailvalidation/${email}`).then((response) => {
             setLoading(false);
             if (response.data) {
                 setOtp(response.data.verificationOTP)
@@ -117,7 +117,7 @@ function DoctorRegistration() {
             <div style={{ position: 'relative' }}>
                 {
                     otp ? (
-                        <OTP formData={formData} mailOTP={otp} />
+                        <OTP formData={formData} mailOTP={otp}/>
                     ) : (
                         <div>
                             <form onSubmit={submitHandler} encType="multipart/form-data">

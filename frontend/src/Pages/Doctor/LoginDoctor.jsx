@@ -29,7 +29,7 @@ function LoginDoctor() {
     };
 
     const forgotPasswordHandler = () => {
-        navigate('/forget_password', { state: { doctor: true } })
+        navigate('/doctor/forget_password')
     }
 
 
@@ -44,8 +44,7 @@ function LoginDoctor() {
             return;
         }
 
-        if (password.length < 8) {
-            console.log("netered")
+        if (password.length < 6) {
             setError('Password must be at least 8 characters long');
             setTimeout(() => {
                 setError('');

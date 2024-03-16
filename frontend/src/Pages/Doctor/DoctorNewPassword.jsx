@@ -6,7 +6,7 @@ import LoginNav from '../../Components/User/LoginNav'
 import Swal from 'sweetalert2'
 
 
-function NewPassword() {
+function DoctorNewPassword() {
 
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -19,7 +19,7 @@ function NewPassword() {
     const submitHandler = (e) => {
         e.preventDefault()
 
-        if (password.length < 8) {
+        if (password.length < 6) {
             setError('Password must be at least 8 characters long');
             setTimeout(() => {
                 setError('');
@@ -36,15 +36,15 @@ function NewPassword() {
             return
         }
 
-        Axios.patch('/newpassword', { email, password }, { withCredentials: true }).then((response) => {
-            if (response.data.message) {
+        Axios.patch('/newpassword', { email, password }).then((response) => {
+            if (response) {
                 Swal.fire({
                     text: "Password Updated successfully!",
                     icon: "success",
                     timer: 1500,
                     showConfirmButton: false
                 })
-                navigate('/login')
+                navigate('/doctor_login')
             }
 
         }).catch((error) => {
@@ -119,4 +119,4 @@ function NewPassword() {
     )
 }
 
-export default NewPassword
+export default DoctorNewPassword

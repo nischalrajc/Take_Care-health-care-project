@@ -57,15 +57,15 @@ function Profile() {
 
         Axios.put('/editProfile', { name, email, gender, phone, id }).then((response) => {
             if (response.data) {
-                console.log("mmmmm",response.data)
                 Swal.fire({
                     text: "Profile Updated",
-                    icon: "success"
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false
                 });
                 dispatch(userLogin({ ...response.data }))
             }
         }).catch((error) => {
-            console.log("error", error)
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -85,17 +85,6 @@ function Profile() {
             <div className='w-full px-8 mt-20'>
 
                 <form onSubmit={submitHandler}>
-
-                    {/* <div className='flex justify-center  w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 '>
-            <img className="w-40 h-36 object-cover rounded-full cursor-pointer" src={selectedImage || doctorInfo?.image || "/profilepic.jpg"} alt="Icon" onClick={handleImageClick} />
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
-          </div> */}
 
                     <div className='flex justify-between w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 '>
                         <div className='font-semibold  opacity-65 mr-4'>

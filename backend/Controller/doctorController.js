@@ -99,7 +99,6 @@ export const doctorLogin = async (req, res) => {
         const passwordMatched = await bcrypt.compare(password, doctor.password)
 
         if (doctor && passwordMatched) {
-            console.log("hhhh")
             await generateTokenDoctor(res, doctor._id);
             console.log(generateTokenDoctor)
             res.status(200).json({

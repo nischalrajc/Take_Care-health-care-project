@@ -34,6 +34,7 @@ import Success from "./Pages/User/Success";
 import Forget_Password from "./Pages/Doctor/Forget_Password";
 import DoctorNewPassword from "./Pages/Doctor/DoctorNewPassword";
 import TipsPage from "./Pages/User/TipsPage";
+import About from "./Pages/User/About";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path="/doctor_details/:id" element={<DoctorDetails />} />
         <Route path="/findone" element={<FindOne />} />
         <Route path="/health_tips" element={<TipsPage />} />
+        <Route path="/about" element={<About />} />
 
         <Route path="" element={<PrivateRoutesUser />}>
           <Route path="/profile" element={<Profile/>} />

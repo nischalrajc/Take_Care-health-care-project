@@ -129,7 +129,7 @@ function Login() {
 
                     {
                         error && (
-                            <div className='text-red-400 font-medium'>
+                            <div className='text-red-500 font-inder'>
                                 {error}
                             </div>
                         )

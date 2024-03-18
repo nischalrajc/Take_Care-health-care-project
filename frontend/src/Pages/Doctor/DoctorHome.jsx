@@ -300,10 +300,10 @@ function DoctorHome() {
 
       </div> */}
 
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} className="bg-cover bg-center" style={{ backgroundImage: 'url(/17973908.jpg)' }}>
         <div className="flex flex-col md:flex-row  py-10  mx-0 md:mx-8 xl:mx-20">
           <div className="lg:w-2/5 md:w-2/4">
-            <div className='rounded-md border border-black mx-auto md:h-96 md:w-auto sm:h-72 sm:w-72' style={{ overflow: 'hidden' }} >
+            <div className='rounded-md  mx-auto md:h-96 md:w-auto sm:h-72 sm:w-72' style={{ overflow: 'hidden' }} >
               <img className="w-full h-full object-cover cursor-pointer" src={selectedImage || doctorInfo?.image || "/profilepic.jpg"} alt="Icon" onClick={handleImageClick} />
               <input
                 type="file"

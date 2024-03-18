@@ -37,11 +37,11 @@ function Slots() {
     }
 
     return (
-        <div>
+        <div >
             <NavbarDoctor />
             <Header title='slots' />
 
-            <div className='mt-6  flex justify-center'>
+            <div className='mt-6  flex justify-center' >
                 <DatePicker
                     showIcon
                     toggleCalendarOnIconClick
@@ -78,8 +78,14 @@ function Slots() {
                         }
                     </div>
                 ) : (
-                    <div className="text-center font-medium mt-10">
-                        You have no slots added yet...
+                    <div className="div">
+                        <div className="text-center font-medium mt-10" >
+                            You have no slots added yet...
+                        </div>
+
+                        <div className='h-96'>
+                            <img src="/12810345_5070757.jpg" className="w-full h-full object-cover" alt="empty slot" />
+                        </div>
                     </div>
                 )}
             </div>

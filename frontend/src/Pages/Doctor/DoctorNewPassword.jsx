@@ -59,8 +59,6 @@ function DoctorNewPassword() {
     }, [location.state])
 
 
-
-
     return (
         <div>
             <LoginNav />

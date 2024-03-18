@@ -53,7 +53,7 @@ function ProfileBar() {
             </div>
 
             {isMenuOpen && (
-                <div className="sm:hidden flex flex-col ">
+                <div className="sm:hidden flex flex-col">
                     <div className=" hover:bg-[#DFEBE9] p-2"><Link to="/">Home</Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2"><Link>Tips</Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2"><Link><IoIosNotifications /></Link></div>

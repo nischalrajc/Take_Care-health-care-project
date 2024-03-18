@@ -23,7 +23,7 @@ function NavBar() {
         </div>
         <div className="hidden sm:grid grid-cols-4 items-center">
           <div className="div"><Link to="/">Home</Link></div>
-          <div className="div"><Link>Tips</Link></div>
+          <div className="div"><Link to="/health_tips">Tips</Link></div>
           <div className="div"><Link>About</Link></div>
           <div className="div">
             {userInfo ? (

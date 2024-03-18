@@ -33,6 +33,7 @@ import Slots from "./Pages/Doctor/Slots";
 import Success from "./Pages/User/Success";
 import Forget_Password from "./Pages/Doctor/Forget_Password";
 import DoctorNewPassword from "./Pages/Doctor/DoctorNewPassword";
+import TipsPage from "./Pages/User/TipsPage";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         <Route path="/specialities/:id" element={<Specialities />} />
         <Route path="/doctor_details/:id" element={<DoctorDetails />} />
         <Route path="/findone" element={<FindOne />} />
+        <Route path="/health_tips" element={<TipsPage />} />
 
         <Route path="" element={<PrivateRoutesUser />}>
           <Route path="/profile" element={<Profile/>} />

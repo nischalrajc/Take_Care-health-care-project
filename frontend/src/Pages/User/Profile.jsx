@@ -153,7 +153,7 @@ function Profile() {
                     </div>
 
                     <div className=' p-4 mt-3'>
-                        <button type="submit" className=" bg-[#E38569] hover:bg-[#e67958] text-white rounded-md  px-6 sm:px-14 py-2 sm:py-2">
+                        <button type="submit" className=" bg-[#9CBCB7] hover:bg-[#70a39c]  text-white rounded-md  px-6 sm:px-14 py-2 sm:py-2">
                             Save Changes
                         </button>
                     </div>

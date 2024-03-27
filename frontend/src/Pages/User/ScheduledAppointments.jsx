@@ -15,7 +15,6 @@ function ScheduledAppointments() {
             if (response.data) {
                 setAppointments(response.data.appointments)
             }
-            console.log(response.data.appointments)
         }).catch((error) => {
             console.log(error)
         })
@@ -29,36 +28,35 @@ function ScheduledAppointments() {
             {
                 appointments.map((appointment, index) => (
                     <>
-                            <div key={index} className="bg-[#2D6A76] text-gray-300 flex justify-center mt-8 w-1/2 mx-auto py-5 rounded-lg font-inder">
-                                <div className="mx-5">
-                                    <div className="">
-                                        {new Date(appointment.date).toLocaleString('en-IN', {
-                                            timeZone: 'Asia/Kolkata',
-                                            weekday: 'long', // to display the day
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                        })}
-                                    </div>
-                                    <div className="">
-                                        {new Date(appointment.date).toLocaleString('en-IN', {
-                                            timeZone: 'Asia/Kolkata',
-                                            hour: 'numeric',
-                                            minute: 'numeric',
-                                            second: 'numeric',
-                                        })}
-                                    </div>
+                        <div key={index} className="bg-[#2D6A76] text-gray-300 flex justify-center mt-8 w-1/2 mx-auto py-5 rounded-lg font-inder">
+                            <div className="mx-5">
+                                <div className="">
+                                    {new Date(appointment.date).toLocaleString('en-IN', {
+                                        timeZone: 'Asia/Kolkata',
+                                        weekday: 'long',
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                    })}
                                 </div>
-                                <div className="mx-5">
-                                    <div className="">Dr. {appointment.doctor.name}</div>
-                                    <div className="">{appointment.doctor.specialisation}</div>
-
-                                </div>
-                                <div className=" mx-5 flex  items-center">
-                                    <button className='bg-[#E38569] px-8 rounded-md py-1 hover:border text-white border-white'>Join</button>
+                                <div className="">
+                                    {new Date(appointment.date).toLocaleString('en-IN', {
+                                        timeZone: 'Asia/Kolkata',
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        second: 'numeric',
+                                    })}
                                 </div>
                             </div>
+                            <div className="mx-5">
+                                <div className="">Dr. {appointment.doctor.name}</div>
+                                <div className="">{appointment.doctor.specialisation}</div>
 
+                            </div>
+                            <div className=" mx-5 flex  items-center">
+                                <button className='bg-[#E38569] px-8 rounded-md py-1 hover:border text-white border-white'>Join</button>
+                            </div>
+                        </div>
                     </>
                 ))
             }

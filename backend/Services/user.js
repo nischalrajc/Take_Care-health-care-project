@@ -32,7 +32,7 @@ export const userProfileEdit = async (req) => {
         const user = await Users.findById(id)
 
         if (user) {
-                user.name = name,
+            user.name = name,
                 user.email = email,
                 user.gender = gender,
                 user.phoneNumber = phone
@@ -108,3 +108,12 @@ export const book_Appointment = async (userId, slotId) => {
         console.log("error while scheduling appointment", error)
     }
 }
+
+export const getAppointmentsScheduled = async (userId) => {
+    try {
+        const appointments = await Booking.find({ user: userId }).populate('doctor');
+        return appointments;
+    } catch (error) {
+        console.log("error when fetching appointment");
+    }
+};

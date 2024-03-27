@@ -17,8 +17,6 @@ function Profile() {
     const dispatch = useDispatch()
     const userInfo = useSelector((state) => state.user.user)
 
-    console.log(userInfo?._id)
-
     useEffect(() => {
         setName(userInfo?.name || '');
         setEmail(userInfo?.email || '');

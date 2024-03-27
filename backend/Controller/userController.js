@@ -6,7 +6,7 @@ import Doctors from "../Modal/Doctor.js";
 // import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled } from "../Services/user.js";
 // import Slots from "../Modal/Slots.js";
 
 
@@ -254,6 +254,17 @@ export const bookAppointments = async (req, res) => {
     }
 }
 
+export const scheduledAppointments = async (req, res) => {
+    try {
+        const id = req.params.id
+        const appointments = await getAppointmentsScheduled(id)
+        res.status(201).json({appointments})
+    } catch (error) {
+        console.log("error when fetching scheduledAppointments", error)
+        res.status(401)
+    }
+}
+
 export const doctorDetails = async (req, res) => {
     const id = req.params.id
     try {
@@ -274,8 +285,8 @@ export const userEditProfile = async (req, res) => {
         if (user) {
             res.status(201).json(user)
         } else {
-            res.status(400).json({error: "User not found or unable to edit profile"})
-        }        
+            res.status(400).json({ error: "User not found or unable to edit profile" })
+        }
     } catch (error) {
         console.log("error in editing profile", error)
     }

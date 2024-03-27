@@ -1,7 +1,7 @@
 
 import express from 'express'
 const router = express.Router()
-import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation, filterDoctor, getSpecialities, viewSpecialities, getBookingSession, viewSlotsAvailable, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
+import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation, filterDoctor, getSpecialities, viewSpecialities, getBookingSession, viewSlotsAvailable, scheduledAppointments, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
 import { protectUser } from '../Middlewares/authMiddlewares.js'
 import { validateUser } from '../Middlewares/validationMiddlewares.js'
 
@@ -19,11 +19,12 @@ router.post('/filterDoctor', filterDoctor)
 router.get('/listSpecialities', getSpecialities)
 router.get('/specialities/:id', viewSpecialities)
 router.get('/doctorDetails/:id', doctorDetails)
-router.put('/editProfile', validateUser , userEditProfile)
+router.put('/editProfile', validateUser, userEditProfile)
 router.get('/available_slots/', validateUser, viewSlotsAvailable)
 router.post('/checkout-session', validateUser, getBookingSession)
 router.get('/book_doctor/', validateUser, bookAppointments)
 router.get('/resend_OTP/:email', mailValidation)
+router.get('/scheduled_appointments/:id', validateUser, scheduledAppointments)
 
 
 export default router;

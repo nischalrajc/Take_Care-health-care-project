@@ -26,7 +26,7 @@ function NavbarDoctor() {
         <div>
             <div className="sm:mx-5 flex justify-between py-3 px-3 border-b  border-gray-300">
                 <div className="flex items-center pr-5">
-                    <img className="min-w-20 max-w-20 md:min-w-48 md:max-w-48" src="take-care-logo.png" alt="Logo" />
+                    <img className="min-w-20 max-w-20 md:min-w-48 md:max-w-48" src="/take-care-logo.png" alt="Logo" />
                 </div>
                 <div className='font-inder flex items-center mr-8'>
                     <div className="mr-8">

@@ -34,7 +34,7 @@ function ProfileBar() {
                 </div>
                 <div className="hidden sm:grid grid-cols-4 items-center">
                     <div className="div"><Link to="/">Home</Link></div>
-                    <div className="div"><Link>Tips</Link></div>
+                    <div className="div"><Link to='/health_tips'>Tips</Link></div>
                     <div className="mx-auto"><Link><IoIosNotifications className="text-2xl" /></Link>
                     </div>
                     <div className="div">
@@ -55,7 +55,7 @@ function ProfileBar() {
             {isMenuOpen && (
                 <div className="sm:hidden flex flex-col">
                     <div className=" hover:bg-[#DFEBE9] p-2"><Link to="/">Home</Link></div>
-                    <div className="hover:bg-[#DFEBE9] p-2"><Link>Tips</Link></div>
+                    <div className="hover:bg-[#DFEBE9] p-2"><Link to='/health_tips'>Tips</Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2"><Link><IoIosNotifications /></Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2">
                         <button className="border border-black rounded px-3 py-1" onClick={handleLogout}>

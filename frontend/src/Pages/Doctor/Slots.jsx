@@ -59,7 +59,7 @@ function Slots() {
 
             <div className='flex justify-center'>
                 {slots && slots.length > 0 ? (
-                    <div className=' w-1/2 grid grid-cols-2 justify-center items-center mt-10'>
+                    <div className=' w-1/2 grid grid-cols-2 justify-center items-center mt-10' >
                         {
                             slots.map((item, index) => (
                                 <div key={index} className="div bg-[#95B4E0]  my-1 mx-4 px-2 py-1 rounded-md">

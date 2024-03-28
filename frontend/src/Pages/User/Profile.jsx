@@ -80,86 +80,93 @@ function Profile() {
             <ProfileBar />
             <ProfileHeader title='profile' />
 
-            <div className='w-full px-8 mt-20'>
+            <div  className="bg-cover mt-6 py-6 mx-60 " style={{ backgroundImage: 'url(/11235809_11003.jpg)' }}>
+                <div className='flex justify-center  w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto'>
+                    <img className="w-auto h-36 object-fill rounded-full " src="/profilepic.jpg" alt="Icon" />
+                </div>
 
-                <form onSubmit={submitHandler}>
+                <div className='w-full px-8'>
 
-                    <div className='flex justify-between w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 '>
-                        <div className='font-semibold  opacity-65 mr-4'>
-                            Name
-                        </div>
-                        <div className='w-full md:w-72'>
-                            <input type="text"
-                                className=" border-gray-500 border-2 w-full rounded"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder='name' style={{ paddingLeft: '10px' }} required />
-                        </div>
-                    </div>
+                    <form onSubmit={submitHandler}>
 
-                    <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
-                        <div className='font-semibold opacity-65 mr-4'>
-                            Email
+                        <div className='flex justify-between w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 '>
+                            <div className='font-semibold  opacity-65 mr-4'>
+                                Name
+                            </div>
+                            <div className='w-full md:w-72'>
+                                <input type="text"
+                                    className=" border-gray-500 border-2 w-full rounded"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder='name' style={{ paddingLeft: '10px' }} required />
+                            </div>
                         </div>
-                        <div className=' w-full md:w-72'>
-                            <input type="email"
-                                className=" border-gray-500 border-2 w-full rounded"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder='email' style={{ paddingLeft: '10px' }} required />
-                        </div>
-                    </div>
 
-                    <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
-                        <div className='font-semibold opacity-65 mr-1'>
-                            Gender
+                        <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
+                            <div className='font-semibold opacity-65 mr-4'>
+                                Email
+                            </div>
+                            <div className=' w-full md:w-72'>
+                                <input type="email"
+                                    className=" border-gray-500 border-2 w-full rounded"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder='email' style={{ paddingLeft: '10px' }} required />
+                            </div>
                         </div>
-                        <div className='  w-full md:w-72'>
-                            <select
-                                value={gender}
-                                onChange={(e) => setGender(e.target.value)}
-                                className="w-full px-16 border-gray-500 border-2 rounded"
-                                style={{ paddingLeft: '10px' }}
-                            >
-                                <option value="" disabled>Select gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
+
+                        <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
+                            <div className='font-semibold opacity-65 mr-1'>
+                                Gender
+                            </div>
+                            <div className='  w-full md:w-72'>
+                                <select
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
+                                    className="w-full px-16 border-gray-500 border-2 rounded"
+                                    style={{ paddingLeft: '10px' }}
+                                >
+                                    <option value="" disabled>Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
-                        <div className='font-inder opacity-70 mr-4'>
-                            Phone
+                        <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
+                            <div className='font-inder opacity-70 mr-4'>
+                                Phone
+                            </div>
+                            <div className=' w-full md:w-72'>
+                                <input type="text"
+                                    className=" border-gray-500 border-2 w-full rounded"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    placeholder='Phone' style={{ paddingLeft: '10px' }} required />
+                            </div>
                         </div>
-                        <div className=' w-full md:w-72'>
-                            <input type="text"
-                                className=" border-gray-500 border-2 w-full rounded"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                                placeholder='Phone' style={{ paddingLeft: '10px' }} required />
+
+                        {/* erorrr handling */}
+                        <div>
+                            {
+                                error && (
+                                    <div className='text-red-500 font-medium'>
+                                        {error}
+                                    </div>
+                                )
+                            }
                         </div>
-                    </div>
 
-                    {/* erorrr handling */}
-                    <div>
-                        {
-                            error && (
-                                <div className='text-red-500 font-medium'>
-                                    {error}
-                                </div>
-                            )
-                        }
-                    </div>
+                        <div className=' p-4 mt-3'>
+                            <button type="submit" className=" bg-[#70a39c] hover:border border-gray-600  text-white rounded-md  px-6 sm:px-14 py-2 sm:py-2">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
 
-                    <div className=' p-4 mt-3'>
-                        <button type="submit" className=" bg-[#9CBCB7] hover:bg-[#70a39c]  text-white rounded-md  px-6 sm:px-14 py-2 sm:py-2">
-                            Save Changes
-                        </button>
-                    </div>
-                </form>
-
+                </div>
             </div>
+           
         </div>
     )
 }

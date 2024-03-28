@@ -103,7 +103,7 @@ function Login() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full border-gray-500 border-2 rounded"
-                                placeholder='email' style={{ paddingLeft: '10px' }} />
+                                placeholder='email' style={{ paddingLeft: '10px' }} required/>
                         </div>
                     </div>
 
@@ -117,7 +117,7 @@ function Login() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full border-gray-500 border-2 rounded"
-                                placeholder='password' style={{ paddingLeft: '10px' }} />
+                                placeholder='password' style={{ paddingLeft: '10px' }} required/>
                         </div>
                     </div>
 

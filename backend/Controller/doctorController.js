@@ -2,7 +2,7 @@ import Doctors from "../Modal/Doctor.js"
 import bcrypt from 'bcrypt'
 import { upload } from "../utils/multer.js"
 import { generateTokenDoctor } from '../utils/generateToken.js'
-import { add_slot, deletePastSlots, findDoctor, getSlots, getSpecialisations, signUpDoctor, update_Password, validate_slot } from "../Services/doctor.js"
+import { add_slot, appointmentScheduled, deletePastSlots, findDoctor, getSlots, getSpecialisations, signUpDoctor, update_Password, validate_slot } from "../Services/doctor.js"
 import { sendEmail } from "../utils/verificationMail.js";
 
 
@@ -34,7 +34,7 @@ export const mailValidation = async (req, res) => {
         console.log("error", error)
         res.status(401)
     }
-    
+
 }
 
 export const doctorSignup = async (req, res) => {
@@ -179,7 +179,7 @@ export const logoutDoctor = async (req, res) => {
 export const forget = async (req, res) => {
     try {
         const { email } = req.body;
-        
+
         const existingDoctor = await Doctors.findOne({ email })
         if (!existingDoctor) {
             return res.status(401).json({ error: "Enter the registered email" });
@@ -242,20 +242,36 @@ export const addNewSlot = async (req, res) => {
     }
 }
 
-export const setNewPassword = async() =>{
+export const setNewPassword = async () => {
     try {
-        const  { email, password } = req.body
+        const { email, password } = req.body
         const doctor = await findDoctor(email)
-        
-        if(doctor){
-            const updatePassword = await update_Password(email,password)
-            if(updatePassword){
+
+        if (doctor) {
+            const updatePassword = await update_Password(email, password)
+            if (updatePassword) {
                 res.status(201)
-            }else{
+            } else {
                 res.status(401)
             }
         }
     } catch (error) {
-        console.log("error",error)
+        console.log("error", error)
+    }
+}
+
+export const scheduledAppointments = async (req, res) => {
+    try {
+        const doctorId = req.params.id;
+        const appointments = await appointmentScheduled(doctorId)
+        console.log(appointments)
+        if (appointments) {
+            res.status(201).json({ appointments })
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("Error when getting scheduledappointments", error)
+        res.status(401)
     }
 }

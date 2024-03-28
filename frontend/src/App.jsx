@@ -36,6 +36,7 @@ import DoctorNewPassword from "./Pages/Doctor/DoctorNewPassword";
 import TipsPage from "./Pages/User/TipsPage";
 import About from "./Pages/User/About";
 import ScheduledAppointments from "./Pages/User/ScheduledAppointments";
+import AppointmentsScheduled from "./Pages/Doctor/AppointmentsScheduled";
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
         <Route path="" element={<DoctorPrivateRoutes />}>
           <Route path="/doctor" element={<DoctorHome />} />
           <Route path="/doctors_slots" element={<Slots />} />
+          <Route path="/doctor/scheduled_appointments" element={<AppointmentsScheduled/>} />
         </Route>
 
         <Route path="/admin" element={<LoginAdmin />} />

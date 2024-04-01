@@ -58,7 +58,7 @@ function AppointmentsScheduled() {
 
                 </div>
                 <div className=" mx-5 flex  items-center">
-                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white'>Join</button>
+                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white'>Schedule</button>
                 </div>
               </div>
             </>

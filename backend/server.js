@@ -2,7 +2,9 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import path from 'path'
+import http from 'http';
+import { Server } from 'socket.io'; // Importing Server from 'socket.io'
+import path from 'path';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -40,6 +42,16 @@ const app = express();
 // Serve static files from the 'uploads' folder
 app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
 
+// socket io server creation
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: ['http://localhost:3000'],
+        methods: ["GET", "POST"],
+        credentials: true,
+    },
+});
+
 // Middleware
 const corsOptions = {
     origin: 'http://localhost:3000',
@@ -51,7 +63,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); 
+app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -60,6 +72,25 @@ app.use(cookieParser());
 app.use('/', userRouter);
 app.use('/doctor', doctorRouter);
 app.use('/admin', adminRouter);
+
+io.on('connection',(socket) => {
+    console.log('New client connected:', socket.id);
+    socket.emit("me", socket.id);
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
+        socket.broadcast.emit("callended")
+    });
+
+    socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+		io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+	});
+
+    socket.on("answerCall", (data) => {
+		io.to(data.to).emit("callAccepted", data.signal)
+	});
+
+})
 
 // Start the server
 const PORT = process.env.PORT || 8000;

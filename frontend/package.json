@@ -24,6 +24,8 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.4",
+    "simple-peer": "^9.11.1",
+    "socket.io-client": "^4.7.5",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.10.5",
     "web-vitals": "^2.1.4"

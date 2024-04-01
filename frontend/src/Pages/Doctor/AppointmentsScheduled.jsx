@@ -23,9 +23,13 @@ function AppointmentsScheduled() {
     })
   }, [id])
 
+  const handlescheduleMeeting = () =>{
+    console.log("hhhhhhhhhh")
+  }
+
   return (
     <div>
-            <NavbarDoctor />
+      <NavbarDoctor />
       <Header title='appointments' />
 
       {
@@ -58,7 +62,7 @@ function AppointmentsScheduled() {
 
                 </div>
                 <div className=" mx-5 flex  items-center">
-                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white'>Schedule</button>
+                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={handlescheduleMeeting}>Schedule</button>
                 </div>
               </div>
             </>
@@ -69,10 +73,10 @@ function AppointmentsScheduled() {
               You dont have any appointments yet...
             </div>
             <div className="div">
-             <Link to='/doctors_slots'> <button className='bg-[#CED891] px-6 rounded-md mt-4 font-inder py-1'> Add Slot</button></Link>
+              <Link to='/doctors_slots'> <button className='bg-[#CED891] px-6 rounded-md mt-4 font-inder py-1'> Add Slot</button></Link>
             </div>
             <div className="h-96 mt-6">
-              <img src="/7709344_3724894.jpg" className="w-full h-full object-contain"  alt="No Appointments Available" />
+              <img src="/7709344_3724894.jpg" className="w-full h-full object-contain" alt="No Appointments Available" />
             </div>
           </>
         )

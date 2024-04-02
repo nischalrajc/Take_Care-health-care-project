@@ -47,7 +47,6 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
         try {
             await Axios.post('/checkout-session', { userId, doctorId, slotId }).then((response) => {
                 if (response.data) {
-                    console.log("kkkk", response.data)
                     window.location.href = response.data.session.url
                 }
             }).catch((error) => {

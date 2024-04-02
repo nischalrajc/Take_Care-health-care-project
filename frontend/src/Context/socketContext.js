@@ -7,6 +7,17 @@ const SocketContext = createContext();
 
 const socket = io('http://localhost:5000');
 
+socket.on("connect_error", (err) => {
+    // the reason of the error, for example "xhr poll error"
+    console.log(err.message);
+
+    // some additional description, for example the status code of the initial HTTP response
+    console.log(err.description);
+
+    // some additional context, for example the XMLHttpRequest object
+    console.log(err.context);
+});
+
 const ContextProvider = ({ children }) => {
 
     const [stream, setStream] = useState(null)
@@ -22,20 +33,20 @@ const ContextProvider = ({ children }) => {
     const connectionRef = useRef();
 
 
-    useEffect(() => {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-            .then((currentStream) => {
-                setStream(currentStream);
+    // useEffect(() => {
+    //     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    //         .then((currentStream) => {
+    //             setStream(currentStream);
 
-                myVideo.current.srcObject = currentStream;
-            })
+    //             // myVideo.current.srcObject = currentStream;
+    //         })
 
-        socket.on('me', (id) => setMe(id))
+    //     socket.on('me', (id) => setMe(id))
 
-        socket.on('callUser', ({ from, name: callerName, signal }) => {
-            setCall({ isRecievedCall: true, from, name: callerName, signal })
-        })
-    }, []);
+    //     socket.on('callUser', ({ from, name: callerName, signal }) => {
+    //         setCall({ isRecievedCall: true, from, name: callerName, signal })
+    //     })
+    // }, []);
 
     const answerCall = () => {
         setCallAccepted(true)

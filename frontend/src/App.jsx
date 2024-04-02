@@ -38,7 +38,6 @@ import About from "./Pages/User/About";
 import ScheduledAppointments from "./Pages/User/ScheduledAppointments";
 import AppointmentsScheduled from "./Pages/Doctor/AppointmentsScheduled";
 
-
 function App() {
   return (
     <div className="App">

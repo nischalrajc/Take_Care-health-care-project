@@ -6,6 +6,7 @@ import { Axios } from '../../Axios/doctor'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+
 function AppointmentsScheduled() {
 
   const [appointments, setAppointments] = useState([])
@@ -23,7 +24,7 @@ function AppointmentsScheduled() {
     })
   }, [id])
 
-  const handlescheduleMeeting = () =>{
+  const handlescheduleMeeting = () => {
     console.log("hhhhhhhhhh")
   }
 

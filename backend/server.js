@@ -1,21 +1,18 @@
-// Import required modules
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import http from 'http';
-import { Server } from 'socket.io'; // Importing Server from 'socket.io'
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import path from 'path';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-// Import routes
 import userRouter from './Routes/userRoutes.js';
 import doctorRouter from './Routes/doctorRoutes.js';
 import adminRouter from './Routes/adminRoutes.js'
 
-// Load environment variables
 dotenv.config();
 
 // Database connection
@@ -26,41 +23,39 @@ const db = mongoose.connection;
 db.on('error', (error) => {
     console.error('MongoDB connection error:', error);
 });
-
 db.once('open', () => {
     console.log('Connected to MongoDB');
 });
+
 
 // Convert import.meta.url to a file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 
-// Create an instance of Express
 const app = express();
 
-// Serve static files from the 'uploads' folder
-app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
-
-// socket io server creation
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ['http://localhost:3000'],
+        origin: ['http://localhost:3000','*'],
         methods: ["GET", "POST"],
-        credentials: true,
+        credentials: true
     },
 });
 
-// Middleware
+app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
+
+
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:5000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
@@ -73,7 +68,7 @@ app.use('/', userRouter);
 app.use('/doctor', doctorRouter);
 app.use('/admin', adminRouter);
 
-io.on('connection',(socket) => {
+io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
     socket.emit("me", socket.id);
 
@@ -83,17 +78,25 @@ io.on('connection',(socket) => {
     });
 
     socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-		io.to(userToCall).emit("callUser", { signal: signalData, from, name });
-	});
+        io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+    });
 
     socket.on("answerCall", (data) => {
-		io.to(data.to).emit("callAccepted", data.signal)
-	});
+        io.to(data.to).emit("callAccepted", data.signal)
+    });
 
 })
 
-// Start the server
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
+io.engine.on("connection_error", (err) => {
+    console.log(err.req);      // the request object
+    console.log(err.code);     // the error code, for example 1
+    console.log(err.message);  // the error message, for example "Session ID unknown"
+    console.log(err.context);  // some additional error context
+  });
+
+  
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

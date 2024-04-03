@@ -4,7 +4,7 @@ import Header from '../../Components/Doctor/Header'
 import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/doctor'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 
 
 function AppointmentsScheduled() {
@@ -13,6 +13,8 @@ function AppointmentsScheduled() {
   const doctorInfo = useSelector((state) => state.doctor.doctor)
 
   const id = doctorInfo?._id
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     Axios.get(`/scheduled_appointment/${id}`).then((response) => {
@@ -25,7 +27,7 @@ function AppointmentsScheduled() {
   }, [id])
 
   const handlescheduleMeeting = () => {
-    console.log("hhhhhhhhhh")
+    navigate('/room')
   }
 
   return (

@@ -264,7 +264,7 @@ export const scheduledAppointments = async (req, res) => {
     try {
         const doctorId = req.params.id;
         const appointments = await appointmentScheduled(doctorId)
-        console.log(appointments)
+        
         if (appointments) {
             res.status(201).json({ appointments })
         } else {

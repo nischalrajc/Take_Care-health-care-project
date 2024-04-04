@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import NavbarDoctor from '../../Components/Doctor/NavbarDoctor'
 import Header from '../../Components/Doctor/Header'
 import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/doctor'
 import { useSelector } from 'react-redux'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { SocketContext } from '../../Context/socketContext';
 
 
 function AppointmentsScheduled() {
+  const { newUser, socket } = useContext(SocketContext)
 
   const [appointments, setAppointments] = useState([])
   const doctorInfo = useSelector((state) => state.doctor.doctor)
@@ -17,6 +19,7 @@ function AppointmentsScheduled() {
   const navigate = useNavigate()
 
   useEffect(() => {
+
     Axios.get(`/scheduled_appointment/${id}`).then((response) => {
       if (response.data) {
         setAppointments(response.data.appointments)
@@ -24,10 +27,15 @@ function AppointmentsScheduled() {
     }).catch((error) => {
       console.log(error)
     })
+
   }, [id])
 
-  const handlescheduleMeeting = () => {
-    navigate('/room')
+  useEffect(() => {
+    newUser(id)
+  }, [])
+
+  const handlescheduleMeeting = (userId) => {
+    navigate(`/room/${userId}`)
   }
 
   return (
@@ -65,7 +73,7 @@ function AppointmentsScheduled() {
 
                 </div>
                 <div className=" mx-5 flex  items-center">
-                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={handlescheduleMeeting}>Schedule</button>
+                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={() => handlescheduleMeeting(appointment.user._id)}>Schedule</button>
                 </div>
               </div>
             </>

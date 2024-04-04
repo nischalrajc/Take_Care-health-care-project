@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ProfileHeader from '../../Components/User/ProfileHeader'
 import ProfileBar from '../../Components/User/ProfileBar'
 import { Axios } from '../../Axios/users'
 import { useSelector } from 'react-redux'
+import { SocketContext } from '../../Context/socketContext';
+import { useNavigate } from 'react-router-dom'
 
 function ScheduledAppointments() {
+    const { newUser, socket, setCall, answerCall } = useContext(SocketContext)
+
+    const navigate = useNavigate();
 
     const [appointments, setAppointments] = useState([])
     const userInfo = useSelector((state) => state.user.user)
@@ -19,6 +24,22 @@ function ScheduledAppointments() {
             console.log(error)
         })
     }, [id])
+
+    useEffect(() => {
+        newUser(id)
+
+        socket.on('callUser', ({ from, name: callerName, signal }) => {
+            console.log("doctor is calling")
+            console.log("doctor docket id",from)
+            setCall({ isRecievedCall: true, from, name: callerName, signal })
+        })
+
+    }, [])
+
+    const joinMeeting = async () => {
+        answerCall()
+        navigate(`/room/${id}`)
+    }
 
     return (
         <div>
@@ -54,7 +75,7 @@ function ScheduledAppointments() {
 
                             </div>
                             <div className=" mx-5 flex  items-center">
-                                <button className='bg-[#E38569] px-8 rounded-md py-1 hover:border text-white border-white'>Join</button>
+                                <button className='bg-[#E38569] px-8 rounded-md py-1 hover:border text-white border-white' onClick={joinMeeting}>Join</button>
                             </div>
                         </div>
                     </>

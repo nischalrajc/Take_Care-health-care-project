@@ -9,25 +9,36 @@ export const initializeSocket = (httpServer) => {
         },
     });
 
-    
-io.on('connection', (socket) => {
-    console.log('New client connected:', socket.id);
-    socket.emit("me", socket.id);
+    const users = {}
 
-    socket.on('disconnect', () => {
-        console.log('Client disconnected:', socket.id);
-        socket.broadcast.emit("callended")
-    });
+    io.on('connection', (socket) => {
+        console.log('New client connected:', socket.id);
+        socket.emit("me", socket.id);
 
-    socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-        io.to(userToCall).emit("callUser", { signal: signalData, from, name });
-    });
+        socket.on("newuser", (userId) => {
+            users[userId] = socket.id;
+            // console.log(users)
+        })
 
-    socket.on("answerCall", (data) => {
-        io.to(data.to).emit("callAccepted", data.signal)
-    });
+        socket.on('disconnect', () => {
+            console.log('Client disconnected:', socket.id);
+            socket.broadcast.emit("callended")
+        });
 
-})
+        socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+            // console.log("user to call", userToCall)
+            console.log("doctor socket id",from)
+            const userToCallId = users[userToCall]
+            console.log("user to call socket id", userToCallId)
+            io.to(userToCallId).emit("callUser", { signal: signalData, from, name });
+        });
+
+        socket.on("answerCall", (data) => {
+            // console.log("answerCall",data)
+            io.to(data.to).emit("callAccepted", data.signal)
+        });
+
+    })
 
 }
 

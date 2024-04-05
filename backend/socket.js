@@ -38,6 +38,18 @@ export const initializeSocket = (httpServer) => {
             io.to(data.to).emit("callAccepted", data.signal)
         });
 
+        socket.on("callEnded",(data)=>{
+            console.log("call is ended by the user")
+            console.log(data.doctorId)
+            const doctorId = users[data.doctorId]
+            console.log(doctorId)
+            if (data.doctorId) {
+                io.to(doctorId).emit("callEnded");
+              } else {
+                console.log("User not found");
+              }
+        })
+
     })
 
 }

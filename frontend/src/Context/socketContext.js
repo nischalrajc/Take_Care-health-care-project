@@ -62,11 +62,11 @@ const ContextProvider = ({ children }) => {
         connectionRef.current = peer;
     }
 
-    const callUser = (id, appointmentId) => {
+    const callUser = (id, appointmentId,doctorId) => {
         const peer = new Peer({ initiator: true, trickle: false, stream });
 
         peer.on('signal', (data) => {
-            socket.emit('callUser', { userToCall: id, signalData: data, from: me, appointmentId, name });
+            socket.emit('callUser', { userToCall: id, signalData: data, from: doctorId, appointmentId, name });
         })
 
         peer.on('stream', (currentStream) => {
@@ -83,13 +83,14 @@ const ContextProvider = ({ children }) => {
 
     }
 
-    const leaveCall = () => {
-        setCallEnded(true);
+    // const leaveCall = () => {
+    //     setCallEnded(true);
 
-        connectionRef.current.destroy();
+    //     console.log("leaveCall")
 
-        window.location.reload();
-    };
+    //     connectionRef.current.destroy();
+    //     window.location.reload();
+    //   };
 
     return (
         <SocketContext.Provider value={{
@@ -102,14 +103,16 @@ const ContextProvider = ({ children }) => {
             name,
             setName,
             callEnded,
+            setCallEnded,
             me,
             newUser,
             setCall,
             setMe,
             callUser,
-            leaveCall,
+            // leaveCall,
             answerCall,
-            socket
+            socket,
+            connectionRef
         }}
         >
             {children}

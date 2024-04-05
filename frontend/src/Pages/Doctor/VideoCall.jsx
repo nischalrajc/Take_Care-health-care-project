@@ -5,15 +5,23 @@ import { useParams } from 'react-router-dom';
 import { MdCallEnd } from "react-icons/md";
 import { AiOutlineAudio } from "react-icons/ai";
 import { AiOutlineAudioMuted } from "react-icons/ai";
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 
 function VideoCall() {
     const { userId, appointmentId } = useParams()
 
+    const doctorInfo = useSelector((state) => state.doctor.doctor)
+
+    const doctorId = doctorInfo?._id
+
+    const navigate = useNavigate()
+
     // const [isUSerAudioMuted, setIsUserAudioMuted] = useState(false);
     // const [isDoctorAudioMuted, setIsDoctorAudioMuted] = useState(false);
-    const [isAudioMuted,setIsAudioMuted] = useState(true)
-    const { callAccepted, myVideo, userVideo, callEnded, setStream, callUser ,stream} = useContext(SocketContext)
+    const [isAudioMuted, setIsAudioMuted] = useState(true)
+    const { callAccepted, myVideo, userVideo, callEnded, setCallEnded, leaveCall, setStream, callUser, connectionRef, socket, call ,stream} = useContext(SocketContext)
 
     useEffect(() => {
 
@@ -40,9 +48,32 @@ function VideoCall() {
     }, [callAccepted, callEnded, userVideo]);
 
     useEffect(() => {
-        callUser(userId, appointmentId)
+        callUser(userId, appointmentId,doctorId)
     }, [])
-    
+
+    useEffect(() => {
+        socket.on("callEnded", () => {
+            console.log("Call ended event received");
+            setCallEnded(true);
+
+            if (myVideo.current) {
+                myVideo.current.srcObject = null;
+                console.log("doctor video cleared")
+            }
+
+            if (userVideo.current) {
+                userVideo.current.srcObject = null;
+                console.log("user video Cleared")
+            }
+
+            if (connectionRef.current) {
+                connectionRef.current.destroy();
+                connectionRef.current = null;
+            }
+
+        })
+    }, [socket,stream])
+
 
     const toggleAudioMute = async () => {
         const myAudioTracks = myVideo.current.srcObject.getAudioTracks();
@@ -50,30 +81,63 @@ function VideoCall() {
 
         // const myVideoTracks = myVideo.current.srcObject.getVideoTracks();
         // const userVideoTracks = userVideo.current.srcObject.getVideoTracks();
-    
+
         myAudioTracks.forEach((track) => {
             console.log(track)
             track.enabled = !isAudioMuted;
             console.log(track)
         });
-    
+
         userAudioTracks.forEach((track) => {
             console.log(track)
             track.enabled = !isAudioMuted;
             console.log(track)
         });
-    
+
         // myVideoTracks.forEach((track) => {
         //     track.enabled = !isAudioMuted;
         // });
-    
+
         // userVideoTracks.forEach((track) => {
         //     track.enabled = !isAudioMuted;
         // });
-    
+
         setIsAudioMuted(!isAudioMuted);
     };
-    
+
+
+    const endCallHandler = () => {
+
+        if (myVideo.current) {
+            myVideo.current.srcObject = null;
+            console.log("doctor video cleared")
+        }
+
+        if (userVideo.current) {
+            userVideo.current.srcObject = null;
+            console.log("user video Cleared")
+        }
+
+        if (connectionRef.current) {
+            connectionRef.current.destroy();
+            connectionRef.current = null;
+        }
+
+        setCallEnded(true);
+
+        console.log("callerDetails", call)
+
+        socket.emit("callEnded", { doctorId: call.from });
+
+        // if (callEnded) {
+        //     console.log("call ended successfully")
+        //     navigate('/')
+        // }
+
+        // leaveCall()
+
+    }
+
 
     return (
 
@@ -118,7 +182,7 @@ function VideoCall() {
                 </div>
                 <div className="mx-4">
                     <button>
-                        <MdCallEnd className='text-red-600 text-4xl hover:cursor-pointer' />
+                        <MdCallEnd onClick={endCallHandler} className='text-red-600 text-4xl hover:cursor-pointer' />
                     </button>
                 </div>
             </div>

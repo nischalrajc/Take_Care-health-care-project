@@ -29,8 +29,6 @@ function ScheduledAppointments() {
         newUser(id)
 
         socket.on('callUser', ({ from, appointmentId, name: callerName, signal }) => {
-            // console.log("doctor is calling")
-            // console.log("doctor docket id", from)
             setCall({ isRecievedCall: true, from, name: callerName, appointmentId, signal })
         })
 

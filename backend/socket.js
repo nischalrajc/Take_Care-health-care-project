@@ -25,12 +25,12 @@ export const initializeSocket = (httpServer) => {
             socket.broadcast.emit("callended")
         });
 
-        socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+        socket.on("callUser", ({ userToCall, signalData, from, appointmentId, name }) => {
             // console.log("user to call", userToCall)
-            console.log("doctor socket id",from)
+            // console.log("doctor socket id", from)
             const userToCallId = users[userToCall]
             console.log("user to call socket id", userToCallId)
-            io.to(userToCallId).emit("callUser", { signal: signalData, from, name });
+            io.to(userToCallId).emit("callUser", { signal: signalData, from, appointmentId, name });
         });
 
         socket.on("answerCall", (data) => {

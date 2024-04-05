@@ -2,16 +2,20 @@ import React, { useContext } from 'react'
 import { useEffect } from 'react'
 import { SocketContext } from '../../Context/socketContext';
 import { useParams } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
 
 
 function VideoCall() {
-    const { userId } = useParams()
+    const { userId,appointmentId } = useParams()
+
+    // const doctorInfo = useSelector((state) => state.doctor.doctor)
+
+    // const doctorId = doctorInfo?._id
 
     const { callAccepted, myVideo, userVideo, callEnded, setStream, callUser } = useContext(SocketContext)
 
-
-    console.log("doctor video", myVideo)
-    console.log("user video", userVideo)
+    // console.log("doctor video", myVideo)
+    // console.log("user video", userVideo)
 
     useEffect(() => {
 
@@ -38,7 +42,7 @@ function VideoCall() {
     }, [callAccepted, callEnded, userVideo]);
 
     useEffect(() => {
-        callUser(userId)
+        callUser(userId,appointmentId)
     }, [])
 
     return (

@@ -7,7 +7,7 @@ import { SocketContext } from '../../Context/socketContext';
 import { useNavigate } from 'react-router-dom'
 
 function ScheduledAppointments() {
-    const { newUser, socket, setCall, answerCall } = useContext(SocketContext)
+    const { newUser, socket, setCall, call, answerCall } = useContext(SocketContext)
 
     const navigate = useNavigate();
 
@@ -28,17 +28,18 @@ function ScheduledAppointments() {
     useEffect(() => {
         newUser(id)
 
-        socket.on('callUser', ({ from, name: callerName, signal }) => {
-            console.log("doctor is calling")
-            console.log("doctor docket id",from)
-            setCall({ isRecievedCall: true, from, name: callerName, signal })
+        socket.on('callUser', ({ from, appointmentId, name: callerName, signal }) => {
+            // console.log("doctor is calling")
+            // console.log("doctor docket id", from)
+            setCall({ isRecievedCall: true, from, name: callerName, appointmentId, signal })
         })
 
     }, [])
 
     const joinMeeting = async () => {
         answerCall()
-        navigate(`/room/${id}`)
+        const appointmentId = call.appointmentId
+        navigate(`/room/${id}/${appointmentId}`)
     }
 
     return (
@@ -74,9 +75,16 @@ function ScheduledAppointments() {
                                 <div className="">{appointment.doctor.specialisation}</div>
 
                             </div>
-                            <div className=" mx-5 flex  items-center">
-                                <button className='bg-[#E38569] px-8 rounded-md py-1 hover:border text-white border-white' onClick={joinMeeting}>Join</button>
-                            </div>
+
+                            {call.isRecievedCall && call.appointmentId === appointment._id ? (
+                                <div className="join-meeting-wrapper mx-5 flex items-center">
+                                    <button className='join-meeting-button  px-8 rounded-md py-1 border bg-green-500 text-white border-white' onClick={joinMeeting}>Join Now</button>
+                                </div>) : (
+                                <div className="join-meeting-wrapper mx-5 flex items-center">
+                                    <button className='hover:cursor-not-allowed opacity-50  px-8 rounded-md py-1 border text-white border-white' >join</button>
+                                </div>
+                            )}
+
                         </div>
                     </>
                 ))

@@ -21,9 +21,9 @@ const ContextProvider = ({ children }) => {
     const userVideo = useRef(null)
     const connectionRef = useRef();
 
-    useEffect(()=>{
+    useEffect(() => {
         socket.on('me', (id) => setMe(id))
-    },[])
+    }, [])
 
     // useEffect(() => {
     //     // navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -40,8 +40,8 @@ const ContextProvider = ({ children }) => {
     //     // })
     // }, []);
 
-    const newUser = (id) =>{
-        socket.emit("newuser",id)
+    const newUser = (id) => {
+        socket.emit("newuser", id)
     }
 
     const answerCall = () => {
@@ -62,12 +62,11 @@ const ContextProvider = ({ children }) => {
         connectionRef.current = peer;
     }
 
-    const callUser = (id) => {
+    const callUser = (id, appointmentId) => {
         const peer = new Peer({ initiator: true, trickle: false, stream });
 
         peer.on('signal', (data) => {
-
-            socket.emit('callUser', { userToCall: id, signalData: data, from:me, name });
+            socket.emit('callUser', { userToCall: id, signalData: data, from: me, appointmentId, name });
         })
 
         peer.on('stream', (currentStream) => {

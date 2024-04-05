@@ -34,9 +34,10 @@ function AppointmentsScheduled() {
     newUser(id)
   }, [])
 
-  const handlescheduleMeeting = (userId) => {
-    navigate(`/room/${userId}`)
+  const handlescheduleMeeting = (userId,appointmentId) => {
+    navigate(`/room/${userId}/${appointmentId}`)
   }
+
 
   return (
     <div>
@@ -73,7 +74,7 @@ function AppointmentsScheduled() {
 
                 </div>
                 <div className=" mx-5 flex  items-center">
-                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={() => handlescheduleMeeting(appointment.user._id)}>Schedule</button>
+                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={() => handlescheduleMeeting(appointment.user._id,appointment._id)}>Schedule</button>
                 </div>
               </div>
             </>

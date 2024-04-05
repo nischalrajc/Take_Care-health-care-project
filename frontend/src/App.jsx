@@ -75,7 +75,7 @@ function App() {
           <Route path="/doctor/scheduled_appointments" element={<AppointmentsScheduled/>} />
         </Route>
 
-        <Route path="/room/:userId" element={<VideoCall />} />
+        <Route path="/room/:userId/:appointmentId" element={<VideoCall />} />
 
 
         <Route path="/admin" element={<LoginAdmin />} />

@@ -32,7 +32,9 @@ function AllSpecialist() {
             <div className="mt-3">
                 Empowering lives through compassionate care: Where expertise meets empathy, and healing begins.
             </div>
-            <DoctorsCard  array={array}/>
+           {/* <div className='h-96 overflow-y-auto'> */}
+           <DoctorsCard  array={array}/>
+           {/* </div> */}
 
         </div>
     )

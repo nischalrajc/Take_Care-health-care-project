@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import { MdCallEnd } from "react-icons/md";
 import { AiOutlineAudio } from "react-icons/ai";
 import { AiOutlineAudioMuted } from "react-icons/ai";
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 
@@ -16,12 +15,10 @@ function VideoCall() {
 
     const doctorId = doctorInfo?._id
 
-    const navigate = useNavigate()
-
     // const [isUSerAudioMuted, setIsUserAudioMuted] = useState(false);
     // const [isDoctorAudioMuted, setIsDoctorAudioMuted] = useState(false);
     const [isAudioMuted, setIsAudioMuted] = useState(true)
-    const { callAccepted, myVideo, userVideo, callEnded, setCallEnded, leaveCall, setStream, callUser, connectionRef, socket, call ,stream} = useContext(SocketContext)
+    const { callAccepted, myVideo, userVideo, callEnded, setCallEnded, leaveCall, setStream, callUser, connectionRef, socket, call, stream } = useContext(SocketContext)
 
     useEffect(() => {
 
@@ -48,31 +45,31 @@ function VideoCall() {
     }, [callAccepted, callEnded, userVideo]);
 
     useEffect(() => {
-        callUser(userId, appointmentId,doctorId)
+        callUser(userId, appointmentId, doctorId)
     }, [])
 
     useEffect(() => {
         socket.on("callEnded", () => {
-            console.log("Call ended event received");
             setCallEnded(true);
 
             if (myVideo.current) {
                 myVideo.current.srcObject = null;
-                console.log("doctor video cleared")
             }
 
             if (userVideo.current) {
                 userVideo.current.srcObject = null;
-                console.log("user video Cleared")
             }
 
             if (connectionRef.current) {
-                connectionRef.current.destroy();
+                // connectionRef.current.destroy();
                 connectionRef.current = null;
             }
 
+            // window.location.reload();
+            window.location.href = '/doctor/scheduled_appointments';
+
         })
-    }, [socket,stream])
+    }, [socket, stream])
 
 
     const toggleAudioMute = async () => {
@@ -108,34 +105,7 @@ function VideoCall() {
 
     const endCallHandler = () => {
 
-        if (myVideo.current) {
-            myVideo.current.srcObject = null;
-            console.log("doctor video cleared")
-        }
-
-        if (userVideo.current) {
-            userVideo.current.srcObject = null;
-            console.log("user video Cleared")
-        }
-
-        if (connectionRef.current) {
-            connectionRef.current.destroy();
-            connectionRef.current = null;
-        }
-
-        setCallEnded(true);
-
-        console.log("callerDetails", call)
-
-        socket.emit("callEnded", { doctorId: call.from });
-
-        // if (callEnded) {
-        //     console.log("call ended successfully")
-        //     navigate('/')
-        // }
-
-        // leaveCall()
-
+        leaveCall()
     }
 
 

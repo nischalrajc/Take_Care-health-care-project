@@ -25,21 +25,6 @@ const ContextProvider = ({ children }) => {
         socket.on('me', (id) => setMe(id))
     }, [])
 
-    // useEffect(() => {
-    //     // navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    //     //     .then((currentStream) => {
-    //     //         setStream(currentStream);
-
-    //     //         // myVideo.current.srcObject = currentStream;
-    //     //     })
-
-    //     // socket.on('me', (id) => setMe(id))
-
-    //     // socket.on('callUser', ({ from, name: callerName, signal }) => {
-    //     //     setCall({ isRecievedCall: true, from, name: callerName, signal })
-    //     // })
-    // }, []);
-
     const newUser = (id) => {
         socket.emit("newuser", id)
     }
@@ -62,7 +47,7 @@ const ContextProvider = ({ children }) => {
         connectionRef.current = peer;
     }
 
-    const callUser = (id, appointmentId,doctorId) => {
+    const callUser = (id, appointmentId, doctorId) => {
         const peer = new Peer({ initiator: true, trickle: false, stream });
 
         peer.on('signal', (data) => {
@@ -83,14 +68,27 @@ const ContextProvider = ({ children }) => {
 
     }
 
-    // const leaveCall = () => {
-    //     setCallEnded(true);
+    const leaveCall = () => {
+        setCallEnded(true);
 
-    //     console.log("leaveCall")
+        if (myVideo.current) {
+            myVideo.current.srcObject = null;
+        }
 
-    //     connectionRef.current.destroy();
-    //     window.location.reload();
-    //   };
+        if (userVideo.current) {
+            userVideo.current.srcObject = null;
+        }
+
+        if (connectionRef.current) {
+            // connectionRef.current.destroy();
+            connectionRef.current = null;
+        }
+
+        window.location.href = '/';
+
+        socket.emit("callEnded", { doctorId: call.from });
+
+    };
 
     return (
         <SocketContext.Provider value={{
@@ -109,7 +107,7 @@ const ContextProvider = ({ children }) => {
             setCall,
             setMe,
             callUser,
-            // leaveCall,
+            leaveCall,
             answerCall,
             socket,
             connectionRef

@@ -4,11 +4,14 @@ import Header from '../../Components/Admin/Header'
 import Sidebar from '../../Components/Admin/Sidebar'
 import { useNavigate } from 'react-router-dom'
 import { Axios } from '../../Axios/admin'
+import Pagination from '../../Components/Admin/Pagination'
 
 
 function Specialisation() {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [array, setArray] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [dataPerPage, setDataPerPage] = useState(4)
 
     const navigate = useNavigate()
 
@@ -20,7 +23,10 @@ function Specialisation() {
         })
     }, [array])
 
-    console.log(array)
+    const lastUserIndex = currentPage * dataPerPage
+    const firstUserIndex = lastUserIndex - dataPerPage
+
+    const currentData = array.slice(firstUserIndex, lastUserIndex)
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -53,7 +59,7 @@ function Specialisation() {
                                                 </thead>
                                                 <tbody>
                                                     {
-                                                        array.map((specilise, index) => (
+                                                        currentData.map((specilise, index) => (
                                                             <tr key={index}
                                                                 className="border-b transition duration-300 ease-in-out bg-[#E7EBD2]   dark:hover:bg-[#DCE2B7]">
                                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{specilise.specialisation}</td>
@@ -77,6 +83,9 @@ function Specialisation() {
                             </div>
                         )
                     }
+
+                    <Pagination totalData={array.length} dataPerPage={dataPerPage} setCurrentPage={setCurrentPage} />
+
                 </div>
             </div>
         </div>

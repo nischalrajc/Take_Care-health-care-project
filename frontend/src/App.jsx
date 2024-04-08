@@ -38,6 +38,7 @@ import About from "./Pages/User/About";
 import ScheduledAppointments from "./Pages/User/ScheduledAppointments";
 import AppointmentsScheduled from "./Pages/Doctor/AppointmentsScheduled";
 import VideoCall from "./Pages/Doctor/VideoCall";
+import Payments from "./Pages/User/Payments";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
         <Route path="" element={<PrivateRoutesUser />}>
           <Route path="/profile" element={<Profile/>} />
           <Route path="/Checkout-success/:slotId" element={<Success/>} />
+          <Route path="/payments" element={<Payments/>} />
           <Route path="/scheduled_appointments" element={<ScheduledAppointments/>} />
         </Route>
 

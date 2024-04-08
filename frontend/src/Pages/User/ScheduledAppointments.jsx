@@ -51,7 +51,7 @@ function ScheduledAppointments() {
                         <div key={index} className="bg-[#2D6A76] text-gray-300 flex justify-center mt-8 w-1/2 mx-auto py-5 rounded-lg font-inder">
                             <div className="mx-5">
                                 <div className="">
-                                    {new Date(appointment.date).toLocaleString('en-IN', {
+                                    {new Date(appointment.appointmentDate).toLocaleString('en-IN', {
                                         timeZone: 'Asia/Kolkata',
                                         weekday: 'long',
                                         year: 'numeric',
@@ -60,7 +60,7 @@ function ScheduledAppointments() {
                                     })}
                                 </div>
                                 <div className="">
-                                    {new Date(appointment.date).toLocaleString('en-IN', {
+                                    {new Date(appointment.appointmentDate).toLocaleString('en-IN', {
                                         timeZone: 'Asia/Kolkata',
                                         hour: 'numeric',
                                         minute: 'numeric',
@@ -80,6 +80,7 @@ function ScheduledAppointments() {
                                 </div>) : (
                                 <div className="join-meeting-wrapper mx-5 flex items-center">
                                     <button className='hover:cursor-not-allowed opacity-50  px-8 rounded-md py-1 border text-white border-white' >join</button>
+                                    <button className='hover:cursor-wait opacity-50  px-8 rounded-md py-1 border text-white border-white ms-3' >Cancel Meeting</button>
                                 </div>
                             )}
 

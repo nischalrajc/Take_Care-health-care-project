@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import NavBar from '../../Components/User/NavBAr'
+import ProfileBar from '../../Components/User/ProfileBar'
 import ProfileHeader from '../../Components/User/ProfileHeader'
 import { Axios } from '../../Axios/users'
 import { useSelector } from 'react-redux'
@@ -14,7 +14,6 @@ function Payments() {
     useEffect(() => {
         Axios.get(`/paymentHistory/${id}`).then((response) => {
             if (response.data) {
-                console.log(response.data.payment)
                 setPayments(response.data.payment)
             }
         }).catch((error) => {
@@ -24,7 +23,7 @@ function Payments() {
 
     return (
         <div>
-            <NavBar />
+            <ProfileBar />
             <ProfileHeader title='payments' />
 
             <div className="mt-8 mx-auto">
@@ -35,7 +34,7 @@ function Payments() {
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Doctor</th>
-                                <th>Specialisation</th>
+                                {/* <th>Specialisation</th> */}
                                 <th>Amount</th>
                             </tr>
                         </thead>
@@ -60,7 +59,7 @@ function Payments() {
                                         })}
                                     </td>
                                     <td className="p-4">{item.doctor.name}</td>
-                                    <td className="p-4">{item.doctor.specialisation}</td>
+                                    {/* <td className="p-4">{item.doctor.specialisation}</td> */}
                                     <td className="p-4">{item.doctor.fees}</td>
                                 </tr>
                             ))}

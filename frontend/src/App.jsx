@@ -37,7 +37,7 @@ import TipsPage from "./Pages/User/TipsPage";
 import About from "./Pages/User/About";
 import ScheduledAppointments from "./Pages/User/ScheduledAppointments";
 import AppointmentsScheduled from "./Pages/Doctor/AppointmentsScheduled";
-
+import VideoCall from "./Pages/Doctor/VideoCall";
 
 function App() {
   return (
@@ -59,7 +59,6 @@ function App() {
         <Route path="/findone" element={<FindOne />} />
         <Route path="/health_tips" element={<TipsPage />} />
         <Route path="/about" element={<About />} />
-
         <Route path="" element={<PrivateRoutesUser />}>
           <Route path="/profile" element={<Profile/>} />
           <Route path="/Checkout-success/:slotId" element={<Success/>} />
@@ -75,6 +74,9 @@ function App() {
           <Route path="/doctors_slots" element={<Slots />} />
           <Route path="/doctor/scheduled_appointments" element={<AppointmentsScheduled/>} />
         </Route>
+
+        <Route path="/room/:userId/:appointmentId" element={<VideoCall />} />
+
 
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="" element={<PrivateAdmin />}>

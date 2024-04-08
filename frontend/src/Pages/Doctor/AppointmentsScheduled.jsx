@@ -1,19 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import NavbarDoctor from '../../Components/Doctor/NavbarDoctor'
 import Header from '../../Components/Doctor/Header'
 import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/doctor'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { SocketContext } from '../../Context/socketContext';
+
 
 function AppointmentsScheduled() {
+  const { newUser, socket } = useContext(SocketContext)
 
   const [appointments, setAppointments] = useState([])
   const doctorInfo = useSelector((state) => state.doctor.doctor)
 
   const id = doctorInfo?._id
 
+  const navigate = useNavigate()
+
   useEffect(() => {
+
     Axios.get(`/scheduled_appointment/${id}`).then((response) => {
       if (response.data) {
         setAppointments(response.data.appointments)
@@ -21,11 +27,21 @@ function AppointmentsScheduled() {
     }).catch((error) => {
       console.log(error)
     })
+
   }, [id])
+
+  useEffect(() => {
+    newUser(id)
+  }, [])
+
+  const handlescheduleMeeting = (userId,appointmentId) => {
+    navigate(`/room/${userId}/${appointmentId}`)
+  }
+
 
   return (
     <div>
-            <NavbarDoctor />
+      <NavbarDoctor />
       <Header title='appointments' />
 
       {
@@ -58,7 +74,7 @@ function AppointmentsScheduled() {
 
                 </div>
                 <div className=" mx-5 flex  items-center">
-                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white'>Join</button>
+                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={() => handlescheduleMeeting(appointment.user._id,appointment._id)}>Schedule</button>
                 </div>
               </div>
             </>
@@ -69,10 +85,10 @@ function AppointmentsScheduled() {
               You dont have any appointments yet...
             </div>
             <div className="div">
-             <Link to='/doctors_slots'> <button className='bg-[#CED891] px-6 rounded-md mt-4 font-inder py-1'> Add Slot</button></Link>
+              <Link to='/doctors_slots'> <button className='bg-[#CED891] px-6 rounded-md mt-4 font-inder py-1'> Add Slot</button></Link>
             </div>
             <div className="h-96 mt-6">
-              <img src="/7709344_3724894.jpg" className="w-full h-full object-contain"  alt="No Appointments Available" />
+              <img src="/7709344_3724894.jpg" className="w-full h-full object-contain" alt="No Appointments Available" />
             </div>
           </>
         )

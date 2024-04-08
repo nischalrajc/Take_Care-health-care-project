@@ -130,3 +130,20 @@ export const getAppointmentsScheduled = async (userId) => {
         console.log("error when fetching appointment");
     }
 };
+
+export const cancelScheduledAppointment = async (appointmentId)=>{
+    try {
+        const appointment = await Booking.findById(appointmentId)
+
+        await Slots.findByIdAndUpdate(appointment.slotId, { $set: { scheduled: false } });
+
+        const result = await Booking.deleteOne({ _id: appointmentId });
+        if (result.deletedCount === 1) {
+            return true
+        } else {
+           return false
+        }
+    } catch (error) {
+        console.log("error when cancelling the data",error)
+    }
+}

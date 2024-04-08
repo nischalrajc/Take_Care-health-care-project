@@ -5,6 +5,7 @@ import { Axios } from '../../Axios/users'
 import { useSelector } from 'react-redux'
 import { SocketContext } from '../../Context/socketContext';
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 function ScheduledAppointments() {
     const { newUser, socket, setCall, call, answerCall } = useContext(SocketContext)
@@ -23,7 +24,7 @@ function ScheduledAppointments() {
         }).catch((error) => {
             console.log(error)
         })
-    }, [id])
+    }, [id, appointments])
 
     useEffect(() => {
         newUser(id)
@@ -38,6 +39,33 @@ function ScheduledAppointments() {
         answerCall()
         const appointmentId = call.appointmentId
         navigate(`/room/${id}/${appointmentId}`)
+    }
+
+    const cancelScheduledMeeting = async (appointmentId) => {
+
+        Swal.fire({
+            // title: "Are you sure?",
+            text: "Are you sure?",
+            // icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2D6A76",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, cancel it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.get(`/cancelAppointment/${appointmentId}`).then((response) => {
+                    if (response.data) {
+                        Swal.fire({
+                            timer: 1500,
+                            text: "Meeting cancelled",
+                            // icon: "success"
+                        });
+                    }
+                }).catch((error) => {
+                    console.log("error ", error)
+                })
+            }
+        });
     }
 
     return (
@@ -80,7 +108,7 @@ function ScheduledAppointments() {
                                 </div>) : (
                                 <div className="join-meeting-wrapper mx-5 flex items-center">
                                     <button className='hover:cursor-not-allowed opacity-50  px-8 rounded-md py-1 border text-white border-white' >join</button>
-                                    <button className='hover:cursor-wait opacity-50  px-8 rounded-md py-1 border text-white border-white ms-3' >Cancel Meeting</button>
+                                    <button onClick={() => cancelScheduledMeeting(appointment._id)} className='hover:cursor-pointer opacity-50  px-8 rounded-md py-1 border text-white border-white ms-3' >Cancel Meeting</button>
                                 </div>
                             )}
 

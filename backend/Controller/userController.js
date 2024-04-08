@@ -6,7 +6,7 @@ import Doctors from "../Modal/Doctor.js";
 // import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment } from "../Services/user.js";
 // import Slots from "../Modal/Slots.js";
 
 
@@ -275,6 +275,20 @@ export const scheduledAppointments = async (req, res) => {
     } catch (error) {
         console.log("error when fetching scheduledAppointments", error)
         res.status(401)
+    }
+}
+
+export const cancelAppointment = async (req,res) => {
+    try {
+        const {appointmentId} = req.params
+        const cancelappointment = await cancelScheduledAppointment(appointmentId)
+        if(cancelappointment){
+            res.status(201).json({message:"meeting cancelled successfully"})
+        }else{
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error",error)
     }
 }
 

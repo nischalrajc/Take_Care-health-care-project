@@ -114,9 +114,6 @@ function Slots() {
                     </div>
                 )}
             </div>
-
-
-
         </div>
     )
 }

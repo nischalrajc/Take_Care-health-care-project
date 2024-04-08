@@ -21,7 +21,7 @@ export const initializeSocket = (httpServer) => {
         })
 
         socket.on('disconnect', () => {
-            console.log('Client disconnected:', socket.id);
+            // console.log('Client disconnected:', socket.id);
             socket.broadcast.emit("callended")
         });
 
@@ -39,10 +39,10 @@ export const initializeSocket = (httpServer) => {
         });
 
         socket.on("callEnded",(data)=>{
-            console.log("call is ended by the user")
-            console.log(data.doctorId)
+            // console.log("call is ended by the user")
+            // console.log(data.doctorId)
             const doctorId = users[data.doctorId]
-            console.log(doctorId)
+            // console.log(doctorId)
             if (data.doctorId) {
                 io.to(doctorId).emit("callEnded");
               } else {

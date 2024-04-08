@@ -73,15 +73,16 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
                                                 {availableSlots?.map((slot, index) => {
                                                     const formattedTime = new Date(slot.date).toLocaleTimeString();
                                                     const Scheduled = slot.scheduled
+                                                    const isSelected = slotId === slot._id;
 
                                                     return (
                                                         <div
                                                             key={index}
                                                             onClick={Scheduled ? null : () => selectHandler(slot._id)}
-                                                            className={`hover:cursor-pointer border border-gray-400 my-2 px-6 py-1 rounded-md text-center ${slotId ? 'bg-blue-500' : ''} ${Scheduled ? 'opacity-50 hover:cursor-not-allowed' : ''}`}
+                                                            className={` border border-gray-400 my-2 px-6 py-1 rounded-md text-center ${isSelected ? 'bg-blue-500' : ''} ${Scheduled ? 'opacity-50 hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}
                                                         >
                                                             {formattedTime}
-                                                            {Scheduled && <p className="already-booked-text">Already booked</p>}
+                                                            {Scheduled && <p className="hover:cursor-not-allowed already-booked-text">Already booked</p>}
                                                         </div>
                                                     );
                                                 })}

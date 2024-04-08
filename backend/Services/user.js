@@ -109,9 +109,22 @@ export const book_Appointment = async (userId, slotId) => {
     }
 }
 
+export const getPaymentHistory = async (userId) => {
+    try {
+        const usePaymnets = await Booking.find({ user: userId }).populate('doctor')
+        return usePaymnets
+    } catch (error) {
+        console.log("error when fetching paymentHistory", error)
+    }
+}
+
 export const getAppointmentsScheduled = async (userId) => {
     try {
-        const appointments = await Booking.find({ user: userId }).populate('doctor');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const appointments = await Booking.find({ user: userId, appointmentDate: { $gte: today } }).populate('doctor');
+
         return appointments;
     } catch (error) {
         console.log("error when fetching appointment");

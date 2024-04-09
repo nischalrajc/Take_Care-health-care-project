@@ -15,10 +15,6 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    appointmentDate: {
-        type: Date,
-        required: true
-    },
     date: {
         type: Date,
         required: true

@@ -3,6 +3,7 @@ import Specialisations from "../Modal/Specialisations.js"
 import Users from "../Modal/Users.js"
 import Slots from "../Modal/Slots.js"
 import Booking from "../Modal/Booking.js"
+import Payments from "../Modal/Payments.js"
 
 export const getSpeciality = async (id) => {
     const specialisation = await Specialisations.findById(id)
@@ -100,6 +101,13 @@ export const book_Appointment = async (userId, slotId) => {
                 date: new Date()
             })
 
+            const payment = await Payments.create({
+                doctor: slot.doctorId,
+                user: userId,
+                slotId: slotId,
+                date: new Date()
+            })
+
             return booking
         } else {
             return null
@@ -111,8 +119,8 @@ export const book_Appointment = async (userId, slotId) => {
 
 export const getPaymentHistory = async (userId) => {
     try {
-        const usePaymnets = await Booking.find({ user: userId }).populate('doctor')
-        return usePaymnets
+        const userPayment = await Payments.find({user:userId}).populate('doctor')
+        return userPayment
     } catch (error) {
         console.log("error when fetching paymentHistory", error)
     }

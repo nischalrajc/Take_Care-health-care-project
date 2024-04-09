@@ -17,8 +17,9 @@ function VideoCall() {
 
     // const [isUSerAudioMuted, setIsUserAudioMuted] = useState(false);
     // const [isDoctorAudioMuted, setIsDoctorAudioMuted] = useState(false);
+    
     const [isAudioMuted, setIsAudioMuted] = useState(true)
-    const { callAccepted, myVideo, userVideo, callEnded, setCallEnded, leaveCall, setStream, callUser, connectionRef, socket, call, stream } = useContext(SocketContext)
+    const { callAccepted, myVideo, userVideo, callEnded, setCallEnded, leaveCall, setStream, callUser, connectionRef, socket, stream } = useContext(SocketContext)
 
     useEffect(() => {
 

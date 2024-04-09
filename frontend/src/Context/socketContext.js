@@ -60,7 +60,7 @@ const ContextProvider = ({ children }) => {
 
         socket.on('callAccepted', (signal) => {
             setCallAccepted(true);
-
+            console.log("call accepted by the user")
             peer.signal(signal);
         });
 

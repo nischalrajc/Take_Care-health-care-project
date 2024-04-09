@@ -17,11 +17,10 @@ export const initializeSocket = (httpServer) => {
 
         socket.on("newuser", (userId) => {
             users[userId] = socket.id;
-            // console.log(users)
         })
 
         socket.on('disconnect', () => {
-            // console.log('Client disconnected:', socket.id);
+            console.log('Client disconnected:', socket.id);
             socket.broadcast.emit("callended")
         });
 
@@ -34,8 +33,11 @@ export const initializeSocket = (httpServer) => {
         });
 
         socket.on("answerCall", (data) => {
-            // console.log("answerCall",data)
-            io.to(data.to).emit("callAccepted", data.signal)
+            console.log("answerCall",data)
+            console.log(data.to)
+            const id = users[data.to]
+            console.log("doctors id",id)
+            io.to(id).emit("callAccepted", data.signal)
         });
 
         socket.on("callEnded",(data)=>{

@@ -41,7 +41,6 @@ export const initializeSocket = (httpServer) => {
         });
 
         socket.on("callEnded",(data)=>{
-            // console.log("call is ended by the user")
             // console.log(data.doctorId)
             const doctorId = users[data.doctorId]
             // console.log(doctorId)

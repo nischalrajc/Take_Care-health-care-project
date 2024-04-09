@@ -61,10 +61,10 @@ function App() {
         <Route path="/health_tips" element={<TipsPage />} />
         <Route path="/about" element={<About />} />
         <Route path="" element={<PrivateRoutesUser />}>
-          <Route path="/profile" element={<Profile/>} />
-          <Route path="/Checkout-success/:slotId" element={<Success/>} />
-          <Route path="/payments" element={<Payments/>} />
-          <Route path="/scheduled_appointments" element={<ScheduledAppointments/>} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/Checkout-success/:slotId" element={<Success />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/scheduled_appointments" element={<ScheduledAppointments />} />
         </Route>
 
         <Route path="/doctor_login" element={<LoginDoctor />} />
@@ -74,7 +74,7 @@ function App() {
         <Route path="" element={<DoctorPrivateRoutes />}>
           <Route path="/doctor" element={<DoctorHome />} />
           <Route path="/doctors_slots" element={<Slots />} />
-          <Route path="/doctor/scheduled_appointments" element={<AppointmentsScheduled/>} />
+          <Route path="/doctor/scheduled_appointments" element={<AppointmentsScheduled />} />
         </Route>
 
         <Route path="/room/:userId/:appointmentId" element={<VideoCall />} />
@@ -89,7 +89,7 @@ function App() {
           <Route path="/admin/doctors/view/:doctorId" element={<ViewDoctor />} />
           <Route path="/admin/specialisation" element={<Specialisation />} />
           <Route path="/admin/add_specialisation" element={<AddSpecialisation />} />
-          <Route path="/pdf-viewer" element={<PDFviewer/>}/>
+          <Route path="/pdf-viewer" element={<PDFviewer />} />
         </Route>
 
       </Routes>

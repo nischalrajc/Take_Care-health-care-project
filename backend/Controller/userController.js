@@ -6,7 +6,7 @@ import Doctors from "../Modal/Doctor.js";
 // import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet } from "../Services/user.js";
 // import Slots from "../Modal/Slots.js";
 
 
@@ -278,17 +278,17 @@ export const scheduledAppointments = async (req, res) => {
     }
 }
 
-export const cancelAppointment = async (req,res) => {
+export const cancelAppointment = async (req, res) => {
     try {
-        const {appointmentId} = req.params
+        const { appointmentId } = req.params
         const cancelappointment = await cancelScheduledAppointment(appointmentId)
-        if(cancelappointment){
-            res.status(201).json({message:"meeting cancelled successfully"})
-        }else{
+        if (cancelappointment) {
+            res.status(201).json({ message: "meeting cancelled successfully" })
+        } else {
             res.status(401)
         }
     } catch (error) {
-        console.log("error",error)
+        console.log("error", error)
     }
 }
 
@@ -371,5 +371,19 @@ export const logOut = async (req, res) => {
         res.status(200).json({ message: 'user logout successfully' })
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const getUserWallet = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const wallet = await userWallet(userId)
+        if (wallet) {
+            res.status(201).json(wallet)
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when getting getuserwallet", error)
     }
 }

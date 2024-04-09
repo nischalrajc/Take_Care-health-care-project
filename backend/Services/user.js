@@ -120,7 +120,7 @@ export const book_Appointment = async (userId, slotId) => {
 
 export const getPaymentHistory = async (userId) => {
     try {
-        const userPayment = await Payments.find({user:userId}).populate('doctor')
+        const userPayment = await Payments.find({ user: userId }).populate('doctor')
         return userPayment
     } catch (error) {
         console.log("error when fetching paymentHistory", error)
@@ -140,16 +140,16 @@ export const getAppointmentsScheduled = async (userId) => {
     }
 };
 
-export const cancelScheduledAppointment = async (appointmentId)=>{
+export const cancelScheduledAppointment = async (appointmentId) => {
     try {
         const appointment = await Booking.findById(appointmentId).populate('doctor')
-        
-        if(appointment){
+
+        if (appointment) {
             const wallet = await Wallet.create({
                 user: appointment.user,
-                amount:appointment.doctor.fees,
+                amount: appointment.doctor.fees,
                 date: new Date()
-            }) 
+            })
         }
 
         await Slots.findByIdAndUpdate(appointment.slotId, { $set: { scheduled: false } });
@@ -158,9 +158,19 @@ export const cancelScheduledAppointment = async (appointmentId)=>{
         if (result.deletedCount === 1) {
             return true
         } else {
-           return false
+            return false
         }
     } catch (error) {
-        console.log("error when cancelling the data",error)
+        console.log("error when cancelling the data", error)
+    }
+}
+
+export const userWallet = async (userId) => {
+    try {
+        const wallets = await Wallet.find({ user: userId });
+        const totalAmount = wallets.reduce((acc, wallet) => acc + wallet.amount, 0);
+        return totalAmount;
+    } catch (error) {
+        console.log("error when fetching the user wallet", error)
     }
 }

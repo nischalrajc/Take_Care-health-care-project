@@ -80,7 +80,7 @@ function Profile() {
             <ProfileBar />
             <ProfileHeader title='profile' />
 
-            <div  className="bg-cover mt-6 py-6 mx-60 " style={{ backgroundImage: 'url(/11235809_11003.jpg)' }}>
+            <div className="bg-cover mt-6 py-6 mx-60 " style={{ backgroundImage: 'url(/11235809_11003.jpg)' }}>
                 <div className='flex justify-center  w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto'>
                     <img className="w-auto h-36 object-fill rounded-full " src="/profilepic.jpg" alt="Icon" />
                 </div>
@@ -166,7 +166,7 @@ function Profile() {
 
                 </div>
             </div>
-           
+
         </div>
     )
 }

@@ -4,6 +4,7 @@ import Users from "../Modal/Users.js"
 import Slots from "../Modal/Slots.js"
 import Booking from "../Modal/Booking.js"
 import Payments from "../Modal/Payments.js"
+import Wallet from "../Modal/Wallet.js"
 
 export const getSpeciality = async (id) => {
     const specialisation = await Specialisations.findById(id)
@@ -141,7 +142,15 @@ export const getAppointmentsScheduled = async (userId) => {
 
 export const cancelScheduledAppointment = async (appointmentId)=>{
     try {
-        const appointment = await Booking.findById(appointmentId)
+        const appointment = await Booking.findById(appointmentId).populate('doctor')
+        
+        if(appointment){
+            const wallet = await Wallet.create({
+                user: appointment.user,
+                amount:appointment.doctor.fees,
+                date: new Date()
+            }) 
+        }
 
         await Slots.findByIdAndUpdate(appointment.slotId, { $set: { scheduled: false } });
 

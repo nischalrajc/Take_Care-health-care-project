@@ -1,5 +1,6 @@
 import Booking from "../Modal/Booking.js"
 import Doctors from "../Modal/Doctor.js"
+import MedicalReport from "../Modal/MedicalReport.js"
 import Slots from "../Modal/Slots.js"
 import Specialisations from "../Modal/Specialisations.js"
 
@@ -111,5 +112,25 @@ export const appointmentScheduled = async (doctorId) => {
         return appointments
     } catch (error) {
         console.log("Error when fetching data from appointments", error)
+    }
+}
+
+export const newMedicalReport = async (medicalReport,appointmentId) =>{
+    try {
+        const appointment = await Booking.findById(appointmentId)
+        console.log("apppointment",appointment)
+
+        const report = await MedicalReport.create({
+            report:medicalReport,
+            user:appointment.user,
+            doctor:appointment.doctor,
+            appointmentId:appointment._id,
+            appointmentDate:appointment.appointmentDate,
+        })
+
+        return report 
+
+    } catch (error) {
+        console.log("error when adding in to medical database",error)
     }
 }

@@ -6,7 +6,7 @@ import Doctors from "../Modal/Doctor.js";
 // import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet, Medical_Report } from "../Services/user.js";
 // import Slots from "../Modal/Slots.js";
 
 
@@ -385,5 +385,21 @@ export const getUserWallet = async (req, res) => {
         }
     } catch (error) {
         console.log("error when getting getuserwallet", error)
+    }
+}
+
+export const userMedicalReports = async (req,res) =>{
+    try {
+        const {userId} = req.params
+
+        const report = await Medical_Report(userId);
+        if(report){
+            res.status(201).json(report)
+        }else{
+            res.status(401)
+        }
+        
+    } catch (error) {
+        console.log("error when getting userMedical report",error)
     }
 }

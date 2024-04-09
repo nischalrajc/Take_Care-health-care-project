@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const bookingSchema = new mongoose.Schema({
+const medicalreportSchema = new mongoose.Schema({
     doctor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Doctors',
@@ -11,25 +11,25 @@ const bookingSchema = new mongoose.Schema({
         ref: 'Users',
         required: true
     },
-    slotId: {
-        type: String,
-        required: true
-    },
-    paymentId:{
+    appointmentId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'payments',
-        required: true
+        ref:"payments",
+        required:true,
     },
     appointmentDate: {
         type: Date,
         required: true
     },
-    date: {
-        type: Date,
-        required: true
-    }
+    report:{
+        type:String,
+        required:true
+    },
+    // date: {
+    //     type: Date,
+    //     required: true
+    // }
 })
 
-const Booking = mongoose.model('Booking', bookingSchema)
+const MedicalReport = mongoose.model('MedicalReport', medicalreportSchema)
 
-export default Booking
+export default MedicalReport

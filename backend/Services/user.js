@@ -5,6 +5,7 @@ import Slots from "../Modal/Slots.js"
 import Booking from "../Modal/Booking.js"
 import Payments from "../Modal/Payments.js"
 import Wallet from "../Modal/Wallet.js"
+import MedicalReport from "../Modal/MedicalReport.js"
 
 export const getSpeciality = async (id) => {
     const specialisation = await Specialisations.findById(id)
@@ -94,18 +95,19 @@ export const book_Appointment = async (userId, slotId) => {
             slot.scheduled = true
             await slot.save()
 
-            const booking = await Booking.create({
-                doctor: slot.doctorId,
-                user: userId,
-                slotId: slotId,
-                appointmentDate: slot.date,
-                date: new Date()
-            })
-
             const payment = await Payments.create({
                 doctor: slot.doctorId,
                 user: userId,
                 slotId: slotId,
+                date: new Date()
+            })
+
+            const booking = await Booking.create({
+                doctor: slot.doctorId,
+                user: userId,
+                slotId: slotId,
+                paymentId:payment._id,
+                appointmentDate: slot.date,
                 date: new Date()
             })
 
@@ -172,5 +174,18 @@ export const userWallet = async (userId) => {
         return totalAmount;
     } catch (error) {
         console.log("error when fetching the user wallet", error)
+    }
+}
+
+export const Medical_Report = async (userId) =>{
+    try {
+        const report = await MedicalReport.find({user:userId}).populate('doctor')
+        if(report){
+            return report
+        }else{
+            return null
+        }
+    } catch (error) {
+        console.log("error when fetching the user medical reports",error)
     }
 }

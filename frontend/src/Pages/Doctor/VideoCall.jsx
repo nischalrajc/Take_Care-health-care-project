@@ -6,6 +6,7 @@ import { MdCallEnd } from "react-icons/md";
 import { AiOutlineAudio } from "react-icons/ai";
 import { AiOutlineAudioMuted } from "react-icons/ai";
 import { useSelector } from 'react-redux'
+import { Axios } from '../../Axios/doctor';
 
 
 function VideoCall() {
@@ -17,8 +18,9 @@ function VideoCall() {
 
     // const [isUSerAudioMuted, setIsUserAudioMuted] = useState(false);
     // const [isDoctorAudioMuted, setIsDoctorAudioMuted] = useState(false);
-    
+
     const [isAudioMuted, setIsAudioMuted] = useState(true)
+    const [medicalReport, setMedicalReport] = useState('')
     const { callAccepted, myVideo, userVideo, callEnded, setCallEnded, leaveCall, setStream, callUser, connectionRef, socket, stream } = useContext(SocketContext)
 
     useEffect(() => {
@@ -103,11 +105,27 @@ function VideoCall() {
         setIsAudioMuted(!isAudioMuted);
     };
 
+    const handleMedicalReport = () =>{
+        Axios.post('/medicalReport',{medicalReport,appointmentId}).then((response)=>{
+            if(response){
+                console.log(response.data)
+            }
+        }).catch((error)=>{
+            console.log("error",error)
+        })
+    }
 
-    const endCallHandler = () => {
 
+    const endCallHandler = async() => {
+
+        await handleMedicalReport() 
         leaveCall()
     }
+
+    const handleTextareaChange = (event) => {
+        setMedicalReport(event.target.value);
+    };
+
 
 
     return (
@@ -127,7 +145,7 @@ function VideoCall() {
                                 </div>
 
                                 <div className=' mt-10'>
-                                    <textarea className='py-1 px-1' placeholder="Click hear to type.." rows="4" cols="50"></textarea>
+                                    <textarea className='py-1 px-1' onChange={handleTextareaChange} value={medicalReport} placeholder="Click hear to type.." rows="4" cols="50"></textarea>
                                 </div>
 
                             </>

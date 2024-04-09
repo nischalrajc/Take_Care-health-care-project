@@ -3,6 +3,8 @@ import Specialisations from "../Modal/Specialisations.js"
 import Users from "../Modal/Users.js"
 import Slots from "../Modal/Slots.js"
 import Booking from "../Modal/Booking.js"
+import Payments from "../Modal/Payments.js"
+import Wallet from "../Modal/Wallet.js"
 
 export const getSpeciality = async (id) => {
     const specialisation = await Specialisations.findById(id)
@@ -100,6 +102,13 @@ export const book_Appointment = async (userId, slotId) => {
                 date: new Date()
             })
 
+            const payment = await Payments.create({
+                doctor: slot.doctorId,
+                user: userId,
+                slotId: slotId,
+                date: new Date()
+            })
+
             return booking
         } else {
             return null
@@ -111,8 +120,8 @@ export const book_Appointment = async (userId, slotId) => {
 
 export const getPaymentHistory = async (userId) => {
     try {
-        const usePaymnets = await Booking.find({ user: userId }).populate('doctor')
-        return usePaymnets
+        const userPayment = await Payments.find({ user: userId }).populate('doctor')
+        return userPayment
     } catch (error) {
         console.log("error when fetching paymentHistory", error)
     }
@@ -131,9 +140,17 @@ export const getAppointmentsScheduled = async (userId) => {
     }
 };
 
-export const cancelScheduledAppointment = async (appointmentId)=>{
+export const cancelScheduledAppointment = async (appointmentId) => {
     try {
-        const appointment = await Booking.findById(appointmentId)
+        const appointment = await Booking.findById(appointmentId).populate('doctor')
+
+        if (appointment) {
+            const wallet = await Wallet.create({
+                user: appointment.user,
+                amount: appointment.doctor.fees,
+                date: new Date()
+            })
+        }
 
         await Slots.findByIdAndUpdate(appointment.slotId, { $set: { scheduled: false } });
 
@@ -141,9 +158,19 @@ export const cancelScheduledAppointment = async (appointmentId)=>{
         if (result.deletedCount === 1) {
             return true
         } else {
-           return false
+            return false
         }
     } catch (error) {
-        console.log("error when cancelling the data",error)
+        console.log("error when cancelling the data", error)
+    }
+}
+
+export const userWallet = async (userId) => {
+    try {
+        const wallets = await Wallet.find({ user: userId });
+        const totalAmount = wallets.reduce((acc, wallet) => acc + wallet.amount, 0);
+        return totalAmount;
+    } catch (error) {
+        console.log("error when fetching the user wallet", error)
     }
 }

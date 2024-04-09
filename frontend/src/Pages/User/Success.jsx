@@ -26,12 +26,12 @@ function Success() {
           console.log("error", error);
         });
 
-      hasFetchedData.current = true; 
+      hasFetchedData.current = true;
     }
-  }, [slotId,userInfo._id]); 
+  }, [slotId, userInfo._id]);
 
   const handleClick = () => {
-    navigate('/');
+    navigate('/scheduled_appointments');
   };
 
   return (

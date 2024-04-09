@@ -10,7 +10,7 @@ function DoctorDetails() {
     const { id } = useParams()
 
     const [doctor, setDoctor] = useState('')
-    const [showModal,setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         Axios.get(`/doctorDetails/${id}`, { withCredentials: true }).then((response) => {
@@ -25,7 +25,7 @@ function DoctorDetails() {
         });
     }, [id])
 
-    const handleShowModal = ()=>{
+    const handleShowModal = () => {
         setShowModal(true)
     }
 
@@ -51,12 +51,12 @@ function DoctorDetails() {
             </div>
 
             {showModal && <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 flex items-center justify-center">
-      <div className="border border-black border-opacity-25 rounded-lg shadow-lg transition delay-700 duration-300 bg-white">
-          <AppointmentScheduleModal doctorId={doctor._id} isOpen={showModal} onclose={setShowModal}/>
-        </div>
-        </div>}
+                <div className="border border-black border-opacity-25 rounded-lg shadow-lg transition delay-700 duration-300 bg-white">
+                    <AppointmentScheduleModal doctorId={doctor._id} isOpen={showModal} onclose={setShowModal} />
+                </div>
+            </div>}
 
-            <Footer/>
+            <Footer />
         </div>
     )
 }

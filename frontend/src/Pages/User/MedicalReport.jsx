@@ -14,7 +14,6 @@ function MedicalReport() {
         Axios.get(`/medicalReport/${userId}`).then((response) => {
             if (response.data) {
                 setMedicalReport(response.data)
-                console.log(response.data)
             }
         }).catch((error) => {
             console.log("error", error)

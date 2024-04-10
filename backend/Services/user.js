@@ -108,6 +108,7 @@ export const book_Appointment = async (userId, slotId) => {
                 slotId: slotId,
                 paymentId:payment._id,
                 appointmentDate: slot.date,
+                scheduled:false,
                 date: new Date()
             })
 
@@ -134,7 +135,7 @@ export const getAppointmentsScheduled = async (userId) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const appointments = await Booking.find({ user: userId, appointmentDate: { $gte: today } }).populate('doctor');
+        const appointments = await Booking.find({ user: userId, appointmentDate: { $gte: today } ,scheduled:false}).populate('doctor');
 
         return appointments;
     } catch (error) {

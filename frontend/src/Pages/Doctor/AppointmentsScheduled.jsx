@@ -9,7 +9,7 @@ import { SocketContext } from '../../Context/socketContext';
 
 
 function AppointmentsScheduled() {
-  const { newUser, socket } = useContext(SocketContext)
+  const { newUser } = useContext(SocketContext)
 
   const [appointments, setAppointments] = useState([])
   const doctorInfo = useSelector((state) => state.doctor.doctor)
@@ -34,7 +34,7 @@ function AppointmentsScheduled() {
     newUser(id)
   }, [])
 
-  const handlescheduleMeeting = (userId,appointmentId) => {
+  const handlescheduleMeeting = (userId, appointmentId) => {
     navigate(`/room/${userId}/${appointmentId}`)
   }
 
@@ -74,15 +74,15 @@ function AppointmentsScheduled() {
 
                 </div>
                 <div className=" mx-5 flex  items-center">
-                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={() => handlescheduleMeeting(appointment.user._id,appointment._id)}>Schedule</button>
+                  <button className='hover:bg-[#9CBCB7] px-8 rounded-md py-1 border text-white border-white' onClick={() => handlescheduleMeeting(appointment.user._id, appointment._id)}>Schedule</button>
                 </div>
               </div>
             </>
           ))
         ) : (
           <>
-            <div className="text-center font-medium mt-10" >
-              You dont have any appointments yet...
+            <div className="text-center text-gray-500 font-medium mt-10" >
+              You don't have any meetings scheduled.
             </div>
             <div className="div">
               <Link to='/doctors_slots'> <button className='bg-[#CED891] px-6 rounded-md mt-4 font-inder py-1'> Add Slot</button></Link>

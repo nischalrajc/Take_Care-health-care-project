@@ -49,8 +49,10 @@ export const signUpDoctor = async (data) => {
 
 export const deletePastSlots = async () => {
     try {
+        const currentDate = new Date(); 
+
         await Slots.deleteMany({
-            date: { $lt: new Date().setHours(0, 0, 0, 0) }
+            date: { $lt: currentDate }
         });
 
     } catch (error) {
@@ -108,29 +110,41 @@ export const update_Password = async (email, password) => {
 
 export const appointmentScheduled = async (doctorId) => {
     try {
-        const appointments = await Booking.find({ doctor: doctorId }).populate('user');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const appointments = await Booking.find({ doctor: doctorId ,appointmentDate: { $gte: today } ,scheduled:false}).populate('user');
         return appointments
     } catch (error) {
         console.log("Error when fetching data from appointments", error)
     }
 }
 
-export const newMedicalReport = async (medicalReport,appointmentId) =>{
+export const newMedicalReport = async (medicalReport, appointmentId) => {
     try {
         const appointment = await Booking.findById(appointmentId)
-        console.log("apppointment",appointment)
+        console.log("apppointment", appointment)
 
         const report = await MedicalReport.create({
-            report:medicalReport,
-            user:appointment.user,
-            doctor:appointment.doctor,
-            appointmentId:appointment._id,
-            appointmentDate:appointment.appointmentDate,
+            report: medicalReport,
+            user: appointment.user,
+            doctor: appointment.doctor,
+            appointmentId: appointment._id,
+            appointmentDate: appointment.appointmentDate,
         })
 
-        return report 
+        return report
 
     } catch (error) {
-        console.log("error when adding in to medical database",error)
+        console.log("error when adding in to medical database", error)
+    }
+}
+
+export const appointmentUpdate = async (appointmentId) => {
+    try {
+        await Booking.findOneAndUpdate({ _id: appointmentId }, { $set: { scheduled: true } }, { new: true })
+        return
+    } catch (error) {
+        console.log("error when updateing appointmentdatabase", error)
     }
 }

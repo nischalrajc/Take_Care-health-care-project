@@ -2,7 +2,7 @@ import Doctors from "../Modal/Doctor.js"
 import bcrypt from 'bcrypt'
 import { upload } from "../utils/multer.js"
 import { generateTokenDoctor } from '../utils/generateToken.js'
-import { add_slot, appointmentScheduled, deletePastSlots, findDoctor, getSlots, getSpecialisations, newMedicalReport, signUpDoctor, update_Password, validate_slot } from "../Services/doctor.js"
+import { add_slot, appointmentScheduled, appointmentUpdate, deletePastSlots, findDoctor, getSlots, getSpecialisations, newMedicalReport, signUpDoctor, update_Password, validate_slot } from "../Services/doctor.js"
 import { sendEmail } from "../utils/verificationMail.js";
 
 
@@ -264,7 +264,7 @@ export const scheduledAppointments = async (req, res) => {
     try {
         const doctorId = req.params.id;
         const appointments = await appointmentScheduled(doctorId)
-        
+
         if (appointments) {
             res.status(201).json({ appointments })
         } else {
@@ -276,20 +276,20 @@ export const scheduledAppointments = async (req, res) => {
     }
 }
 
-export const addMedicalReport = async (req,res) =>{
-    try{
-        const {medicalReport,appointmentId} = req.body;
-        console.log(medicalReport)
-        console.log(appointmentId)
+export const addMedicalReport = async (req, res) => {
+    try {
+        const { medicalReport, appointmentId } = req.body;
+
+        await appointmentUpdate(appointmentId)
         
-        const report = await newMedicalReport(medicalReport,appointmentId)
-        if(report){
+        const report = await newMedicalReport(medicalReport, appointmentId)
+        if (report) {
             res.status(201).json(report)
-        }else{
+        } else {
             res.status(401)
         }
 
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
     }
 }

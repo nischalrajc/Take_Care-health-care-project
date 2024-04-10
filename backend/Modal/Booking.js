@@ -20,6 +20,10 @@ const bookingSchema = new mongoose.Schema({
         ref: 'payments',
         required: true
     },
+    scheduled:{
+        type:Boolean,
+        required:true
+    },
     appointmentDate: {
         type: Date,
         required: true

@@ -68,7 +68,6 @@ function VideoCall() {
                 connectionRef.current = null;
             }
 
-            // window.location.reload();
             window.location.href = '/doctor/scheduled_appointments';
 
         })
@@ -117,7 +116,6 @@ function VideoCall() {
 
 
     const endCallHandler = async() => {
-
         await handleMedicalReport() 
         leaveCall()
     }

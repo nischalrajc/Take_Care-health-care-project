@@ -106,9 +106,9 @@ export const book_Appointment = async (userId, slotId) => {
                 doctor: slot.doctorId,
                 user: userId,
                 slotId: slotId,
-                paymentId:payment._id,
+                paymentId: payment._id,
                 appointmentDate: slot.date,
-                scheduled:false,
+                scheduled: false,
                 date: new Date()
             })
 
@@ -135,7 +135,7 @@ export const getAppointmentsScheduled = async (userId) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const appointments = await Booking.find({ user: userId, appointmentDate: { $gte: today } ,scheduled:false}).populate('doctor');
+        const appointments = await Booking.find({ user: userId, appointmentDate: { $gte: today }, scheduled: false }).populate('doctor');
 
         return appointments;
     } catch (error) {
@@ -178,15 +178,16 @@ export const userWallet = async (userId) => {
     }
 }
 
-export const Medical_Report = async (userId) =>{
+export const Medical_Report = async (userId) => {
     try {
-        const report = await MedicalReport.find({user:userId}).populate('doctor')
-        if(report){
+        const report = await MedicalReport.find({ user: userId }).populate('doctor')
+        if (report) {
             return report
-        }else{
+        } else {
             return null
         }
     } catch (error) {
-        console.log("error when fetching the user medical reports",error)
+        console.log("error when fetching the user medical reports", error)
     }
 }
+

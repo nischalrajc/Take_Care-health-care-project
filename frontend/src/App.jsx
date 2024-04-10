@@ -40,6 +40,7 @@ import AppointmentsScheduled from "./Pages/Doctor/AppointmentsScheduled";
 import VideoCall from "./Pages/Doctor/VideoCall";
 import Payments from "./Pages/User/Payments";
 import MedicalReport from "./Pages/User/MedicalReport";
+import MedicalRecords from "./Pages/Doctor/MedicalRecords";
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
           <Route path="/doctor" element={<DoctorHome />} />
           <Route path="/doctors_slots" element={<Slots />} />
           <Route path="/doctor/scheduled_appointments" element={<AppointmentsScheduled />} />
+          <Route path="/doctors_medicalreport" element={<MedicalRecords />} />
         </Route>
 
         <Route path="/room/:userId/:appointmentId" element={<VideoCall />} />

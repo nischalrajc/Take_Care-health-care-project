@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext ,useState, useEffect} from 'react'
 import NavbarDoctor from '../../Components/Doctor/NavbarDoctor'
 import Header from '../../Components/Doctor/Header'
-import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/doctor'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'

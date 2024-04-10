@@ -49,7 +49,7 @@ export const signUpDoctor = async (data) => {
 
 export const deletePastSlots = async () => {
     try {
-        const currentDate = new Date(); 
+        const currentDate = new Date();
 
         await Slots.deleteMany({
             date: { $lt: currentDate }
@@ -113,7 +113,7 @@ export const appointmentScheduled = async (doctorId) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const appointments = await Booking.find({ doctor: doctorId ,appointmentDate: { $gte: today } ,scheduled:false}).populate('user');
+        const appointments = await Booking.find({ doctor: doctorId, appointmentDate: { $gte: today }, scheduled: false }).populate('user');
         return appointments
     } catch (error) {
         console.log("Error when fetching data from appointments", error)
@@ -137,6 +137,19 @@ export const newMedicalReport = async (medicalReport, appointmentId) => {
 
     } catch (error) {
         console.log("error when adding in to medical database", error)
+    }
+}
+
+export const doctor_medicalReport = async (doctorId) => {
+    try {
+        const report = await MedicalReport.find({ doctor: doctorId }).populate('user')
+        if (report) {
+            return report
+        } else {
+            return null
+        }
+    } catch (error) {
+        console.log("error when fetching doctor medical report", error)
     }
 }
 

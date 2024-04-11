@@ -8,7 +8,6 @@ function Payments() {
 
     const userInfo = useSelector((state) => state.user.user)
     const id = userInfo?._id
-
     const [payments, setPayments] = useState([])
 
     useEffect(() => {
@@ -28,43 +27,44 @@ function Payments() {
 
             <div className="mt-8 mx-auto">
                 {payments.length > 0 ? (
-                    <table className='table-auto mx-auto'>
-                        <thead className=''>
-                            <tr>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Doctor</th>
-                                {/* <th>Specialisation</th> */}
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody className=' text-sm'>
-                            {payments.map((item, index) => (
-                                <tr key={index}>
-                                    <td className="p-2">
-                                        {new Date(item.date).toLocaleDateString('en-IN', {
-                                            timeZone: 'Asia/Kolkata',
-                                            weekday: 'long',
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                        })}
-                                    </td>
-                                    <td className="p-2">
-                                        {new Date(item.date).toLocaleTimeString('en-IN', {
-                                            timeZone: 'Asia/Kolkata',
-                                            hour: 'numeric',
-                                            minute: 'numeric',
-                                            second: 'numeric',
-                                        })}
-                                    </td>
-                                    <td className="p-4">{item.doctor.name}</td>
-                                    {/* <td className="p-4">{item.doctor.specialisation}</td> */}
-                                    <td className="p-4">{item.doctor.fees}</td>
+                    <div className=''>
+                        <table class='table-auto mx-auto'>
+                            <thead class=''>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Doctor</th>
+                                    <th>Amount</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class='text-sm'>
+                                {payments.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className="p-2">
+                                            {new Date(item.date).toLocaleDateString('en-IN', {
+                                                timeZone: 'Asia/Kolkata',
+                                                weekday: 'long',
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: 'numeric',
+                                            })}
+                                        </td>
+                                        <td className="p-2">
+                                            {new Date(item.date).toLocaleTimeString('en-IN', {
+                                                timeZone: 'Asia/Kolkata',
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                                second: 'numeric',
+                                            })}
+                                        </td>
+                                        <td className="p-4">{item.doctor.name}</td>
+                                        <td className="p-4">{item.doctor.fees}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                    </div>
                 ) : (
                     <div>
                         You don't have any payments made.

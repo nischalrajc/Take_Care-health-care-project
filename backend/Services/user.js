@@ -123,7 +123,7 @@ export const book_Appointment = async (userId, slotId) => {
 
 export const getPaymentHistory = async (userId) => {
     try {
-        const userPayment = await Payments.find({ user: userId }).populate('doctor')
+        const userPayment = await Payments.find({ user: userId }).populate('doctor').sort({ date: -1 }); 
         return userPayment
     } catch (error) {
         console.log("error when fetching paymentHistory", error)

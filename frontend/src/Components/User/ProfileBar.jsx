@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { IoIosNotifications } from "react-icons/io";
 import { Axios } from '../../Axios/users';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector } from 'react-redux';
 import { userLogout } from '../../Slices/userSlice';
 import { FaWallet } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
@@ -13,7 +13,7 @@ function ProfileBar() {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showModal, setShowModal] = useState(false)
-
+    
     const dispatch = useDispatch()
 
     const handleToggleMenu = () => {
@@ -39,10 +39,10 @@ function ProfileBar() {
                 <div className="flex items-center">
                     <img className="sm:w-52 w-40" src="/take-care-logo.png" alt="Icon" />
                 </div>
-                <div className="hidden sm:grid grid-cols-4 items-center">
+                <div className="hidden sm:grid grid-cols-3 items-center">
                     <div className="mx-auto"><Link to="/"><IoHome /></Link></div>
                     <div className=" mx-auto flex flex-row items-center justify-center"> < FaWallet className='ms-1 hover:cursor-pointer' onClick={showWallet} /></div>
-                    <div className="mx-auto"><Link><IoIosNotifications className="text-2xl" /></Link></div>
+                    {/* <div className="mx-auto"><Link><IoIosNotifications className="text-2xl" /></Link></div> */}
                     <div className="div">
                         <button className="border border-black rounded px-3 py-1" onClick={handleLogout} >
                             Log out

@@ -270,8 +270,13 @@ export const paymentHistory = async (req, res) => {
 export const scheduledAppointments = async (req, res) => {
     try {
         const id = req.params.id
+        
         const appointments = await getAppointmentsScheduled(id)
-        res.status(201).json({ appointments })
+        if (appointments) {
+            res.status(201).json({ appointments })
+        } else {
+            res.status(401)
+        }
     } catch (error) {
         console.log("error when fetching scheduledAppointments", error)
         res.status(401)
@@ -388,18 +393,18 @@ export const getUserWallet = async (req, res) => {
     }
 }
 
-export const userMedicalReports = async (req,res) =>{
+export const userMedicalReports = async (req, res) => {
     try {
-        const {userId} = req.params
+        const { userId } = req.params
 
         const report = await Medical_Report(userId);
-        if(report){
+        if (report) {
             res.status(201).json(report)
-        }else{
+        } else {
             res.status(401)
         }
-        
+
     } catch (error) {
-        console.log("error when getting userMedical report",error)
+        console.log("error when getting userMedical report", error)
     }
 }

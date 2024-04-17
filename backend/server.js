@@ -42,6 +42,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
+// Middleware
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 app.use(express.json());
@@ -49,12 +50,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
 
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+// Routes
 app.use('/', userRouter);
 app.use('/doctor', doctorRouter);
 app.use('/admin', adminRouter);
 
+// Socket initialization
 initializeSocket(server);
 
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
+
+// Server startup
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

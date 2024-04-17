@@ -21,7 +21,7 @@ function ProfileBar() {
     };
 
     const handleLogout = () => {
-        Axios.get('/logout', { withCredentials: true }).then((response) => {
+        Axios.get('/logout').then((response) => {
             if (response.data) {
                 dispatch(userLogout())
                 navigate('/')

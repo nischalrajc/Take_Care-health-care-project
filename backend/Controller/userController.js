@@ -272,7 +272,7 @@ export const scheduledAppointments = async (req, res) => {
         const id = req.params.id
         
         const appointments = await getAppointmentsScheduled(id)
-        if (appointments) {
+        if (appointments.length > 0) {
             res.status(201).json({ appointments })
         } else {
             res.status(401)

@@ -15,6 +15,7 @@ function ProfileHeader({ title }) {
     useEffect(() => {
         Axios.get(`/scheduled_appointments/${id}`).then((response) => {
             if (response) {
+                console.log(response)
                 setAppointment(true)
             }
         }).catch((error) => {

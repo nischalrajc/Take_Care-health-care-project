@@ -11,10 +11,10 @@ function Footer() {
       <div className="bg-[#9CBCB7] py-16 grid grid-cols-1 sm:grid-cols-3 gap-1 mt-16 ">
 
         <div className="flex  space-x-6 ju justify-center md:justify-end mb-2 sm:mb-0">
-          <FaLinkedin className="cursor-pointer"/>
-          <FaInstagram className="cursor-pointer"/>
-          <FaFacebookSquare className="cursor-pointer"/>
-          <FaTwitter className="cursor-pointer"/>
+          <FaLinkedin className="cursor-pointer" />
+          <FaInstagram className="cursor-pointer" />
+          <FaFacebookSquare className="cursor-pointer" />
+          <FaTwitter className="cursor-pointer" />
         </div>
 
         <div className="text-center ">

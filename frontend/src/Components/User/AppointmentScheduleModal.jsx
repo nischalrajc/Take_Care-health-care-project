@@ -62,7 +62,7 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
             {
                 userInfo ? (
                     <div className={`modal ${isOpen ? 'is-active' : ''}`} >
-                        <div className="modal-content   rounded-lg overflow-hidden p-12 max-w-3xl mx-auto text-start">
+                        <div className="modal-content rounded-lg overflow-hidden p-12 max-w-md sm:max-w-3xl mx-auto text-start">
                             <section className="modal-body">
                                 <div className="flex">
                                     <Calendar minDate={new Date()} onChange={handleDateChange} />

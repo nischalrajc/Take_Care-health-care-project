@@ -36,10 +36,10 @@ const server = createServer(app);
 const corsOptions = {
     origin: 'https://takecareofficial.online',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
+    // preflightContinue: false,
+    // optionsSuccessStatus: 204,
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    // allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 // Middleware

@@ -44,7 +44,7 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
 
     const submitHandler = async () => {
         try {
-            if(slotId){
+            if (slotId) {
                 await Axios.post('/checkout-session', { userId, doctorId, slotId }).then((response) => {
                     if (response.data) {
                         window.location.href = response.data.session.url
@@ -64,7 +64,7 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
             {
                 userInfo ? (
                     <div className={`modal ${isOpen ? 'is-active' : ''}`} >
-                        <div className="modal-content   rounded-lg overflow-hidden p-12 max-w-3xl mx-auto text-start">
+                        <div className="modal-content   rounded-lg overflow-hidden max-w-md sm:max-w-3xl mx-auto text-start">
                             <section className="modal-body">
                                 <div className="flex">
                                     <Calendar minDate={new Date()} onChange={handleDateChange} />

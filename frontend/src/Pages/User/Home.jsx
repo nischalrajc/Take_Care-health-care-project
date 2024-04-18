@@ -1,7 +1,7 @@
 import React from 'react'
 import { Axios } from '../../Axios/users'
 import { useNavigate } from 'react-router-dom'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import NavBAr from '../../Components/User/NavBAr'
 import DoctorsCard from '../../Components/User/DoctorsCard'
 import Specialities from '../../Components/User/Specialities'
@@ -13,17 +13,17 @@ function Home() {
   const navigate = useNavigate()
 
   const fetchData = async () => {
-      await Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
-          if (response.data) {
-              setArray(response.data.doctors)
-          }
-      }).catch((error) => {
-          console.log("error", error)
-      })
+    await Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
+      if (response.data) {
+        setArray(response.data.doctors)
+      }
+    }).catch((error) => {
+      console.log("error", error)
+    })
   }
 
   useEffect(() => {
-      fetchData()
+    fetchData()
   }, [])
 
   return (
@@ -48,10 +48,10 @@ function Home() {
         <p>"Your Journey to Wellness Starts Here - Discover the Magic of Take Care."</p>
       </div>
 
-      <DoctorsCard array={array ? array.slice(0, 4) : []}/>
+      <DoctorsCard array={array ? array.slice(0, 4) : []} />
 
       <div className='my-6'>
-        <button className='bg-[#E38569] text-white font-inder px-6 py-1 rounded-md' onClick={()=>navigate('/specialist')}>All Specialist</button>
+        <button className='bg-[#E38569] text-white font-inder px-6 py-1 rounded-md' onClick={() => navigate('/specialist')}>All Specialist</button>
       </div>
 
       <div className='my-6 mx-2 sm:mx-10 sm:text-base'>
@@ -68,7 +68,7 @@ function Home() {
               <img className='w-full h-full object-cover' src='./male-doctor-listening-to-teenage-boy-lungs-clipart-23600.jpg' alt='img'></img>
             </div>
             <div className="text-xs sm:text-base my-2">Lets find the specialised ones</div>
-            <button className='bg-white border border-black px-3 py-1' onClick={()=>navigate('/findone')}>Find Out</button>
+            <button className='bg-white border border-black px-3 py-1' onClick={() => navigate('/findone')}>Find Out</button>
           </div>
           <div className="">
             <div className="h-28 w-28 sm:h-32 sm:w-32 md:h-40 md:w-40 lg:h-60 lg:w-60  mx-auto">
@@ -118,17 +118,17 @@ function Home() {
       </div>
 
       <div className="">
-        <div className="my-10 text-xl font-medium">
-        How it works
+        <div className="my-8 sm:my-10 text-xl font-medium">
+          How it works
         </div>
-        <div className="grid grid-cols-3 border-b-2 py-4 mx-24">
+        <div className="grid grid-cols-3 border-b-2 py-4 mx-2 sm:mx-20 md:mx-24 text-xs sm:text-base">
           <div className="div">1.Choose doctor specialisation</div>
           <div className="div">2. Select doctors availability</div>
           <div className="div">3. Schedule Appointment</div>
         </div>
       </div>
 
-      <Footer/>
+      <Footer />
 
     </div>
   )

@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'
 import { fileURLToPath } from 'url';
 import { dirname,join } from 'path';
 import { unlink } from 'fs/promises'
-import { doctorNotauthorised, getDoctor, removeDoctor } from '../Services/admin.js'
+import { doctorNotauthorised, getDoctor, removeDoctor } from '../Services/Admin.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

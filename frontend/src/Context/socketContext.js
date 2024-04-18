@@ -5,7 +5,7 @@ import Peer from 'simple-peer';
 
 const SocketContext = createContext();
 
-const socket = io('https://takecareofficial.online/');
+const socket = io('https://takecareofficial.online');
 
 const ContextProvider = ({ children }) => {
 

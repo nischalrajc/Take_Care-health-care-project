@@ -1,14 +1,15 @@
 import React from 'react'
 import NavBar from '../../Components/User/NavBAr'
 import DoctorsCard from '../../Components/User/DoctorsCard'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/users'
+import Footer from '../../Components/User/Footer'
 
 function AllSpecialist() {
     const [array, setArray] = useState(null)
 
     const fetchData = async () => {
-        await Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
+        await Axios.get('/listDoctors').then((response) => {
             if (response.data) {
                 setArray(response.data.doctors)
             }
@@ -19,7 +20,7 @@ function AllSpecialist() {
 
     useEffect(() => {
         fetchData()
-    },[])
+    }, [])
 
 
     return (
@@ -32,10 +33,10 @@ function AllSpecialist() {
             <div className="mt-3">
                 Empowering lives through compassionate care: Where expertise meets empathy, and healing begins.
             </div>
-           {/* <div className='h-96 overflow-y-auto'> */}
-           <DoctorsCard  array={array}/>
-           {/* </div> */}
 
+            <DoctorsCard array={array} />
+
+            <Footer />
         </div>
     )
 }

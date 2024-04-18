@@ -3,7 +3,7 @@ import Admin from '../Modal/Admin.js';
 import User from '../Modal/Users.js'
 import Doctors from '../Modal/Doctor.js';
 
-export const protectAdmin = async (req, res, next) => {
+export const protectAdmin = async (req, res) => {
 
     let token;
     token = req.cookies.jwtAdmin;
@@ -14,18 +14,16 @@ export const protectAdmin = async (req, res, next) => {
             req.admin = await Admin.findById(decode.adminId).select('-password');
             res.status(200).json({message:"token authorised suucessfully"})
 
-
         } catch (error) {
             res.status(401);
             throw new Error('not authorized, invalid token');
         }
     } else {
-        res.status(401);
-        throw new Error('not authorized, no token');
+        res.status(401).json({message:"not authorized, no token"});
     }
 }
 
-export const protectUser = async (req, res) => {
+export const protectUser = async (req, res ) => {
 
     let token;
     token = req.cookies.jwtuser;
@@ -41,12 +39,11 @@ export const protectUser = async (req, res) => {
             throw new Error('not authorized, invalid token');
         }
     } else {
-        res.status(401);
-        throw new Error('not authorized, no token');
+        res.status(401).json({message:"not authorized, no token"});
     }
 }
 
-export const protectDoctor = async (req, res, next) => {
+export const protectDoctor = async (req, res) => {
 
     let token;
     token = req.cookies.jwtdoctor;
@@ -57,13 +54,11 @@ export const protectDoctor = async (req, res, next) => {
             req.doctor = await Doctors.findById(decode.doctorId).select('-password');
             res.status(200).json({message:"token authorised suucessfully"})
 
-
         } catch (error) {
             res.status(401);
             throw new Error('not authorized, invalid token');
         }
     } else {
-        res.status(401);
-        throw new Error('not authorized, no token');
+        res.status(401).json({message:"not authorized, no token"});
     }
 }

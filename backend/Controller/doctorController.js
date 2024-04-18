@@ -2,9 +2,8 @@ import Doctors from "../Modal/Doctor.js"
 import bcrypt from 'bcrypt'
 import { upload } from "../utils/multer.js"
 import { generateTokenDoctor } from '../utils/generateToken.js'
-import { findDoctor, getSpecialisations, signUpDoctor } from "../Services/doctor.js"
+import { add_slot, appointmentScheduled, appointmentUpdate, deletePastSlots, doctor_medicalReport, findDoctor, getSlots, getSpecialisations, newMedicalReport, signUpDoctor, update_Password, validate_slot } from "../Services/doctor.js"
 import { sendEmail } from "../utils/verificationMail.js";
-
 
 export const Specialisations = async (req, res) => {
     try {
@@ -23,7 +22,6 @@ export const Specialisations = async (req, res) => {
 export const mailValidation = async (req, res) => {
     try {
         const email = req.params.email
-
         const verificationOTP = await sendEmail(email)
         if (verificationOTP) {
             res.status(201).json({ verificationOTP })
@@ -35,6 +33,7 @@ export const mailValidation = async (req, res) => {
         console.log("error", error)
         res.status(401)
     }
+
 }
 
 export const doctorSignup = async (req, res) => {
@@ -85,6 +84,7 @@ export const doctorSignup = async (req, res) => {
 
 export const doctorLogin = async (req, res) => {
     const { email, password } = req.body
+
     try {
         const doctor = await Doctors.findOne({ email })
 
@@ -99,6 +99,7 @@ export const doctorLogin = async (req, res) => {
 
         if (doctor && passwordMatched) {
             await generateTokenDoctor(res, doctor._id);
+            console.log(generateTokenDoctor)
             res.status(200).json({
                 _id: doctor._id,
                 name: doctor.name,
@@ -113,7 +114,7 @@ export const doctorLogin = async (req, res) => {
                 authorised: doctor.authorised
             })
         } else {
-            res.json({ error: "Invalid mail and password" })
+            res.status(401).json({ error: "Invalid mail and password" })
         }
     } catch (error) {
         console.log("error", error)
@@ -176,8 +177,133 @@ export const logoutDoctor = async (req, res) => {
 
 export const forget = async (req, res) => {
     try {
-        console.log("doctor")
+        const { email } = req.body;
+
+        const existingDoctor = await Doctors.findOne({ email })
+        if (!existingDoctor) {
+            return res.status(401).json({ error: "Enter the registered email" });
+        }
+
+        const OTP = await sendEmail(email)
+        if (OTP) {
+            res.status(200).json({ otp: OTP })
+        }
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const viewSlots = async (req, res) => {
+    try {
+        const doctorId = req.params.id;
+        await deletePastSlots()
+        const slot = await getSlots(doctorId)
+        if (slot) {
+            res.status(201).json({ slot })
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const addNewSlot = async (req, res) => {
+    try {
+        const { selectedDate, doctorId } = req.body;
+
+        const dateObject = new Date(selectedDate);
+        const formattedDate = dateObject.toLocaleString('en-IN', {
+            timeZone: 'Asia/Kolkata',
+            year: 'numeric',
+            month: 'short',
+            // weekday: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true,
+        });
+
+        const alreadySloted = await validate_slot(formattedDate)
+        if (alreadySloted) {
+            return res.status(401).json({ message: "Time has been already sloted choose another one" })
+        }
+
+        const slot = await add_slot(formattedDate, doctorId)
+        if (slot) {
+            res.status(201).json(slot)
+        } else {
+            res.status(401).json({ message: "Time has been already sloted choose another one" })
+        }
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const setNewPassword = async () => {
+    try {
+        const { email, password } = req.body
+        const doctor = await findDoctor(email)
+
+        if (doctor) {
+            const updatePassword = await update_Password(email, password)
+            if (updatePassword) {
+                res.status(201)
+            } else {
+                res.status(401)
+            }
+        }
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const scheduledAppointments = async (req, res) => {
+    try {
+        const doctorId = req.params.id;
+        const appointments = await appointmentScheduled(doctorId)
+
+        if (appointments) {
+            res.status(201).json({ appointments })
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("Error when getting scheduledappointments", error)
+        res.status(401)
+    }
+}
+
+export const addMedicalReport = async (req, res) => {
+    try {
+        const { medicalReport, appointmentId } = req.body;
+
+        await appointmentUpdate(appointmentId)
+
+        const report = await newMedicalReport(medicalReport, appointmentId)
+        if (report) {
+            res.status(201).json(report)
+        } else {
+            res.status(401)
+        }
+
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const getMedicalReport = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const report = await doctor_medicalReport(id)
+        if (report) {
+            res.status(201).json(report)
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when getting medical record", error)
     }
 }

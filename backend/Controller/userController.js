@@ -3,8 +3,11 @@ import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
+// import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit } from "../Services/user.js";
+import Stripe from 'stripe'
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet, Medical_Report } from "../Services/user.js";
+// import Slots from "../Modal/Slots.js";
 
 
 export const userSignup = async (req, res) => {
@@ -64,12 +67,11 @@ export const userLogin = async (req, res) => {
 
 export const forgetpassword = async (req, res) => {
     try {
-        console.log("user")
         const { email } = req.body;
 
         const existingUser = await Users.findOne({ email })
         if (!existingUser) {
-            return res.json({ error: "Enter the registered email" });
+            return res.status(401).json({ error: "Enter the registered email" });
         }
 
         const OTP = await sendEmail(email)
@@ -118,6 +120,22 @@ export const register_user = async (req, res) => {
 
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const mailValidation = async (req, res) => {
+    try {
+        const email = req.params.email
+        const OTP = await sendEmail(email)
+        if (OTP) {
+            res.status(201).json({ otp: OTP })
+        } else {
+            res.status(401)
+        }
+
+    } catch (error) {
+        console.log("error", error)
+        res.status(401)
     }
 }
 
@@ -202,6 +220,83 @@ export const viewSpecialities = async (req, res) => {
     }
 }
 
+export const viewSlotsAvailable = async (req, res) => {
+    try {
+        const doctorId = req.query.doctorId;
+        const selectedDate = req.query.date;
+        const slots = await viewSlots(doctorId, selectedDate)
+
+        if (slots) {
+            res.status(201).json({ slots: slots })
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        res.status(401)
+        console.log("error", error)
+    }
+}
+
+export const bookAppointments = async (req, res) => {
+    try {
+        const slotId = req.query.slotId;
+        const userId = req.query.userId;
+
+        const book_appointment = await book_Appointment(userId, slotId)
+        if (book_appointment) {
+            res.status(201).json({ message: "successfully booked appointments" })
+        } else {
+            res.status(401).json({ message: "error while booking" })
+        }
+
+    } catch (error) {
+        console.log("error when booking", error)
+    }
+}
+
+export const paymentHistory = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const payment = await getPaymentHistory(id)
+        if (payment) {
+            res.status(201).json({ payment })
+        }
+    } catch (error) {
+        console.log("error when fetching ")
+    }
+}
+
+export const scheduledAppointments = async (req, res) => {
+    try {
+        const id = req.params.id
+        
+        const appointments = await getAppointmentsScheduled(id)
+        if (appointments.length > 0) {
+            res.status(201).json({ appointments })
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when fetching scheduledAppointments", error)
+        res.status(401)
+    }
+}
+
+export const cancelAppointment = async (req, res) => {
+    try {
+        const { appointmentId } = req.params
+        const cancelappointment = await cancelScheduledAppointment(appointmentId)
+        if (cancelappointment) {
+            res.status(201).json({ message: "meeting cancelled successfully" })
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
 export const doctorDetails = async (req, res) => {
     const id = req.params.id
     try {
@@ -218,17 +313,58 @@ export const doctorDetails = async (req, res) => {
 
 export const userEditProfile = async (req, res) => {
     try {
-        // const  { name, email, gender, phone, id } = req.body;
         const user = await userProfileEdit(req)
         if (user) {
             res.status(201).json(user)
         } else {
-            res.status(400)
+            res.status(400).json({ error: "User not found or unable to edit profile" })
         }
     } catch (error) {
-        console.log("error", error)
+        console.log("error in editing profile", error)
     }
 }
+
+
+export const getBookingSession = async (req, res) => {
+    try {
+        const { userId, doctorId, slotId } = req.body;
+        const doctorInfo = await fetchDoctorDetails(doctorId);
+        const userInfo = await Users.findById(userId);
+
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+        // Create Stripe checkout session
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_SITE_URL}/Checkout-success/${slotId}`,
+            cancel_url: `${process.env.CLIENT_SITE_URL}/checkout-cancel`,
+            customer_email: userInfo.email,
+            client_reference_id: doctorId,
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'bdt',
+                        unit_amount: doctorInfo.fees * 100,
+                        product_data: {
+                            name: doctorInfo.name,
+                            description: doctorInfo.bio,
+                            images: [doctorInfo.image]
+                        }
+                    },
+                    quantity: 1,
+                },
+            ],
+        });
+
+
+        res.status(200).json({ success: true, message: 'Checkout session created!', session });
+
+    } catch (error) {
+        console.log('Error when booking:', error);
+        res.status(500).json({ success: false, message: 'Error creating checkout session' });
+    }
+};
+
 
 export const logOut = async (req, res) => {
     try {
@@ -240,5 +376,35 @@ export const logOut = async (req, res) => {
         res.status(200).json({ message: 'user logout successfully' })
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const getUserWallet = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const wallet = await userWallet(userId)
+        if (wallet) {
+            res.status(201).json(wallet)
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when getting getuserwallet", error)
+    }
+}
+
+export const userMedicalReports = async (req, res) => {
+    try {
+        const { userId } = req.params
+
+        const report = await Medical_Report(userId);
+        if (report) {
+            res.status(201).json(report)
+        } else {
+            res.status(401)
+        }
+
+    } catch (error) {
+        console.log("error when getting userMedical report", error)
     }
 }

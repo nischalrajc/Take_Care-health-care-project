@@ -5,11 +5,15 @@ import { useState, useEffect } from 'react'
 import { Axios } from '../../Axios/admin'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import Pagination from '../../Components/Admin/Pagination'
 
 
 function Doctors() {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [array, setArray] = useState([]);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [dataPerPage,setDataPerPage] = useState(6)
+
 
     const navigate = useNavigate()
 
@@ -20,6 +24,11 @@ function Doctors() {
             console.log(error)
         })
     }, [array])
+
+    const lastUserIndex = currentPage * dataPerPage
+    const firstUserIndex = lastUserIndex - dataPerPage
+
+    const currentData = array.slice(firstUserIndex,lastUserIndex)
 
     const viewDoctorHandler = async(doctorId) =>{
         navigate(`/admin/doctors/view/${doctorId}`)
@@ -88,7 +97,7 @@ function Doctors() {
                                                 </thead>
                                                 <tbody>
                                                     {
-                                                        array.map((doctor, index) => (
+                                                        currentData.map((doctor, index) => (
                                                             <tr key={index}
                                                                 className="border-b transition duration-300 ease-in-out bg-[#E7EBD2]   dark:hover:bg-[#DCE2B7]">
                                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{doctor.name}</td>
@@ -112,6 +121,8 @@ function Doctors() {
                             </div>
                         )
                     }
+
+                    <Pagination totalData = {array.length} dataPerPage={dataPerPage} setCurrentPage={setCurrentPage}/>
                 </div>
             </div>
         </div>

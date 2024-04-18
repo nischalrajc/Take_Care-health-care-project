@@ -3,7 +3,6 @@ import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
 import { Axios } from '../../Axios/doctor'
 import { Link } from 'react-router-dom'
-// import BeatLoader from "react-spinners/BeatLoader";
 import ClipLoader from 'react-spinners/ClipLoader'
 import OTP from '../../Components/Doctor/OTP'
 
@@ -34,7 +33,7 @@ function DoctorRegistration() {
     formData.append('certificate', certificate)
 
     useEffect(() => {
-        Axios.get('/getspecialisation', { withCredentials: true }).then((response) => {
+        Axios.get('/getspecialisation').then((response) => {
             if (response) {
                 setSpecialisation(response.data)
             }
@@ -72,6 +71,15 @@ function DoctorRegistration() {
             return;
         }
 
+        if (password.length < 6) {
+            console.log("netered")
+            setError('Password must be at least 8 characters long');
+            setTimeout(() => {
+                setError('');
+            }, 5000);
+            return;
+        }
+
         if (password !== confirmPassword) {
             setError('Password and confirm password do not match');
             setTimeout(() => {
@@ -82,7 +90,7 @@ function DoctorRegistration() {
 
         setLoading(true)
 
-        await Axios.get(`/mailvalidation/${email}`, { withCredentials: true }).then((response) => {
+        await Axios.get(`/mailvalidation/${email}`).then((response) => {
             setLoading(false);
             if (response.data) {
                 setOtp(response.data.verificationOTP)
@@ -100,7 +108,7 @@ function DoctorRegistration() {
             <LoginNav />
 
             <div className='font-semibold mt-5 sm:text-4xl text-2xl'>
-                Doctors Registration
+                Register into your account
             </div>
             <div className='font-semibold mt-3 max-w-sm mx-auto sm:text-sm text-center px-2 sm:px-0'>
                 <p className='text-black  opacity-70'>Complete this form to join our team. Share your qualifications, and we'll review your application promptly. </p>
@@ -114,7 +122,7 @@ function DoctorRegistration() {
                         <div>
                             <form onSubmit={submitHandler} encType="multipart/form-data">
 
-                                <div className="flex flex-col sm:flex-row items-center mt-5 justify-center">
+                                <div className="flex flex-col sm:flex-row items-center mt-5 mb-2 justify-center">
                                     <div className="sm:w-1/2 sm:max-w-fit  ">
                                         <div className=' flex items-start  font-semibold opacity-65'>
                                             <label htmlFor="">Name</label>
@@ -148,7 +156,7 @@ function DoctorRegistration() {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-center justify-center">
+                                <div className="flex flex-col sm:flex-row items-center  justify-center mb-2">
                                     <div className="sm:w-1/2 sm:max-w-fit  ">
                                         <div className=' flex items-start font-semibold opacity-65'>
                                             <label htmlFor="">Email</label>
@@ -175,7 +183,7 @@ function DoctorRegistration() {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-center justify-center">
+                                <div className="flex flex-col sm:flex-row items-center justify-center mb-2">
                                     <div className="sm:w-1/2 sm:max-w-fit">
                                         <div className=' flex items-start font-semibold opacity-65'>
                                             <label htmlFor="">Specialisation</label>
@@ -210,7 +218,7 @@ function DoctorRegistration() {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-center justify-center">
+                                <div className="flex flex-col sm:flex-row items-center justify-center mb-2">
                                     <div className="sm:w-1/2 sm:max-w-fit  ">
                                         <div className=' flex items-start font-semibold opacity-65'>
                                             <label htmlFor="">Password</label>
@@ -237,14 +245,14 @@ function DoctorRegistration() {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-center justify-center">
+                                <div className="flex flex-col sm:flex-row items-center justify-center ">
                                     <div className="sm:w-1/2 sm:max-w-fit">
                                         <div className=' flex items-start font-semibold opacity-65'>
                                             <label htmlFor="">Registration Certificate</label>
                                         </div>
                                         <div className='flex items-start pl-3 mt-1'>
                                             <input type="file"
-                                                className="w-full border-gray-500 border-2 rounded p-1"
+                                                className="w-full border-gray-500 border-2 rounded p-1 hover:cursor-pointer"
                                                 onChange={(e) => setCertificate(e.target.files[0])}
                                                 required />
                                         </div>

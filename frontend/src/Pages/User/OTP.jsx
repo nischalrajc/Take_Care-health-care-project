@@ -21,14 +21,25 @@ function OTP() {
     const location = useLocation();
 
     const resendHandler = () => {
-        Axios.post('/resend_OTP', { email }).then((response) => {
-            if (response.data.otp) {
+        Axios.get(`/resend_OTP/${email}`).then((response) => {
+            if (response.data) {
                 setOtp(response.data.otp)
             }
         })
-
         setTimer(60);
         setResendDisabled(true);
+
+        const countdown = setInterval(() => {
+            setTimer((prevTimer) => {
+                if (prevTimer === 1) {
+                    setOtp(null)
+                    setResendDisabled(false);
+                    clearInterval(countdown);
+                }
+                return prevTimer - 1;
+            });
+        }, 1000);
+
     };
 
     useEffect(() => {
@@ -60,7 +71,6 @@ function OTP() {
             setTimer((prevTimer) => {
                 if (prevTimer === 1) {
                     setOtp(null)
-                    // Enable the resend button when the timer reaches 0
                     setResendDisabled(false);
                     clearInterval(countdown);
                 }
@@ -94,6 +104,9 @@ function OTP() {
             })
         } else {
             setError("invalid otp")
+            setTimeout(() => {
+                setError('');
+            }, 2000);
         }
 
     }
@@ -125,7 +138,7 @@ function OTP() {
 
                     {
                         error && (
-                            <div className='text-red-400 font-medium'>
+                            <div className='text-red-500 font-inder'>
                                 {error}
                             </div>
                         )

@@ -21,22 +21,21 @@ function LoginDoctor() {
         if (doctorInfo) {
             navigate('/doctor')
         }
-    }, [doctorInfo,navigate])
+    }, [doctorInfo, navigate])
 
     const validateEmail = (email) => {
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         return regex.test(email);
     };
 
-    const forgotPasswordHandler = () =>{
-        navigate('/forget_password',{state:{doctor:true}})
+    const forgotPasswordHandler = () => {
+        navigate('/doctor/forget_password')
     }
 
 
     const submitHandler = async (e) => {
         e.preventDefault()
 
-        // Email validation
         if (!validateEmail(email)) {
             setError('Invalid email format');
             setTimeout(() => {
@@ -45,7 +44,16 @@ function LoginDoctor() {
             return;
         }
 
-        Axios.post('/login', { email, password }, { withCredentials: true }).then((response) => {
+        if (password.length < 6) {
+            setError('Password must be at least 8 characters long');
+            setTimeout(() => {
+                setError('');
+            }, 5000);
+            return;
+        }
+
+
+        Axios.post('/login', { email, password }).then((response) => {
             if (response.data.authorisation) {
                 Swal.fire({
                     title: "Cannot Login?",
@@ -75,7 +83,7 @@ function LoginDoctor() {
     return (
         <div>
             <LoginNav />
-            <div className='font-semibold mt-5 sm:text-3xl text-xl'>
+            <div className='font-semibold mt-5 sm:text-4xl text-2xl'>
                 Log in to your account
             </div>
 

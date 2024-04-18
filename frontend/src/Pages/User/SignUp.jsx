@@ -2,7 +2,7 @@ import React from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import  {Axios}  from '../../Axios/users'
+import { Axios } from '../../Axios/users'
 import { toast } from 'react-toastify';
 import BeatLoader from "react-spinners/BeatLoader";
 
@@ -29,6 +29,7 @@ function SignUp() {
     const regex = /^[0-9]{10}$/;
     return regex.test(phone);
   }
+
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -59,6 +60,15 @@ function SignUp() {
       return;
     }
 
+    if (password.length < 6) {
+      console.log("netered")
+      SetError('Password must be at least 8 characters long');
+      setTimeout(() => {
+        SetError('');
+      }, 5000);
+      return;
+    }
+
     //   password validation
     if (password !== confirmPassword) {
       SetError('Password and confirm password do not match');
@@ -75,7 +85,7 @@ function SignUp() {
       if (response.data.otp) {
         setLoading(false)
         navigate('/otp', { state: { otp: response.data.otp, email: email, name: name, password: password, gender: gender, phone: phone } })
-        
+
       }
 
       if (response.data.error) {
@@ -100,11 +110,11 @@ function SignUp() {
           <p className='text-black  opacity-70'>Begin your wellness journey. Sign up for comprehensive health support and embrace a healthier life</p>
         </div>
 
-        <div>
-          <form onSubmit={submitHandler}>
+        <div className=''>
+          <form onSubmit={submitHandler} className=''>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center">
-              <div className="sm:w-1/2 sm:max-w-fit  ">
+            <div className="flex flex-col sm:flex-row items-center justify-center mb-2">
+              <div className="sm:w-1/2 sm:max-w-fit">
                 <div className=' flex items-start  font-semibold opacity-65'>
                   <label htmlFor="">Name</label>
                 </div>
@@ -137,7 +147,7 @@ function SignUp() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center">
+            <div className="flex flex-col sm:flex-row items-center justify-center mb-2">
               <div className="sm:w-1/2 sm:max-w-fit  ">
                 <div className=' flex items-start font-semibold opacity-65'>
                   <label htmlFor="">Email</label>
@@ -209,7 +219,7 @@ function SignUp() {
                 Sign in
               </button>
             </div>
-            
+
             <div className='text-sm font-semibold opacity-70 my-1'>
               Already have an account?<Link className='text-[#2D6A76] ps-1' to='/login'>Log in</Link>
             </div>

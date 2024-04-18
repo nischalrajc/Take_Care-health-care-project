@@ -10,7 +10,7 @@ function DoctorDetails() {
     const { id } = useParams()
 
     const [doctor, setDoctor] = useState('')
-    const [showModal,setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         Axios.get(`/doctorDetails/${id}`, { withCredentials: true }).then((response) => {
@@ -25,9 +25,12 @@ function DoctorDetails() {
         });
     }, [id])
 
-    const handleShowModal = ()=>{
+    const handleShowModal = () => {
         setShowModal(true)
     }
+
+    console.log(doctor)
+
 
     return (
         <div>
@@ -42,18 +45,18 @@ function DoctorDetails() {
                 <div className=" lg:w-3/4 flex flex-col justify-center lg:ms-8 mt-2 lg:mt-0 px-10 rounded-md">
                     <div className=" font-inder my-1 text-start">Dr. {doctor?.name}</div>
                     <div className="font-inder text-xs md:text-sm my-1 text-start">{doctor?.bio}</div>
-                    <div className=" my-6 text-start"><button className='bg-[#E38569] hover:bg-[#e07757] px-10 py-1 rounded-md text-white' onClick={handleShowModal}>Schedule Appointment</button></div>
+                    <div className=" my-6 text-start"><button className='bg-[#E38569] hover:bg-[#e07757] px-10 py-1 rounded-md text-white ' onClick={handleShowModal}>Schedule Appointment</button></div>
                     <div className=" my-1 text-start font-inter text-xs md:text-sm">{doctor?.description}</div>
                 </div>
             </div>
 
             {showModal && <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 flex items-center justify-center">
-      <div className="border border-black rounded-lg shadow-md bg-white">
-          <AppointmentScheduleModal isOpen={showModal} onclose={setShowModal}/>
-        </div>
-        </div>}
+                <div className="border border-black border-opacity-25 rounded-lg shadow-lg transition delay-700 duration-300 bg-white">
+                    <AppointmentScheduleModal doctorId={doctor._id} isOpen={showModal} onclose={setShowModal} />
+                </div>
+            </div>}
 
-            <Footer/>
+            <Footer />
         </div>
     )
 }

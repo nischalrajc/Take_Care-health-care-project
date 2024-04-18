@@ -45,14 +45,17 @@ function ForgetPassword() {
 
         setLoading(true)
 
-        console.log("mmmmmmmmmmm",axiosRef.current)
         axiosRef.current.post('/forget_password', { email }).then((response) => {
             if (response.data.otp) {
                 setLoading(false)
                 navigate('/forget_password/otp',{state:{otp:response.data.otp,email:email}})
             }
         }).catch((error) => {
-            console.log("errorooooooooooooooooooooo", error)
+            setError("Mail id doesnot exist")
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            setLoading(false)
         })
 
     }
@@ -89,7 +92,7 @@ function ForgetPassword() {
 
                     {
                         error && (
-                            <div className='text-red-400 font-medium'>
+                            <div className='text-red-500 font-inder mt-2'>
                                 {error}
                             </div>
                         )

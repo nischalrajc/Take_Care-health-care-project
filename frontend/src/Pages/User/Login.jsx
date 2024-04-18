@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import LoginNav from '../../Components/User/LoginNav'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import  {Axios}  from '../../Axios/users'
+import { Axios } from '../../Axios/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { userLogin } from '../../Slices/userSlice'
 import Swal from 'sweetalert2'
@@ -28,7 +28,7 @@ function Login() {
         return regex.test(email);
     };
 
-    const forgotPasswordHandler = () =>{
+    const forgotPasswordHandler = () => {
         navigate('/forget_password')
     }
 
@@ -53,6 +53,14 @@ function Login() {
             return;
         }
 
+        if (password.length < 6 ) {
+            setError('Password must be at least 8 characters long');
+            setTimeout(() => {
+                setError('');
+            }, 4000);
+            return;
+        }
+
         Axios.post('/login', { email, password }, { withCredentials: true }).then((response) => {
             if (response.data.blocked) {
                 Swal.fire("You are blocked!");
@@ -68,7 +76,7 @@ function Login() {
                 navigate('/')
             }
         }).catch((error) => {
-            console.log("error",error)
+            console.log("error", error)
         })
 
     }
@@ -95,7 +103,7 @@ function Login() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full border-gray-500 border-2 rounded"
-                                placeholder='email' style={{ paddingLeft: '10px' }} />
+                                placeholder='email' style={{ paddingLeft: '10px' }} required/>
                         </div>
                     </div>
 
@@ -109,7 +117,7 @@ function Login() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full border-gray-500 border-2 rounded"
-                                placeholder='password' style={{ paddingLeft: '10px' }} />
+                                placeholder='password' style={{ paddingLeft: '10px' }} required/>
                         </div>
                     </div>
 
@@ -121,7 +129,7 @@ function Login() {
 
                     {
                         error && (
-                            <div className='text-red-400 font-medium'>
+                            <div className='text-red-500 font-inder'>
                                 {error}
                             </div>
                         )

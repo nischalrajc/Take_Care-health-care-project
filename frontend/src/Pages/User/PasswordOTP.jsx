@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect , useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import LoginNav from '../../Components/User/LoginNav'
-import  {Axios}  from '../../Axios/users';
+import {Axios as DoctorAxios} from '../../Axios/doctor'
+import {Axios as UserAxios} from '../../Axios/users'
 
 function PasswordOTP() {
 
@@ -13,12 +14,14 @@ function PasswordOTP() {
     const [timer, setTimer] = useState(60);
     const [error, setError] = useState('')
 
+    const axiosRef = useRef(UserAxios);
+
     const navigate = useNavigate();
     const location = useLocation();
 
     const resendHandler = () => {
 
-        Axios.post('/resend_OTP', { email }).then((response) => {
+        axiosRef.get(`/resend_OTP/${email}`).then((response) => {
             if (response.data.otp) {
                 setOtp(response.data.otp)
             }
@@ -35,6 +38,12 @@ function PasswordOTP() {
             setOtp(location.state.otp);
         }
 
+        if (location.state && location.state.doctor) {
+            axiosRef.current = DoctorAxios;
+        } else {
+            axiosRef.current = UserAxios;
+        }
+
         if (location.state && location.state.email) {
             setEmail(location.state.email);
         }
@@ -47,7 +56,7 @@ function PasswordOTP() {
             setTimer((prevTimer) => {
                 if (prevTimer === 1) {
                     setOtp(null)
-                    // Enable the resend button when the timer reaches 0
+                    
                     setResendDisabled(false);
                     clearInterval(countdown);
                 }
@@ -65,11 +74,14 @@ function PasswordOTP() {
     const submitHandler = (e) => {
         e.preventDefault()
         if (otp === OTP) {
-            navigate('/newpassword',{state:{email:email}})
+            navigate('/newpassword',{state:{email:email,}})
         } else {
             setError("invalid otp")
+            setTimeout(() => {
+                setError('')
+            }, 1000)
+            
         }
-
     }
 
     return (

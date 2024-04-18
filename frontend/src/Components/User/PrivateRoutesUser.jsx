@@ -24,7 +24,6 @@ function PrivateRoutesUser() {
 }, []);
 
 if (auth === null) {
-    // Loading state, you might want to show a loading spinner here
     return null;
 }
 

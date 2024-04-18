@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function DoctorsCard({ array, appointment ,setShowModal }) {
+function DoctorsCard({ array, appointment, setShowModal }) {
 
-    const handleShowModal = ()=>{
+    const handleShowModal = () => {
         setShowModal(true)
     }
 
@@ -21,7 +21,7 @@ function DoctorsCard({ array, appointment ,setShowModal }) {
                                 {
                                     appointment && (
                                         <div className="mt-2">
-                                            <button className='bg-[#E38569] text-white px-6 rounded-md py-1' onClick={handleShowModal}>
+                                            <button className='bg-[#E38569] text-white px-6 rounded-md py-1 mb-2 lg:mb-0 mx-1 md:mx-0' onClick={handleShowModal}>
                                                 Schedule Appointment
                                             </button>
                                         </div>

@@ -13,9 +13,8 @@ function DoctorDetails() {
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        Axios.get(`/doctorDetails/${id}`, { withCredentials: true }).then((response) => {
+        Axios.get(`/doctorDetails/${id}`).then((response) => {
             if (response.data) {
-                console.log(response.data)
                 setDoctor(response.data)
             }
         }).catch((error) => {
@@ -28,9 +27,6 @@ function DoctorDetails() {
     const handleShowModal = () => {
         setShowModal(true)
     }
-
-    console.log(doctor)
-
 
     return (
         <div>

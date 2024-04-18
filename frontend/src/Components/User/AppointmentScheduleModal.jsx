@@ -44,13 +44,15 @@ function AppointmentScheduleModal({ doctorId, isOpen, onclose }) {
 
     const submitHandler = async () => {
         try {
-            await Axios.post('/checkout-session', { userId, doctorId, slotId }).then((response) => {
-                if (response.data) {
-                    window.location.href = response.data.session.url
-                }
-            }).catch((error) => {
-                console.log("error", error)
-            })
+            if(slotId){
+                await Axios.post('/checkout-session', { userId, doctorId, slotId }).then((response) => {
+                    if (response.data) {
+                        window.location.href = response.data.session.url
+                    }
+                }).catch((error) => {
+                    console.log("error", error)
+                })
+            }
         } catch (Error) {
             console.log("error", Error)
         }

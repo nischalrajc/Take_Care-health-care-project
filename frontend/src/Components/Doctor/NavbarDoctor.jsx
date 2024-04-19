@@ -4,6 +4,8 @@ import { Axios } from '../../Axios/doctor'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { doctorLogout } from '../../Slices/doctorSlice'
+import { IoHome } from "react-icons/io5";
+
 
 function NavbarDoctor() {
 
@@ -25,12 +27,12 @@ function NavbarDoctor() {
     return (
         <div>
             <div className="sm:mx-5 flex justify-between py-3 px-3 border-b  border-gray-300">
-                <div className="flex items-center pr-5">
+                <div className="flex items-center pr-5 ">
                     <img className="min-w-20 max-w-20 md:min-w-48 md:max-w-48" src="/take-care-logo.png" alt="Logo" />
                 </div>
-                <div className='font-inder flex items-center mr-8'>
-                    <div className="mr-8">
-                        <Link>Home</Link>
+                <div className='font-inder flex items-center sm:mr-8'>
+                    <div className="mx-6 sm:mx-20">
+                        <Link><IoHome /></Link>
                     </div>
                     <div className="">
                         <button className='border border-black rounded px-3 py-1' onClick={logoutHandler}>logout</button>

@@ -36,24 +36,6 @@ function Slots() {
         })
     }
 
-
-    // const getDatesForSameWeekdayInMonth = (date) => {
-    //     const year = date.getFullYear();
-    //     const month = date.getMonth();
-    //     const dayOfWeek = date.getDay();
-    //     const dates = [];
-
-    //     const tempDate = new Date(year, month, 1);
-    //     while (tempDate.getMonth() === month) {
-    //         if (tempDate.getDay() === dayOfWeek) {
-    //             dates.push(new Date(tempDate));
-    //         }
-    //         tempDate.setDate(tempDate.getDate() + 1);
-    //     }
-
-    //     return dates;
-    // };
-
     return (
         <div >
             <NavbarDoctor />
@@ -69,12 +51,6 @@ function Slots() {
                     maxTime={selectedDate && selectedDate.getDate() === new Date().getDate() ? new Date().setHours(23, 59, 59) : new Date().setHours(23, 59, 59)}
                     showTimeSelect
                     onChange={(date) => setSelectedDate(date)}
-                    // onChange={(date) => {
-                    //     setSelectedDate(date);
-                    //     // Get all dates for the same weekday in the selected date's month
-                    //     const sameWeekdayDates = getDatesForSameWeekdayInMonth(date);
-                    //     console.log(sameWeekdayDates);
-                    // }}
                     withPortal
                     dateFormat="MMMM d, yyyy h:mm aa"
                     className='border border-black hover:cursor-pointer '
@@ -82,12 +58,12 @@ function Slots() {
                 <button className='bg-[#6E4975] font-inder text-white  rounded-md px-4 ms-2' onClick={handleAddSlot}>Add Slot</button>
             </div>
 
-            <div className='flex justify-center'>
+            <div className='flex justify-center '>
                 {slots && slots.length > 0 ? (
-                    <div className=' w-1/2 grid grid-cols-2 justify-center items-center mt-10' >
+                    <div className=' w-auto grid grid-cols-2 gap-1 sm:gap-2 sm:grid-cols-3 justify-center  mt-10' >
                         {
                             slots.map((item, index) => (
-                                <div key={index} className="div bg-[#95B4E0]  my-1 mx-4 px-2 py-1 rounded-md">
+                                <div key={index} className="div bg-[#95B4E0] lg:w-auto mx-1 sm:mx-4  px-2 py-1 rounded-md">
                                     {new Date(item.date).toLocaleString('en-IN', {
                                         timeZone: 'Asia/Kolkata',
                                         weekday: 'long', // to display the day

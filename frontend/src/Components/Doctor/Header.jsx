@@ -6,7 +6,7 @@ function Header({title}) {
     return (
         <>
            
-                <div className='grid grid-cols-2 md:grid-cols-4 mt-0 md:px-16 px-2 font-inder w-full'>
+                <div className='grid grid-cols-2 md:grid-cols-4 mt-0 lg:px-16 px-2 text-xs sm:text-base font-inder w-full'>
                     <Link to="/doctor"><div className={`${title === 'profile' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 px-1`}>Profile</div></Link>
                     <Link  to="/doctors_medicalreport"><div  className={`${title === 'medicalrecords' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 px-1`}>Medical Records</div></Link>
                     <Link to="/doctors_slots"><div  className={`${title === 'slots' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 px-1`}>Slots</div></Link>

@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 function ScheduledAppointments() {
+    const [appointments, setAppointments] = useState([])
+
     const { newUser, socket, setCall, call, answerCall } = useContext(SocketContext)
 
     const navigate = useNavigate();
-
-    const [appointments, setAppointments] = useState([])
     const userInfo = useSelector((state) => state.user.user)
     const id = userInfo?._id
 

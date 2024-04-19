@@ -5,9 +5,9 @@ import Specialisations from '../Modal/Specialisations.js'
 import { generateTokenAdmin } from '../utils/generateToken.js'
 import bcrypt from 'bcrypt'
 import { fileURLToPath } from 'url';
-import { dirname,join } from 'path';
+import { dirname, join } from 'path';
 import { unlink } from 'fs/promises'
-import { doctorNotauthorised, getDoctor, removeDoctor } from '../Services/admin.js'
+import { doctorNotauthorised, getDoctor, removeDoctor, specialisationDetails, updateSpectialities } from '../Services/Admin.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -253,6 +253,34 @@ export const specialisations = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const viewSpecialisation = async (req, res) => {
+    try {
+        const { id } = req.params
+        const specialisation = await specialisationDetails(id)
+        if (specialisation) {
+            res.status(201).json(specialisation)
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when getting viewspecialisation", error)
+    }
+}
+
+export const updateSpecialisation = async (req, res) => {
+    try {
+        const { name, description, id, image_url } = req.body
+        const specialisation = await updateSpectialities(id, name, description, image_url)
+        if (specialisation) {
+            res.status(201).json({message:"successss"})
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when updating data", error)
     }
 }
 

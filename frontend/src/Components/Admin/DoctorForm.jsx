@@ -34,8 +34,6 @@ function DoctorForm({ doctorId }) {
             try {
                 const response = await Axios.get(`/viewDoctorDetails/${doctorId}`, { withCredentials: true });
                 if (response.data) {
-                    console.log(response.data)
-
                     setName(response.data?.name || '');
                     setBio(response.data?.bio || '');
                     setEmail(response.data?.email || '');
@@ -53,22 +51,7 @@ function DoctorForm({ doctorId }) {
 
         fetchDoctorDetails(doctorId)
 
-        // if (doctorInfo) {
-        //     setName(doctorInfo?.name || '');
-        //     setBio(doctorInfo?.bio || '');
-        //     setEmail(doctorInfo?.email || '');
-        //     setGender(doctorInfo?.gender || '');
-        //     setPhone(doctorInfo?.phoneNumber || '');
-        //     setSpecialisation(doctorInfo?.specialisation || '');
-        //     setFees(doctorInfo?.fees || '');
-        //     setDescription(doctorInfo?.description || '');
-        // }
-
     }, [doctorId])
-
-// console.log(doctorInfo)
-
-
 
 const handleImageClick = () => {
     // Trigger the click event of the hidden file input
@@ -143,7 +126,6 @@ const submitHandler = async (e) => {
     Swal.fire({
         title: "Do you want to save the changes?",
         showDenyButton: true,
-        // showCancelButton: true,
         confirmButtonText: "Save",
         denyButtonText: `Don't save`
     }).then((result) => {

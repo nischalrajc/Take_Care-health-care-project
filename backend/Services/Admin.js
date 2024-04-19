@@ -1,4 +1,5 @@
 import Doctors from "../Modal/Doctor.js"
+import Specialisations from "../Modal/Specialisations.js"
 
 export const doctorNotauthorised = async () => {
     try {
@@ -19,14 +20,39 @@ export const getDoctor = async (id) => {
 }
 
 export const removeDoctor = async (id) => {
-    try{
+    try {
         const deleted_Doctor = await Doctors.findByIdAndDelete(id);
-        if(deleted_Doctor){
+        if (deleted_Doctor) {
             return true
-        }else{
+        } else {
             return false
         }
-    }catch(error){
-        console.log("error",error)
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+export const specialisationDetails = async (id) => {
+    try {
+        const specialisation = await Specialisations.findById(id)
+        return specialisation
+    } catch (error) {
+        console.log("error when fetching disease", error)
+    }
+}
+
+export const updateSpectialities = async (id, name, description, image_url) => {
+    try {
+        const specialisation = await Specialisations.findById(id)
+        if (specialisation) {
+            specialisation.specialisation = name
+            specialisation.description = description
+            specialisation.image = image_url
+
+            await specialisation.save()
+            return true
+        }
+    } catch (error) {
+        console.log("error when updating the database", error)
     }
 }

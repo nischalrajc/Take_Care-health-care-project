@@ -31,6 +31,11 @@ function Specialisation() {
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
     };
+
+    const specialisationViewHandler = (id) => {
+        navigate(`/viewSpecialisation/${id}`)
+    }
+
     return (
         <div>
             <Header onToggleSidebar={toggleSidebar} />
@@ -68,8 +73,7 @@ function Specialisation() {
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-6 py-4 max-w-[200px] overflow-hidden overflow-ellipsis">{specilise.description}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                                    <button className='bg-[#9CBCB7] px-3 py-1 rounded me-1'>view</button>
-                                                                    {/* <button className='bg-[#E38569] px-3 py-1 rounded ' >remove</button> */}
+                                                                    <button className='bg-[#9CBCB7] px-3 py-1 rounded me-1' onClick={() => specialisationViewHandler(specilise._id)}>view</button>
                                                                 </td>
                                                             </tr>
                                                         ))

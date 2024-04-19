@@ -41,6 +41,7 @@ import VideoCall from "./Pages/Doctor/VideoCall";
 import Payments from "./Pages/User/Payments";
 import MedicalReport from "./Pages/User/MedicalReport";
 import MedicalRecords from "./Pages/Doctor/MedicalRecords";
+import ViewSpecialisation from "./Pages/Admin/ViewSpecialisation";
 
 function App() {
   return (
@@ -94,8 +95,8 @@ function App() {
           <Route path="/admin/specialisation" element={<Specialisation />} />
           <Route path="/admin/add_specialisation" element={<AddSpecialisation />} />
           <Route path="/pdf-viewer" element={<PDFviewer />} />
+          <Route path="/viewSpecialisation/:id" element={<ViewSpecialisation />} />
         </Route>
-
       </Routes>
     </div>
   );

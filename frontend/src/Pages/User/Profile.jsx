@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { userLogin } from '../../Slices/userSlice'
 import { Axios } from '../../Axios/users'
 import Swal from 'sweetalert2'
+import Footer from '../../Components/User/Footer'
 
 function Profile() {
     const [name, setName] = useState('')
@@ -80,7 +81,7 @@ function Profile() {
             <ProfileBar />
             <ProfileHeader title='profile' />
 
-            <div className="bg-cover mt-6 py-6 mx-60 " style={{ backgroundImage: 'url(/11235809_11003.jpg)' }}>
+            <div className="bg-cover mt-6 py-6 mx-0 lg:mx-60 " style={{ backgroundImage: 'url(/11235809_11003.jpg)' }}>
                 <div className='flex justify-center  w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto'>
                     <img className="w-auto h-36 object-fill rounded-full " src="/profilepic.jpg" alt="Icon" />
                 </div>
@@ -89,7 +90,7 @@ function Profile() {
 
                     <form onSubmit={submitHandler}>
 
-                        <div className='flex justify-between w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 '>
+                        <div className='flex justify-between w-full sm:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 '>
                             <div className='font-semibold  opacity-65 mr-4'>
                                 Name
                             </div>
@@ -102,7 +103,7 @@ function Profile() {
                             </div>
                         </div>
 
-                        <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
+                        <div className=' w-full sm:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
                             <div className='font-semibold opacity-65 mr-4'>
                                 Email
                             </div>
@@ -115,7 +116,7 @@ function Profile() {
                             </div>
                         </div>
 
-                        <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
+                        <div className=' w-full sm:w-1/2  lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
                             <div className='font-semibold opacity-65 mr-1'>
                                 Gender
                             </div>
@@ -133,7 +134,7 @@ function Profile() {
                             </div>
                         </div>
 
-                        <div className=' w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
+                        <div className=' w-full sm:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto my-5 flex justify-between'>
                             <div className='font-inder opacity-70 mr-4'>
                                 Phone
                             </div>
@@ -157,7 +158,7 @@ function Profile() {
                             }
                         </div>
 
-                        <div className=' p-4 mt-3'>
+                        <div className='p-4 mt-3 flex justify-center'>
                             <button type="submit" className=" bg-[#70a39c] hover:border border-gray-600  text-white rounded-md  px-6 sm:px-14 py-2 sm:py-2">
                                 Save Changes
                             </button>
@@ -167,6 +168,7 @@ function Profile() {
                 </div>
             </div>
 
+            <Footer/>
         </div>
     )
 }

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { IoIosNotifications } from "react-icons/io";
 import { Axios } from '../../Axios/users';
-import { useDispatch ,useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { userLogout } from '../../Slices/userSlice';
 import { FaWallet } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
@@ -13,7 +13,7 @@ function ProfileBar() {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showModal, setShowModal] = useState(false)
-    
+
     const dispatch = useDispatch()
 
     const handleToggleMenu = () => {
@@ -42,7 +42,6 @@ function ProfileBar() {
                 <div className="hidden sm:grid grid-cols-3 items-center">
                     <div className="mx-auto"><Link to="/"><IoHome /></Link></div>
                     <div className=" mx-auto flex flex-row items-center justify-center"> < FaWallet className='ms-1 hover:cursor-pointer' onClick={showWallet} /></div>
-                    {/* <div className="mx-auto"><Link><IoIosNotifications className="text-2xl" /></Link></div> */}
                     <div className="div">
                         <button className="border border-black rounded px-3 py-1" onClick={handleLogout} >
                             Log out
@@ -65,10 +64,10 @@ function ProfileBar() {
             </div>}
 
             {isMenuOpen && (
-                <div className="sm:hidden flex flex-col">
+                <div className="sm:hidden flex flex-col mb-2">
                     <div className=" hover:bg-[#DFEBE9] p-2"><Link to="/">Home</Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2"><Link to='/health_tips'>Tips</Link></div>
-                    <div className="hover:bg-[#DFEBE9] p-2"><Link><IoIosNotifications /></Link></div>
+                    <div className="hover:bg-[#DFEBE9] p-2 flex justify-center"><Link><FaWallet /></Link></div>
                     <div className="hover:bg-[#DFEBE9] p-2">
                         <button className="border border-black rounded px-3 py-1" onClick={handleLogout}>
                             Log out

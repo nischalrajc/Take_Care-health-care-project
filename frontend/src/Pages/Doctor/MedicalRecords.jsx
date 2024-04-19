@@ -27,7 +27,7 @@ function MedicalRecords() {
             <div className="mt-6">
                 {
                     medicalReport && medicalReport.map((report, index) => (
-                        <div className="bg-[#c2d1e6] mx-20 rounded-md flex flex-row p-3 font-inder">
+                        <div className="bg-[#c2d1e6] mx-4 sm:mx-20 mb-1 rounded-md flex flex-row p-3 font-inder">
                             <div className="flex flex-col text-start p-1">
                                 <div className="flex flex-row">
                                     <div className="div">

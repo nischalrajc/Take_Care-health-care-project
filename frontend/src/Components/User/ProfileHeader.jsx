@@ -26,11 +26,11 @@ function ProfileHeader({ title }) {
         <>
 
             <div className='grid grid-cols-2 md:grid-cols-4 mt-0 lg:px-16 px-2 text-xs sm:text-base font-inder w-full'>
-                <Link to='/profile'><div className={`${title === 'profile' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 text-center cursor-pointer`}>Profile</div></Link>
-                <Link to='/medical_report'><div className={`${title === 'MedicalRecords' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 text-center cursor-pointer`}>Medical Records</div></Link>
-                <Link to='/payments'><div className={`${title === 'payments' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 text-center cursor-pointer`}>Payments</div></Link>
+                <Link to='/profile'><div className={`${title === 'profile' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 px-1 cursor-pointer`}>Profile</div></Link>
+                <Link to='/medical_report'><div className={`${title === 'MedicalRecords' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 px-1 cursor-pointer`}>Medical Records</div></Link>
+                <Link to='/payments'><div className={`${title === 'payments' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 px-1 cursor-pointer`}>Payments</div></Link>
                 <Link to='/scheduled_appointments'>
-                    <div className={`${title === 'scheduled_appointment' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 text-center cursor-pointer `}>
+                    <div className={`${title === 'scheduled_appointment' && 'bg-[#2D6A76]'} border-b border-gray-300 py-1 sm:py-2 px-1 cursor-pointer `}>
                         <span className='relative'>  Scheduled Appointments
 
                             {
@@ -46,10 +46,7 @@ function ProfileHeader({ title }) {
                         </span>
                     </div>
                 </Link>
-
-
             </div>
-
         </>
     )
 }

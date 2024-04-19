@@ -18,12 +18,12 @@ function Payments() {
         }).catch((error) => {
             console.log("error", error)
         })
-    }, [])
+    },[])
 
     return (
         <div>
             <ProfileBar />
-            <ProfileHeader title='payments' />
+            <ProfileHeader title='payments'/>
 
             <div className="mt-8 mx-auto">
                 {payments.length > 0 ? (

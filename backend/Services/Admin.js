@@ -1,4 +1,5 @@
 import Doctors from "../Modal/Doctor.js"
+import Payments from "../Modal/Payments.js"
 import Specialisations from "../Modal/Specialisations.js"
 
 export const doctorNotauthorised = async () => {
@@ -38,6 +39,19 @@ export const specialisationDetails = async (id) => {
         return specialisation
     } catch (error) {
         console.log("error when fetching disease", error)
+    }
+}
+
+export const getAllTransactions = async () => {
+    try {
+        const transactions = await Payments.find().populate('doctor').populate('user')
+        if (transactions) {
+            return transactions
+        } else {
+            return null
+        }
+    } catch (error) {
+        console.log("error when fetching all trasactions", error)
     }
 }
 

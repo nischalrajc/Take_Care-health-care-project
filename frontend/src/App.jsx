@@ -42,6 +42,7 @@ import Payments from "./Pages/User/Payments";
 import MedicalReport from "./Pages/User/MedicalReport";
 import MedicalRecords from "./Pages/Doctor/MedicalRecords";
 import ViewSpecialisation from "./Pages/Admin/ViewSpecialisation";
+import Transaction from "./Pages/Admin/Transaction";
 
 function App() {
   return (
@@ -68,7 +69,7 @@ function App() {
           <Route path="/Checkout-success/:slotId" element={<Success />} />
           <Route path="/payments" element={<Payments />} />
           <Route path="/scheduled_appointments" element={<ScheduledAppointments />} />
-          <Route path="/medical_report" element={<MedicalReport/>} />
+          <Route path="/medical_report" element={<MedicalReport />} />
         </Route>
 
         <Route path="/doctor_login" element={<LoginDoctor />} />
@@ -96,6 +97,7 @@ function App() {
           <Route path="/admin/add_specialisation" element={<AddSpecialisation />} />
           <Route path="/pdf-viewer" element={<PDFviewer />} />
           <Route path="/viewSpecialisation/:id" element={<ViewSpecialisation />} />
+          <Route path="/admin/transaction" element={<Transaction />} />
         </Route>
       </Routes>
     </div>

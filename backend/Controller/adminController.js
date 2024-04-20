@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { unlink } from 'fs/promises'
-import { doctorNotauthorised, getDoctor, removeDoctor, specialisationDetails, updateSpectialities } from '../Services/Admin.js'
+import { doctorNotauthorised, getAllTransactions, getDoctor, removeDoctor, specialisationDetails, updateSpectialities } from '../Services/Admin.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -299,6 +299,19 @@ export const addSpecialisation = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const getTransactions = async (req,res) =>{
+    try {
+        const transactions = await getAllTransactions()
+        if(transactions){
+            res.status(201).json(transactions)
+        }else{
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when getting transactions",error)
     }
 }
 

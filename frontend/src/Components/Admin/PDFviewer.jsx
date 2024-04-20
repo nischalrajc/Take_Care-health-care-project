@@ -4,13 +4,8 @@ import { useEffect } from 'react';
 
 function PDFviewer() {
 
-     
-     // Get the query parameter 'pdf' from the URL
   const location = useLocation();
   const pdfPath = new URLSearchParams(location.search).get('pdf');
-
-  // Log the PDF path to the console
-  console.log(pdfPath);
 
   useEffect(() => {
     // Open the PDF in a new tab
@@ -21,9 +16,7 @@ function PDFviewer() {
 
   return (
     <div>
-      {/* You can add additional content or styling for the PdfViewer if needed */}
       <h1>PDF Viewer</h1>
-      {/* You might want to display a loading indicator or message here */}
     </div>
   );
 

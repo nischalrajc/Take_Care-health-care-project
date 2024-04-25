@@ -14,7 +14,6 @@ function Transaction() {
 
     useEffect(() => {
         Axios.get('/transactions').then((response) => {
-            console.log(response.data)
             setArray(response.data)
         }).catch((error) => {
             console.log(error)

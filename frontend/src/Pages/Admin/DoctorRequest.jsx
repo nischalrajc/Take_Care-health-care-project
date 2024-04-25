@@ -13,12 +13,12 @@ function DoctorRequest() {
     const BASE_URL = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
-        Axios.get('/doctors_request', { withCredentials: true }).then((response) => {
+        Axios.get('/doctors_request').then((response) => {
             setArray(response.data)
         }).catch((error) => {
             console.log(error)
         })
-    }, [array])
+    }, [])
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);

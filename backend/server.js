@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+import nocache from 'nocache';
 import { initializeSocket } from './socket.js';
 import userRouter from './Routes/userRoutes.js';
 import doctorRouter from './Routes/doctorRoutes.js';
@@ -48,9 +50,11 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(nocache());
 app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(morgan('dev'));
 
 // Routes
 app.use('/', userRouter);

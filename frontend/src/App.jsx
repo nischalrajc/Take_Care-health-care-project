@@ -88,7 +88,7 @@ function App() {
 
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="" element={<PrivateAdmin />}>
-          <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/users" element={<Users key={Date.now()} />} />
           <Route path="/admin/doctors" element={<Doctors />} />
           <Route path="/admin/doctor_request" element={<DoctorRequest />} />
           <Route path="/admin/add_doctors" element={<AddDoctors />} />

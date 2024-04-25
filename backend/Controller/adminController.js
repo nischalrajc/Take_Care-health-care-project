@@ -36,12 +36,18 @@ export const loginAdmin = async (req, res) => {
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await Users.find()
-        res.status(200).json(users)
+        const users = await Users.find();
+        if(users.length > 0){
+            res.status(200).json(users);
+        } else {
+            res.status(404).json({ message: "No users found" });
+        }
     } catch (error) {
-        console.log("error", error)
+        console.error("Error fetching users:", error);
+        res.status(500).json({ error: "Internal server error" });
     }
-}
+};
+
 
 export const getAllDoctors = async (req, res) => {
     try {

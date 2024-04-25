@@ -15,6 +15,7 @@ function ViewSpecialisation() {
     const [image, setImage] = useState(null)
     const [description, setDescription] = useState('')
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const fileInputRef = useRef(null);
 
     const PRESET_KEY = process.env.REACT_APP_PRESET_KEY
@@ -52,6 +53,25 @@ function ViewSpecialisation() {
 
     const submitHandler = async (e) => {
         e.preventDefault()
+
+        const trimmedName = name.trim();
+        const trimmedDescription = description.trim();
+
+        if (!trimmedName) {
+            setError('Name cannot be empty');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+        if (!trimmedDescription) {
+            setError('Name cannot be empty');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
 
         let image_url = specialisation?.image;
 
@@ -124,7 +144,7 @@ function ViewSpecialisation() {
                                 <input type="text"
                                     className=" border-gray-500 border-2 w-full rounded"
                                     value={name}
-                                    onChange={(e) => setSpecialisation(e.target.value)}
+                                    onChange={(e) => setName(e.target.value)}
                                     placeholder='specialisation' style={{ paddingLeft: '10px' }} required />
                             </div>
                         </div>
@@ -140,6 +160,17 @@ function ViewSpecialisation() {
                                     onChange={(e) => setDescription(e.target.value)}
                                     placeholder='description' style={{ paddingLeft: '10px' }} required />
                             </div>
+                        </div>
+
+                        {/* erorrr handling */}
+                        <div>
+                            {
+                                error && (
+                                    <div className='text-red-500 font-medium'>
+                                        {error}
+                                    </div>
+                                )
+                            }
                         </div>
 
                         <div className=' p-4 mt-3'>

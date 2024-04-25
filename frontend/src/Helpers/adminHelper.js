@@ -6,7 +6,7 @@ export const adminCookie = async () => {
 
     if (cookies.includes('jwtAdmin=')) {
 
-        const response = await axios.get('https://takecareofficial.online/admin/decodeToken', { withCredentials: true })
+        const response = await axios.get('http://localhost:5000/admin/decodeToken', { withCredentials: true })
         
         if (response.status === 200) {
             return true;

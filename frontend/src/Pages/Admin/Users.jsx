@@ -2,20 +2,21 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import Header from '../../Components/Admin/Header';
 import Sidebar from '../../Components/Admin/Sidebar';
-import { Axios } from '../../Axios/admin'
+import { Axios } from '../../Axios/admin';
+import Pagination from '../../Components/Admin/Pagination';
 
 function Users() {
-  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [array, setArray] = useState([]);
-
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [array, setArray] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [dataPerPage, setDataPerPage] = useState(6)
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!isSidebarCollapsed);
   };
 
   const blockUser = (userId) => {
-
-    Axios.put(`/block_user/${userId}`, { withCredentials: true }).then((response) => {
+    Axios.put(`/block_user/${userId}`).then((response) => {
       if (response.data.message) {
         console.log("user blocked")
       }
@@ -25,8 +26,8 @@ function Users() {
 
   }
 
-  const unblockUser = (userId) =>{
-    Axios.put(`/unblock_user/${userId}`, { withCredentials: true }).then((response) => {
+  const unblockUser = (userId) => {
+    Axios.put(`/unblock_user/${userId}`).then((response) => {
       if (response.data.message) {
         console.log("user unblocked")
       }
@@ -38,12 +39,17 @@ function Users() {
 
 
   useEffect(() => {
-    Axios.get('/users', { withCredentials: true }).then((response) => {
+    Axios.get('/users').then((response) => {
       setArray(response.data)
     }).catch((error) => {
       console.log(error)
     })
-  },[])
+  }, [array])
+
+  const lastUserIndex = currentPage * dataPerPage
+  const firstUserIndex = lastUserIndex - dataPerPage
+
+  const currentData = array.slice(firstUserIndex,lastUserIndex)
 
   return (
     <>
@@ -71,9 +77,9 @@ function Users() {
                     </thead>
                     <tbody>
                       {
-                        array.map((user, index) => (
+                        currentData.map((user, index) => (
                           <tr key={index}
-                            className="border-b transition duration-300 ease-in-out   dark:hover:bg-[#DCE2B7]">
+                            className="border-b transition duration-300 ease-in-out hover:cursor-pointer  dark:hover:bg-[#DCE2B7]">
                             <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
                             <td className="whitespace-nowrap px-6 py-4 font-medium">{user.name}</td>
                             <td className="whitespace-nowrap px-6 py-4">{user.email}</td>
@@ -100,6 +106,9 @@ function Users() {
               </div>
             </div>
           </div>
+
+          <Pagination totalData = {array.length} dataPerPage={dataPerPage} setCurrentPage={setCurrentPage}/>
+
 
         </div>
 

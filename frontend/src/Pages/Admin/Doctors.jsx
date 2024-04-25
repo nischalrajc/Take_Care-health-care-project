@@ -18,7 +18,7 @@ function Doctors() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        Axios.get('/doctors', { withCredentials: true }).then((response) => {
+        Axios.get('/doctors').then((response) => {
             setArray(response.data)
         }).catch((error) => {
             console.log(error)
@@ -45,7 +45,7 @@ function Doctors() {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                Axios.delete(`/delete_doctor/${doctorId}`, { withCredentials: true }).then((response) => {
+                Axios.delete(`/delete_doctor/${doctorId}`).then((response) => {
                     if (response.data) {
                         Swal.fire({
                             title: "Deleted!",
@@ -99,7 +99,7 @@ function Doctors() {
                                                     {
                                                         currentData.map((doctor, index) => (
                                                             <tr key={index}
-                                                                className="border-b transition duration-300 ease-in-out bg-[#E7EBD2]   dark:hover:bg-[#DCE2B7]">
+                                                                className="border-b transition duration-300 ease-in-out hover:cursor-pointer   dark:hover:bg-[#DCE2B7]">
                                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{doctor.name}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">{doctor.email}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">{doctor.phoneNumber}</td>

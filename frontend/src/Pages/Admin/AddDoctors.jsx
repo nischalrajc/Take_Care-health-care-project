@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Header from '../../Components/Admin/Header';
 import Sidebar from '../../Components/Admin/Sidebar';
@@ -24,6 +24,7 @@ function AddDoctors() {
     const [description, setDescription] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [array, setArray] = useState([])
 
 
     const fileInputRef = useRef(null);
@@ -62,8 +63,30 @@ function AddDoctors() {
 
     };
 
+    useEffect(() => {
+        Axios.get('/specialisations').then((response) => {
+            if (response.data) {
+                setArray(response.data)
+            }
+        }).catch((error) => {
+            console.log("error", error)
+        })
+    }, [])
+
+
     const submitHandler = async (e) => {
         e.preventDefault()
+
+        const trimmedName = name.trim();
+        const trimmedDescription = description.trim();
+
+        if (!trimmedName) {
+            setError('Name cannot be empty');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
 
         if (!validateEmail(email)) {
             setError('Invalid email format');
@@ -81,7 +104,7 @@ function AddDoctors() {
             return;
         }
 
-        if (!validateFees(fees)){
+        if (!validateFees(fees)) {
             setError('Fee must be a number')
             setTimeout(() => {
                 setError('');
@@ -89,7 +112,15 @@ function AddDoctors() {
             return;
         }
 
-            setLoading(true)
+        if (!trimmedDescription) {
+            setError('description cannot be empty');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+        setLoading(true)
 
         const formdata = new FormData()
         formdata.append('file', image)
@@ -101,7 +132,7 @@ function AddDoctors() {
         if (response.status === 200) {
             const image_url = response.data.secure_url
 
-           await Axios.post('/add_doctors', { name, email, bio, phone, gender, specialisation, fees, description, image_url }).then((response) => {
+            await Axios.post('/add_doctors', { name, email, bio, phone, gender, specialisation, fees, description, image_url }).then((response) => {
                 setLoading(false)
                 if (response) {
                     Swal.fire({
@@ -231,11 +262,18 @@ function AddDoctors() {
                                 Specialisation
                             </div>
                             <div className='w-full md:w-72'>
-                                <input type="text"
-                                    className=" border-gray-500 border-2 w-full rounded"
+                                <select
                                     value={specialisation}
                                     onChange={(e) => setSpecialisation(e.target.value)}
-                                    placeholder='specialisation' style={{ paddingLeft: '10px' }} required />
+                                    className="w-full  border-gray-500 border-2 rounded"
+                                    required>
+                                    <option value="" disabled>Choose One</option>
+                                    {
+                                        array?.map((item, index) => (
+                                            <option className='text-xs' key={index} value={item.specialisation}>{item.specialisation}</option>
+                                        ))
+                                    }
+                                </select>
                             </div>
                         </div>
 

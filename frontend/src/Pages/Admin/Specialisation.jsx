@@ -66,7 +66,7 @@ function Specialisation() {
                                                     {
                                                         currentData.map((specilise, index) => (
                                                             <tr key={index}
-                                                                className="border-b transition duration-300 ease-in-out bg-[#E7EBD2]   dark:hover:bg-[#DCE2B7]">
+                                                                className="border-b transition duration-300 ease-in-out hover:cursor-pointer dark:hover:bg-[#DCE2B7]">
                                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{specilise.specialisation}</td>
                                                                 <td className="whitespace-nowrap px-6 py-4">
                                                                     <img className="sm:w-28 w-10" src={specilise.image} alt="Icon" />

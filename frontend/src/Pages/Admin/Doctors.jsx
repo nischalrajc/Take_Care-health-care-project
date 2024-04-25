@@ -11,26 +11,31 @@ import Pagination from '../../Components/Admin/Pagination'
 function Doctors() {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [array, setArray] = useState([]);
-    const [currentPage,setCurrentPage] = useState(1);
-    const [dataPerPage,setDataPerPage] = useState(6)
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [dataPerPage, setDataPerPage] = useState(6)
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        Axios.get('/doctors').then((response) => {
-            setArray(response.data)
-        }).catch((error) => {
-            console.log(error)
-        })
+        try {
+            Axios.get('/doctors').then((response) => {
+                if (response) {
+                    setArray(response.data)
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        } catch (error) {
+            console.log("errorrrrr", error)
+        }
     }, [])
 
     const lastUserIndex = currentPage * dataPerPage
     const firstUserIndex = lastUserIndex - dataPerPage
 
-    const currentData = array.slice(firstUserIndex,lastUserIndex)
+    const currentData = array.slice(firstUserIndex, lastUserIndex)
 
-    const viewDoctorHandler = async(doctorId) =>{
+    const viewDoctorHandler = async (doctorId) => {
         navigate(`/admin/doctors/view/${doctorId}`)
     }
 
@@ -53,8 +58,8 @@ function Doctors() {
                             icon: "success"
                         });
                     }
-                }).catch((error) =>{
-                    console.log("failed to delete",error)
+                }).catch((error) => {
+                    console.log("failed to delete", error)
                 })
 
             }
@@ -122,7 +127,7 @@ function Doctors() {
                         )
                     }
 
-                    <Pagination totalData = {array.length} dataPerPage={dataPerPage} setCurrentPage={setCurrentPage}/>
+                    <Pagination totalData={array.length} dataPerPage={dataPerPage} setCurrentPage={setCurrentPage} />
                 </div>
             </div>
         </div>

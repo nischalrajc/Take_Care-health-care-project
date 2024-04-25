@@ -23,7 +23,7 @@ function Doctors() {
         }).catch((error) => {
             console.log(error)
         })
-    }, [array])
+    }, [])
 
     const lastUserIndex = currentPage * dataPerPage
     const firstUserIndex = lastUserIndex - dataPerPage

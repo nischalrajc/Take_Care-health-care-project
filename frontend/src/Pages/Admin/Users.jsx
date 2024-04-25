@@ -20,6 +20,7 @@ function Users() {
       if (response.data.message) {
         console.log("user blocked")
       }
+      fetchUser()
     }).catch((error) => {
       console.log(error)
     })
@@ -31,25 +32,30 @@ function Users() {
       if (response.data.message) {
         console.log("user unblocked")
       }
+      fetchUser()
     }).catch((error) => {
       console.log(error)
     })
 
   }
 
-
-  useEffect(() => {
+  const fetchUser = () => {
     Axios.get('/users').then((response) => {
       setArray(response.data)
     }).catch((error) => {
       console.log(error)
     })
-  }, [array])
+  }
+
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   const lastUserIndex = currentPage * dataPerPage
   const firstUserIndex = lastUserIndex - dataPerPage
 
-  const currentData = array.slice(firstUserIndex,lastUserIndex)
+  const currentData = array.slice(firstUserIndex, lastUserIndex)
 
   return (
     <>
@@ -107,7 +113,7 @@ function Users() {
             </div>
           </div>
 
-          <Pagination totalData = {array.length} dataPerPage={dataPerPage} setCurrentPage={setCurrentPage}/>
+          <Pagination totalData={array.length} dataPerPage={dataPerPage} setCurrentPage={setCurrentPage} />
 
 
         </div>

@@ -34,7 +34,7 @@ const app = express();
 const server = createServer(app);
 
 const corsOptions = {
-    origin: 'https://takecareofficial.online',
+    origin: ['http://localhost:3000','http://localhost:5000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     // preflightContinue: false,
     // optionsSuccessStatus: 204,

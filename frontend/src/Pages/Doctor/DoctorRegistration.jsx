@@ -55,6 +55,25 @@ function DoctorRegistration() {
     const submitHandler = async (e) => {
         e.preventDefault();
 
+        const trimmedName = name.trim();
+        const trimmedBio = bio.trim();
+
+        if (!trimmedName) {
+            setError('Name cannot be empty');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
+        if (!trimmedBio) {
+            setError('Bio cannot be empty');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            return;
+        }
+
         if (!validateEmail(email)) {
             setError('Invalid email format');
             setTimeout(() => {

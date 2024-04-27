@@ -34,6 +34,16 @@ function SignUp() {
   const submitHandler = (e) => {
     e.preventDefault()
 
+    const trimmedName = name.trim();
+
+    if (!trimmedName) {
+      SetError('Name cannot be empty');
+      setTimeout(() => {
+        SetError('');
+      }, 2000);
+      return;
+    }
+
     if (!name || !gender || !email || !phone || !password || !confirmPassword) {
       SetError('All fields are required');
       setTimeout(() => {
@@ -42,7 +52,6 @@ function SignUp() {
       return;
     }
 
-    // Email validation
     if (!validateEmail(email)) {
       SetError('Invalid email format');
       setTimeout(() => {
@@ -51,7 +60,6 @@ function SignUp() {
       return;
     }
 
-    //   phone number validation
     if (!validatePhone(phone)) {
       SetError('Invalid phone number format');
       setTimeout(() => {
@@ -69,7 +77,6 @@ function SignUp() {
       return;
     }
 
-    //   password validation
     if (password !== confirmPassword) {
       SetError('Password and confirm password do not match');
 

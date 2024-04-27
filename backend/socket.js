@@ -3,7 +3,7 @@ import { Server } from 'socket.io';
 export const initializeSocket = (httpServer) => {
     const io = new Server(httpServer, {
         cors: {
-            origin: ['http://localhost:3000','http://localhost:5000'],
+            origin:'https://takecareofficial.online',
             methods: ["GET", "POST"],
             credentials: true
         },

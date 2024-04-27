@@ -2,7 +2,7 @@ import express from 'express'
 const router = express.Router()
 import { protectAdmin } from '../Middlewares/authMiddlewares.js'
 import { validateAdmin } from '../Middlewares/validationMiddlewares.js'
-import { loginAdmin, getUsers, blockUser, unblockUser, getAllDoctors, viewDoctorDetails, getTransactions, updateDoctor, deleteDoctor, doctorsRequest, acceptDoctorRequest, rejectDoctorRequest, addDoctors, specialisations, viewSpecialisation, updateSpecialisation, addSpecialisation, logoutAdmin } from '../Controller/adminController.js'
+import { loginAdmin, getUsers, blockUser, unblockUser, getAllDoctors, getUserData, viewDoctorDetails, getTransactions, updateDoctor, deleteDoctor, doctorsRequest, acceptDoctorRequest, rejectDoctorRequest, addDoctors, specialisations, viewSpecialisation, updateSpecialisation, addSpecialisation, logoutAdmin } from '../Controller/adminController.js'
 
 router.get('/decodeToken', protectAdmin)
 
@@ -24,6 +24,8 @@ router.get('/specialisations', validateAdmin, specialisations)
 router.get('/viewSpecialisation/:id', validateAdmin, viewSpecialisation)
 router.put('/updateSpecialisation', validateAdmin, updateSpecialisation)
 router.post('/add_specialisation', validateAdmin, addSpecialisation)
+
+router.get('/usersData', validateAdmin, getUserData)
 
 router.get('/transactions', validateAdmin, getTransactions)
 

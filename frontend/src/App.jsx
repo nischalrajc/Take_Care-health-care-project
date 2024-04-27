@@ -85,7 +85,6 @@ function App() {
 
         <Route path="/room/:userId/:appointmentId" element={<VideoCall />} />
 
-
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="" element={<PrivateAdmin />}>
           <Route path="/admin/users" element={<Users key={Date.now()} />} />

@@ -6,7 +6,7 @@ export const doctorCookie = async () => {
 
     if (cookies.includes('jwtdoctor=')) {
 
-        const response = await axios.get('https://takecareofficial.online/doctor/decodeToken', { withCredentials: true })
+        const response = await axios.get('http://localhost:5000/doctor/decodeToken', { withCredentials: true })
         
         if (response.status === 200) {
             return true;

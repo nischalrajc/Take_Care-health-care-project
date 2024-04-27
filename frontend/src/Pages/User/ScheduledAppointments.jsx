@@ -16,15 +16,6 @@ function ScheduledAppointments() {
     const userInfo = useSelector((state) => state.user.user)
     const id = userInfo?._id
 
-    useEffect(() => {
-        Axios.get(`/scheduled_appointments/${id}`).then((response) => {
-            if (response.data) {
-                setAppointments(response.data.appointments)
-            }
-        }).catch((error) => {
-            console.log(error)
-        })
-    }, [id])
 
     useEffect(() => {
         newUser(id)
@@ -32,7 +23,6 @@ function ScheduledAppointments() {
         socket.on('callUser', ({ from, appointmentId, name: callerName, signal }) => {
             setCall({ isRecievedCall: true, from, name: callerName, appointmentId, signal })
         })
-
     }, [])
 
     const joinMeeting = async () => {
@@ -41,32 +31,46 @@ function ScheduledAppointments() {
         navigate(`/room/${id}/${appointmentId}`)
     }
 
-    const cancelScheduledMeeting = async (appointmentId) => {
 
+    const cancelScheduledMeeting = async (appointmentId) => {
         Swal.fire({
-            // title: "Are you sure?",
             text: "Are you sure?",
-            // icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#2D6A76",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, cancel it!"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                Axios.get(`/cancelAppointment/${appointmentId}`).then((response) => {
-                    if (response.data) {
-                        Swal.fire({
-                            timer: 1500,
-                            text: "Meeting cancelled",
-                            // icon: "success"
-                        });
-                    }
-                }).catch((error) => {
-                    console.log("error ", error)
-                })
+                try {
+
+                    await Axios.delete(`/cancelAppointment/${appointmentId}`);
+                    setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment._id !== appointmentId));
+                    Swal.fire({
+                        text: "Meeting cancelled",
+                    });
+                } catch (error) {
+                    console.log("Error cancelling appointment: ", error);
+                }
             }
         });
+    };
+
+
+    const fetchdata = async () => {
+        console.log("entered here")
+        await Axios.get(`/scheduled_appointments/${id}`).then((response) => {
+            console.log("enetetttttt");
+            if (response.data) {
+                setAppointments(response.data)
+            }
+        }).catch((error) => {
+            console.log("you dont have any appointments", error)
+        })
     }
+
+    useEffect(() => {
+        fetchdata()
+    }, [])
 
     return (
         <div>
@@ -74,7 +78,7 @@ function ScheduledAppointments() {
             <ProfileHeader title='scheduled_appointment' />
 
             {
-                appointments.length === 0 ? (
+                appointments && appointments.length === 0 ? (
                     <div className="text-gray-500 text-center mt-8">
                         You don't have any meetings scheduled.
                     </div>

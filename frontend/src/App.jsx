@@ -43,6 +43,7 @@ import MedicalReport from "./Pages/User/MedicalReport";
 import MedicalRecords from "./Pages/Doctor/MedicalRecords";
 import ViewSpecialisation from "./Pages/Admin/ViewSpecialisation";
 import Transaction from "./Pages/Admin/Transaction";
+import Dashboard from "./Pages/Admin/Dashboard";
 
 function App() {
   return (
@@ -88,6 +89,7 @@ function App() {
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="" element={<PrivateAdmin />}>
           <Route path="/admin/users" element={<Users key={Date.now()} />} />
+          <Route path="/admin/dashboards" element={<Dashboard />} />
           <Route path="/admin/doctors" element={<Doctors />} />
           <Route path="/admin/doctor_request" element={<DoctorRequest />} />
           <Route path="/admin/add_doctors" element={<AddDoctors />} />

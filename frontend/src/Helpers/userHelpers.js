@@ -5,7 +5,7 @@ export const userCookie = async () => {
 
     if (cookies.includes('jwtuser=')) {
 
-        const response = await axios.get('https://takecareofficial.online/decodeToken', { withCredentials: true })
+        const response = await axios.get('http://localhost:5000/decodeToken', { withCredentials: true })
         
         if (response.status === 200) {
             return true;

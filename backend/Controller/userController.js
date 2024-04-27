@@ -270,10 +270,10 @@ export const paymentHistory = async (req, res) => {
 export const scheduledAppointments = async (req, res) => {
     try {
         const id = req.params.id
-        
+
         const appointments = await getAppointmentsScheduled(id)
         if (appointments.length > 0) {
-            res.status(201).json({ appointments })
+            res.status(201).json(appointments)
         } else {
             res.status(401)
         }
@@ -356,9 +356,7 @@ export const getBookingSession = async (req, res) => {
             ],
         });
 
-
         res.status(200).json({ success: true, message: 'Checkout session created!', session });
-
     } catch (error) {
         console.log('Error when booking:', error);
         res.status(500).json({ success: false, message: 'Error creating checkout session' });

@@ -321,6 +321,39 @@ export const getTransactions = async (req,res) =>{
     }
 }
 
+export const getUserData = async (req, res) => {
+    try {
+        const userCountsByMonth = await Users.aggregate([
+            {
+                $project: {
+                    month: { $month: "$registrationDate" },
+                    _id: 0,
+                },
+            },
+            {
+                $group: {
+                    _id: "$month",
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+
+        const monthlyCounts = Array.from({ length: 12 }, (_, i) => 0);
+        let totalCount = 0;
+
+        userCountsByMonth.forEach((monthCount) => {
+            monthlyCounts[monthCount._id - 1] = monthCount.count;
+            totalCount += monthCount.count;
+        });
+
+        return res.status(200).json({ monthlyUserCounts: monthlyCounts, totalCount: totalCount }); 
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Error getting user data" });
+    }
+};
+
+
 export const logoutAdmin = async (req, res) => {
     res.cookie('jwtAdmin', '',
         {

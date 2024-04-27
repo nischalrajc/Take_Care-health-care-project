@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
     blocked:{
         type:Boolean,
         required:true
+    },
+    registrationDate:{
+        type:Date,
+        default:Date.now()
     }
 });
 

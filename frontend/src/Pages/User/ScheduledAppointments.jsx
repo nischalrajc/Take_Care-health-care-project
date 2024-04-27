@@ -57,9 +57,7 @@ function ScheduledAppointments() {
 
 
     const fetchdata = async () => {
-        console.log("entered here")
         await Axios.get(`/scheduled_appointments/${id}`).then((response) => {
-            console.log("enetetttttt");
             if (response.data) {
                 setAppointments(response.data)
             }

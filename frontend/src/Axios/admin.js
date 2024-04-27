@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const Axios = axios.create({
-  baseURL: "https://takecareofficial.online/admin",
+  baseURL: "http://localhost:5000/admin",
   withCredentials: true
 });

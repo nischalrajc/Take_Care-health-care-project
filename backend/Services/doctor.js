@@ -91,7 +91,8 @@ export const add_slot = async (formattedDate, doctorId) => {
         const slot = await Slots.create({
             doctorId: doctorId,
             date: formattedDate,
-            scheduled: false
+            scheduled: false,
+            status: "available"
         })
         return slot
     } catch (error) {

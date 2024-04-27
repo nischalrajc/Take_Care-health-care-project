@@ -3,16 +3,14 @@ import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/generateToken.js";
 import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
-// import Booking from '../Modal/Booking.js'
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet, Medical_Report } from "../Services/user.js";
-// import Slots from "../Modal/Slots.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet, Medical_Report, userPayment, updatePayment, updateSlot } from "../Services/user.js";
 
 
 export const userSignup = async (req, res) => {
 
-    const { name, gender, email, phoneNumber, password } = req.body
+    const { email } = req.body
 
     try {
         const existingUser = await Users.findOne({ email })
@@ -237,6 +235,21 @@ export const viewSlotsAvailable = async (req, res) => {
     }
 }
 
+export const updateSlots = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const payment = await updatePayment(userId)
+
+        if (payment) {
+            res.status(201)
+        } else {
+            res.status(401)
+        }
+    } catch (error) {
+        console.log("error when updateSlots", error)
+    }
+}
+
 export const bookAppointments = async (req, res) => {
     try {
         const slotId = req.query.slotId;
@@ -331,7 +344,11 @@ export const getBookingSession = async (req, res) => {
         const doctorInfo = await fetchDoctorDetails(doctorId);
         const userInfo = await Users.findById(userId);
 
+        await updateSlot(slotId)
+        await userPayment(userId, slotId)
+
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],

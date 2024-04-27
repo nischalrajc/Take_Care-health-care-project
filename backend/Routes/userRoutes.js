@@ -1,7 +1,7 @@
 
 import express from 'express'
 const router = express.Router()
-import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation,userMedicalReports, getUserWallet, filterDoctor, getSpecialities, paymentHistory, cancelAppointment, viewSpecialities, getBookingSession, viewSlotsAvailable, scheduledAppointments, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
+import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation, userMedicalReports, updateSlots, getUserWallet, filterDoctor, getSpecialities, paymentHistory, cancelAppointment, viewSpecialities, getBookingSession, viewSlotsAvailable, scheduledAppointments, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
 import { protectUser } from '../Middlewares/authMiddlewares.js'
 import { validateUser } from '../Middlewares/validationMiddlewares.js'
 
@@ -21,6 +21,7 @@ router.get('/specialities/:id', viewSpecialities)
 router.get('/doctorDetails/:id', doctorDetails)
 router.put('/editProfile', validateUser, userEditProfile)
 router.get('/available_slots/', validateUser, viewSlotsAvailable)
+router.put('/available_slots/:userId', validateUser, updateSlots)
 router.post('/checkout-session', validateUser, getBookingSession)
 router.get('/book_doctor/', validateUser, bookAppointments)
 router.get('/resend_OTP/:email', mailValidation)
@@ -28,7 +29,7 @@ router.get('/paymentHistory/:id', validateUser, paymentHistory)
 router.delete('/cancelAppointment/:appointmentId', validateUser, cancelAppointment)
 router.get('/scheduled_appointments/:id', validateUser, scheduledAppointments)
 router.get('/userWallet/:userId', validateUser, getUserWallet)
-router.get('/medicalReport/:userId' , validateUser ,userMedicalReports)
+router.get('/medicalReport/:userId', validateUser, userMedicalReports)
 
 
 export default router;

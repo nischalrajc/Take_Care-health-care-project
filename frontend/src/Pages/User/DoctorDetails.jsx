@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Axios } from '../../Axios/users'
 import Footer from '../../Components/User/Footer'
+import { useSelector } from 'react-redux'
 import AppointmentScheduleModal from '../../Components/User/AppointmentScheduleModal'
 
 function DoctorDetails() {
@@ -11,6 +12,9 @@ function DoctorDetails() {
 
     const [doctor, setDoctor] = useState('')
     const [showModal, setShowModal] = useState(false)
+    
+    const userInfo = useSelector((state) => state.user.user);
+    const userId = userInfo ? userInfo._id : null;
 
     useEffect(() => {
         Axios.get(`/doctorDetails/${id}`).then((response) => {
@@ -23,6 +27,16 @@ function DoctorDetails() {
             window.scrollTo(0, 0);
         });
     }, [id])
+
+    useEffect(()=>{
+        Axios.put(`/available_slots/${userId}`).then((response)=>{
+            if(response){
+                console.log("updated all")
+            }
+        }).catch((error)=>{
+            console.log("error",error)
+        })
+    },[])
 
     const handleShowModal = () => {
         setShowModal(true)

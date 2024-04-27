@@ -85,6 +85,49 @@ export const viewSlots = async (doctorId, selectedDate) => {
 
 }
 
+export const updateSlot = async (slotId) => {
+    try {
+        const updatedSlot = await Slots.findByIdAndUpdate(slotId, { status: 'pending' }, { new: true });
+        return updatedSlot
+    } catch (error) {
+        console.log("error when updating the slot", error)
+    }
+}
+
+export const userPayment = async (userId, slotId) => {
+    try {
+        const slot = await Slots.findById(slotId)
+
+        const payment = await Payments.create({
+            doctor: slot.doctorId,
+            user: userId,
+            slotId: slotId,
+            status: "pending",
+            date: new Date()
+        })
+
+    } catch (error) {
+        console.log("error when payment started", error)
+    }
+}
+
+export const updatePayment = async (userId) => {
+    try {
+        const pendingPayments = await Payments.find({ user: userId, status: 'pending' });
+
+        for (const payment of pendingPayments) {
+            const slotId = payment.slotId;
+
+            await Slots.updateOne({ _id: slotId }, { $set: { status: 'available' } });
+
+            await Payments.deleteOne({ _id: payment._id });
+        }
+
+        return true
+    } catch (error) {
+        console.log("error when updatingthe payment", error)
+    }
+}
 
 export const book_Appointment = async (userId, slotId) => {
     try {
@@ -94,18 +137,19 @@ export const book_Appointment = async (userId, slotId) => {
             slot.scheduled = true
             await slot.save()
 
-            const payment = await Payments.create({
-                doctor: slot.doctorId,
-                user: userId,
-                slotId: slotId,
-                date: new Date()
-            })
+            const updatedPayment = await Payments.findOneAndUpdate(
+                { slotId: slotId },
+                { $set: { status: 'completed' } },
+                { new: true } 
+            )
+
+            const paymentId = updatedPayment._id
 
             const booking = await Booking.create({
                 doctor: slot.doctorId,
                 user: userId,
                 slotId: slotId,
-                paymentId: payment._id,
+                paymentId: paymentId,
                 appointmentDate: slot.date,
                 scheduled: false,
                 date: new Date()
@@ -119,6 +163,7 @@ export const book_Appointment = async (userId, slotId) => {
         console.log("error while scheduling appointment", error)
     }
 }
+
 
 export const getPaymentHistory = async (userId) => {
     try {

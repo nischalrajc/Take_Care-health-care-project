@@ -11,6 +11,9 @@ const slotSchema = new mongoose.Schema({
     },
     scheduled:{
         type:Boolean,
+    },
+    status:{
+        type:String,
     }
 })
 

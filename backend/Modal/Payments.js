@@ -12,8 +12,12 @@ const paymentSchema = new mongoose.Schema({
         required: true
     },
     slotId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Slots',
         required: true
+    },
+    status:{
+        type:String,
     },
     date: {
         type: Date,

@@ -18,15 +18,14 @@ function DoctorRequest() {
         }).catch((error) => {
             console.log(error)
         })
-    }, [])
+    }, [array])
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
     };
 
     const doctorAcceptHandler = (doctorId) => {
-
-        Axios.put(`/doctor_Accept/${doctorId}`, { withCredentials: true }).then((response) => {
+        Axios.put(`/doctor_Accept/${doctorId}`).then((response) => {
             if (response) {
                 console.log("updated")
             }
@@ -36,7 +35,7 @@ function DoctorRequest() {
     }
 
     const doctorRejectHandler = (doctorid) => {
-        Axios.put(`/doctor_reject/${doctorid}`, { withCredentials: true }).then((response) => {
+        Axios.put(`/doctor_reject/${doctorid}`).then((response) => {
             if (response) {
                 Swal.fire(response.data.message);
             }

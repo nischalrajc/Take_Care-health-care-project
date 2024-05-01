@@ -82,12 +82,15 @@ function OTP({ formData, mailOTP, forgetPasswordResendHandler, email }) {
         if (otp === OTP) {
             Axios.post('/register', formData, { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
                 if (response.data) {
-                    console.log(response.data)
                     navigate('/doctor_login')
                     Swal.fire(response.data.message);
                 }
             }).catch((error) => {
                 console.log("error", error)
+                setError("Email already used")
+                setTimeout(() => {
+                    setError("")
+                }, 2000)
             })
         } else {
             setError("invalid otp")

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 const BarChart = ({ chartData }) => {
-  const chartRef = useRef(null); 
+  const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const BarChart = ({ chartData }) => {
         chartInstance.current.destroy();
       }
     };
-  }, [chartData]); 
+  }, [chartData]);
 
   return <canvas ref={chartRef} />;
 };

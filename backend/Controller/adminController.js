@@ -37,7 +37,7 @@ export const loginAdmin = async (req, res) => {
 export const getUsers = async (req, res) => {
     try {
         const users = await Users.find();
-        if(users.length > 0){
+        if (users.length > 0) {
             res.status(200).json(users);
         } else {
             res.status(404).json({ message: "No users found" });
@@ -281,7 +281,7 @@ export const updateSpecialisation = async (req, res) => {
         const { name, description, id, image_url } = req.body
         const specialisation = await updateSpectialities(id, name, description, image_url)
         if (specialisation) {
-            res.status(201).json({message:"successss"})
+            res.status(201).json({ message: "successss" })
         } else {
             res.status(401)
         }
@@ -308,16 +308,16 @@ export const addSpecialisation = async (req, res) => {
     }
 }
 
-export const getTransactions = async (req,res) =>{
+export const getTransactions = async (req, res) => {
     try {
         const transactions = await getAllTransactions()
-        if(transactions){
+        if (transactions) {
             res.status(201).json(transactions)
-        }else{
+        } else {
             res.status(401)
         }
     } catch (error) {
-        console.log("error when getting transactions",error)
+        console.log("error when getting transactions", error)
     }
 }
 
@@ -346,13 +346,45 @@ export const getUserData = async (req, res) => {
             totalCount += monthCount.count;
         });
 
-        return res.status(200).json({ monthlyUserCounts: monthlyCounts, totalCount: totalCount }); 
+        return res.status(200).json({ monthlyUserCounts: monthlyCounts, totalCount: totalCount });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Error getting user data" });
     }
 };
 
+
+export const getDoctorData = async (req, res) => {
+    try {
+        const doctorCountsByMonth = await Doctors.aggregate([
+            {
+                $project: {
+                    month: { $month: "$registrationDate" },
+                    _id: 0,
+                },
+            },
+            {
+                $group: {
+                    _id: "$month",
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+
+        const monthlyCounts = Array.from({ length: 12 }, (_, i) => 0);
+        let totalCount = 0;
+
+        doctorCountsByMonth.forEach((monthCount) => {
+            monthlyCounts[monthCount._id - 1] = monthCount.count;
+            totalCount += monthCount.count;
+        });
+
+        return res.status(200).json({ monthlyDoctorsCounts: monthlyCounts, totalCount: totalCount });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Error getting user data" });
+    }
+}
 
 export const logoutAdmin = async (req, res) => {
     res.cookie('jwtAdmin', '',

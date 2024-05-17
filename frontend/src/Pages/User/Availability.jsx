@@ -11,7 +11,6 @@ function Availability() {
         Axios.get('/checkDoctorsAvailable')
             .then((response) => {
                 if (response.data) {
-                    console.log("kkk", response.data)
                     setDoctors(response.data.doctors)
                 }
             })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Axios } from '../../Axios/users'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -11,6 +11,7 @@ function Home() {
   const [array, setArray] = useState(null)
 
   const navigate = useNavigate()
+  const specialitiesRef = useRef(null);
 
   const fetchData = async () => {
     await Axios.get('/listDoctors', { withCredentials: true }).then((response) => {
@@ -26,6 +27,12 @@ function Home() {
     fetchData()
   }, [])
 
+  const handleTryNowClick = () => {
+    if (specialitiesRef.current) {
+      specialitiesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div>
       <NavBAr />
@@ -34,7 +41,7 @@ function Home() {
         <div className=' flex flex-col items-center justify-center'>
           <h1 className='sm:text-4xl text-xs  font-medium'>Explore the Future of <br /> Healthcare with <br /> Take Care.</h1>
           <div className='sm:p-4 sm:mt-3 mt-1 text-xs sm:text-sm'>
-            <button className="text-white bg-[#2D6A76] rounded-md  px-4 sm:px-8 py-1 sm:py-2 ">
+            <button className="text-white bg-[#2D6A76] rounded-md  px-4 sm:px-8 py-1 sm:py-2 " onClick={handleTryNowClick}>
               TRY NOW
             </button>
           </div>
@@ -82,16 +89,17 @@ function Home() {
               <img className='object-cover  w-full h-full' src='./f7300384ce50b6556f6f79af60206c87.jpg' alt='img'></img>
             </div>
             <div className="text-xs sm:text-base my-2">Book an appointment today, online</div>
-            <button className='bg-white border border-black px-1 sm:px-3 py-1'>Check availability</button>
+            <button className='bg-white border border-black px-1 sm:px-3 py-1' onClick={() => navigate('/checkavailability')}>Check availability</button>
           </div>
         </div>
       </div>
 
-      <div className='my-10 text-xl'>
-        <p>Our Specialities</p>
+      <div ref={specialitiesRef}>
+        <div className='my-10 text-xl'>
+          <p>Our Specialities</p>
+        </div>
+        <Specialities />
       </div>
-
-      <Specialities />
 
       <div className='bg-[#DFEBE9] mt-5 sm:mt-24 py-2 sm:py-6'>
         <div className="sm:text-4xl mt-3">Testimonials</div>

@@ -140,7 +140,7 @@ export const book_Appointment = async (userId, slotId) => {
             const updatedPayment = await Payments.findOneAndUpdate(
                 { slotId: slotId },
                 { $set: { status: 'completed' } },
-                { new: true } 
+                { new: true }
             )
 
             const paymentId = updatedPayment._id
@@ -234,4 +234,28 @@ export const Medical_Report = async (userId) => {
         console.log("error when fetching the user medical reports", error)
     }
 }
+
+export const findDoctorsAvailable = async () => {
+    try {
+        const todayStart = new Date();
+        todayStart.setUTCHours(0, 0, 0, 0);
+
+        const todayEnd = new Date(todayStart);
+        todayEnd.setUTCHours(23, 59, 59, 999);
+
+        const doctors = await Slots.find({
+            scheduled: false,
+            date: {
+                $gte: todayStart,
+                $lte: todayEnd
+            }
+        }).populate('doctorId');
+
+        return doctors;
+
+    } catch (error) {
+        console.log("Error when fetching available doctors", error);
+    }
+};
+
 

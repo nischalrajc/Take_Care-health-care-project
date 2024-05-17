@@ -1,7 +1,7 @@
 
 import express from 'express'
 const router = express.Router()
-import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation, userMedicalReports, updateSlots, getUserWallet, filterDoctor, getSpecialities, paymentHistory, cancelAppointment, viewSpecialities, getBookingSession, viewSlotsAvailable, scheduledAppointments, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
+import { userSignup, userLogin, getDoctorDetails, searchdoctor, mailValidation, userMedicalReports, updateSlots, getUserWallet, filterDoctor, AvailableDoctors, getSpecialities, paymentHistory, cancelAppointment, viewSpecialities, getBookingSession, viewSlotsAvailable, scheduledAppointments, bookAppointments, doctorDetails, userEditProfile, forgetpassword, newPassword, register_user, logOut } from '../Controller/userController.js'
 import { protectUser } from '../Middlewares/authMiddlewares.js'
 import { validateUser } from '../Middlewares/validationMiddlewares.js'
 
@@ -16,6 +16,7 @@ router.post('/register_user', register_user)
 router.get('/listDoctors', getDoctorDetails)
 router.get('/searchDoctors', searchdoctor)
 router.post('/filterDoctor', filterDoctor)
+router.get('/checkDoctorsAvailable', AvailableDoctors)
 router.get('/listSpecialities', getSpecialities)
 router.get('/specialities/:id', viewSpecialities)
 router.get('/doctorDetails/:id', doctorDetails)

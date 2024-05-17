@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 const slotSchema = new mongoose.Schema({
     doctorId:{
-        type:String,
-        required:true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Doctors',
+        required: true
     },
     date:{
         type:Date,

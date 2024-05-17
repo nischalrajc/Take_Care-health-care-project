@@ -5,7 +5,7 @@ import { sendEmail } from "../utils/verificationMail.js";
 import Doctors from "../Modal/Doctor.js";
 import Specialisations from "../Modal/Specialisations.js";
 import Stripe from 'stripe'
-import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet, Medical_Report, userPayment, updatePayment, updateSlot } from "../Services/user.js";
+import { getSpeciality, getSpecialisationDoctors, fetchDoctorDetails, getDoctors, getSpecialisation, userProfileEdit, viewSlots, book_Appointment, getAppointmentsScheduled, getPaymentHistory, cancelScheduledAppointment, userWallet, Medical_Report, userPayment, updatePayment, updateSlot, findDoctorsAvailable } from "../Services/user.js";
 
 
 export const userSignup = async (req, res) => {
@@ -189,6 +189,19 @@ export const filterDoctor = async (req, res) => {
 
     } catch (error) {
         console.log("error", error)
+    }
+}
+
+export const AvailableDoctors = async (req,res) => {
+    try {
+        const doctors = await findDoctorsAvailable()
+        if (doctors.length > 0) {
+            res.status(201).json({ doctors })
+        } else {
+            res.status(400)
+        }
+    } catch (error) {
+        console.log("error when getting available doctors", error)
     }
 }
 

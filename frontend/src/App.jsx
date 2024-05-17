@@ -44,6 +44,7 @@ import MedicalRecords from "./Pages/Doctor/MedicalRecords";
 import ViewSpecialisation from "./Pages/Admin/ViewSpecialisation";
 import Transaction from "./Pages/Admin/Transaction";
 import Dashboard from "./Pages/Admin/Dashboard";
+import Availability from "./Pages/User/Availability";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
         <Route path="/findone" element={<FindOne />} />
         <Route path="/health_tips" element={<TipsPage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/checkavailability" element={<Availability />} />
         <Route path="" element={<PrivateRoutesUser />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/Checkout-success/:slotId" element={<Success />} />

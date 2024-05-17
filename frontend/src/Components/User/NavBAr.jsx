@@ -22,10 +22,10 @@ function NavBar() {
           <img className="sm:w-52 w-40" src="/take-care-logo.png" alt="Icon" />
         </div>
         <div className="hidden sm:grid grid-cols-4 items-center">
-          <div className="div"><Link to="/">Home</Link></div>
-          <div className="div"><Link to="/health_tips">Tips</Link></div>
-          <div className="div"><Link to="/about">About</Link></div>
-          <div className="div">
+          <div ><Link to="/" className="hover-smooth">Home</Link></div>
+          <div ><Link to="/health_tips" className="hover-smooth">Tips</Link></div>
+          <div ><Link to="/about" className="hover-smooth">About</Link></div>
+          <div >
             {userInfo ? (
               <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/profile')} >
                 Profile
@@ -49,13 +49,13 @@ function NavBar() {
 
       {isMenuOpen && (
         <div className="sm:hidden flex flex-col ">
-          <div className=" hover:bg-[#DFEBE9] p-2">Home</div>
-          <div className="hover:bg-[#DFEBE9] p-2">Tips</div>
-          <div className="hover:bg-[#DFEBE9] p-2">About</div>
+          <div className=" hover:bg-[#DFEBE9] p-2"><Link to="/">Home</Link></div>
+          <div className="hover:bg-[#DFEBE9] p-2"><Link to="/health_tips">Tips</Link></div>
+          <div className="hover:bg-[#DFEBE9] p-2"><Link to="/about">About</Link></div>
           <div className="hover:bg-[#DFEBE9] p-2">
             {
               userInfo ? (
-                <button className="border border-black rounded px-3 py-1" >
+                <button className="border border-black rounded px-3 py-1" onClick={() => navigate('/profile')} >
                   Profile
                 </button>
               ) : (
